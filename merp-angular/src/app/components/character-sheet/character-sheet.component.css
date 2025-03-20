@@ -1,0 +1,533 @@
+.top-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  align-content: flex-start;
+  row-gap: 10px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.name-grid-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-self: first baseline;
+  align-self: flex-start;
+  padding-bottom: 5px;
+}
+
+.saves-and-skills-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-self: first baseline;
+  align-self: flex-start;
+}
+
+input[type="text"]:disabled {
+  color: black;
+  border-color: #C29E3C;
+}
+
+.text {
+  vertical-align: middle;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin: 0;
+}
+
+.right-text {
+  vertical-align: middle;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin: 0;
+}
+
+.small-text {
+  vertical-align: middle;
+  text-align: right;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: small;
+  margin: 0;
+}
+
+.small-text-left {
+  vertical-align: middle;
+  text-align: left;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: small;
+  margin: 0;
+}
+
+.small-text-center {
+  vertical-align: middle;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: small;
+  margin: 2;
+}
+
+.stat-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+.small-stat-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: small;
+}
+
+.in-cell {
+  justify-self: center;
+  align-self: center;
+  height: 27px;
+  width: 40px;
+  border-width: 4px;
+  border-style: ridge;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.in-medium-cell {
+  justify-self: center;
+  align-self: center;
+  height: 27px;
+  width: 55px;
+  border-width: 4px;
+  border-style: ridge;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.in-small-cell {
+  justify-self: center;
+  align-self: center;
+  height: 20px;
+  width: 30px;
+  border-width: 4px;
+  border-style: ridge;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.in-full-cell {
+  justify-self: stretch;
+  align-self: center;
+  height: 27px;
+  border-width: 4px;
+  border-style: ridge;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.stats-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  max-width: 450px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.stretch-content {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.right-content {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.generic-text-area {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: small;
+  width: 300px;
+  height: 200px;
+}
+
+.top-row-column {
+  border-color: rgb(0, 0, 0);
+  border-width: 2px;
+  border-style: ridge;
+  border-radius: 10PX;
+  padding: 5px;
+}
+
+.select-in-long-cell {
+  display: flex;
+  justify-self: stretch;
+  align-self: center;
+  height: 37px;
+  width: 100%;
+  border-color: rgb(0, 0, 0);
+  border-width: 4px;
+  border-style: ridge;
+  border-radius: 10PX;
+  margin: 5px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.image-container {
+  max-width: 300px;
+  justify-self: center;
+  border-color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+}
+
+.character-image {
+  width: auto;
+  max-height: 300px;
+  border-radius: 10PX;
+}
+
+.dice-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.left-content {
+  display: flex;
+  justify-self: center;
+  justify-content: first baseline;
+  align-items: center;
+  align-self: first baseline;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: .5fr 1fr;
+  grid-template-rows: 30px repeat(6, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+  margin: 5px;
+}
+
+.stats-div1 {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.stats-div2 {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.stats-div3 {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.stats-div4 {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.stats-div5 {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.stats-div6 {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.stats-div7 {
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.stats-div8 {
+  grid-area: 3 / 2 / 4 / 3;
+}
+
+.stats-div9 {
+  grid-area: 3 / 3 / 4 / 4;
+}
+
+.stats-div10 {
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.stats-div11 {
+  grid-area: 4 / 2 / 5 / 3;
+}
+
+.stats-div12 {
+  grid-area: 4 / 3 / 5 / 4;
+}
+
+.stats-div13 {
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+.stats-div14 {
+  grid-area: 5 / 2 / 6 / 3;
+}
+
+.stats-div15 {
+  grid-area: 5 / 3 / 6 / 4;
+}
+
+.stats-div16 {
+  grid-area: 6 / 1 / 7 / 2;
+}
+
+.stats-div17 {
+  grid-area: 6 / 2 / 7 / 3;
+}
+
+.stats-div18 {
+  grid-area: 6 / 3 / 7 / 4;
+}
+
+.name-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: repeat(7, 40px);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+}
+
+.name-div1 {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.name-div2 {
+  grid-area: 1 / 2 / 2 / 5;
+}
+
+.name-div3 {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.name-div4 {
+  grid-area: 2 / 2 / 3 / 5;
+}
+
+.name-div5 {
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.name-div6 {
+  grid-area: 3 / 2 / 4 / 5;
+}
+
+.name-div7 {
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.name-div8 {
+  grid-area: 4 / 2 / 5 / 5;
+}
+
+.name-div9 {
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+.name-div10 {
+  grid-area: 5 / 2 / 6 / 3;
+}
+
+.name-div11 {
+  grid-area: 5 / 3 / 6 / 4;
+}
+
+.name-div12 {
+  grid-area: 5 / 4 / 6 / 5;
+}
+
+.name-div13 {
+  grid-area: 6 / 1 / 7 / 2;
+}
+
+.name-div14 {
+  grid-area: 6 / 2 / 7 / 3;
+}
+
+.name-div15 {
+  grid-area: 6 / 3 / 7 / 4;
+}
+
+.name-div16 {
+  grid-area: 6 / 4 / 7 / 5;
+}
+
+.name-div17 {
+  grid-area: 7 / 1 / 8 / 2;
+}
+
+.name-div18 {
+  grid-area: 7 / 2 / 8 / 3;
+}
+
+.name-div19 {
+  grid-area: 7 / 3 / 8 / 4;
+}
+
+.name-div20 {
+  grid-area: 7 / 4 / 8 / 5;
+}
+
+.bonus-grid {
+  display: grid;
+  grid-template-columns: 1fr 45px;
+  grid-template-rows: repeat(11, 30px);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+}
+
+.bonus-div1 {
+  grid-area: 1 / 1 / 2 / 3;
+}
+
+.bonus-div2 {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.bonus-div3 {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.bonus-div4 {
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.bonus-div5 {
+  grid-area: 3 / 2 / 4 / 3;
+}
+
+.bonus-div6 {
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.bonus-div7 {
+  grid-area: 4 / 2 / 5 / 3;
+}
+
+.bonus-div8 {
+  grid-area: 5 / 1 / 6 / 2;
+}
+
+.bonus-div9 {
+  grid-area: 5 / 2 / 6 / 3;
+}
+
+.bonus-div10 {
+  grid-area: 6 / 1 / 7 / 2;
+}
+
+.bonus-div11 {
+  grid-area: 6 / 2 / 7 / 3;
+}
+
+.bonus-div12 {
+  grid-area: 7 / 1 / 8 / 2;
+}
+
+.bonus-div13 {
+  grid-area: 7 / 2 / 8 / 3;
+}
+
+.bonus-div14 {
+  grid-area: 8 / 1 / 9 / 2;
+}
+
+.bonus-div15 {
+  grid-area: 8 / 2 / 9 / 3;
+}
+
+.bonus-div16 {
+  grid-area: 9 / 1 / 10 / 2;
+}
+
+.bonus-div17 {
+  grid-area: 9 / 2 / 10 / 3;
+}
+
+.bonus-div18 {
+  grid-area: 10 / 1 / 11 / 2;
+}
+
+.bonus-div19 {
+  grid-area: 10 / 2 / 11 / 3;
+}
+
+.bonus-div20 {
+  grid-area: 11 / 1 / 12 / 2;
+}
+
+.bonus-div21 {
+  grid-area: 11 / 2 / 12 / 3;
+}
+
+.dice-image {
+  height: 15px;
+  width: 15px;
+  position: relative;
+  right: -2px;
+  top: 10px;
+  background-color: transparent;
+}
+
+.dice-button {
+  border: none;
+  background-color: transparent;
+  justify-self: center;
+  align-self: center;
+}
+
+.dice-button:hover {
+  background-color: lightgray;
+}
+
+.dice-button:active {
+  background-color: darkgray;
+}
+
+.dice-button-image {
+  height: auto;
+  width: 20px;
+  justify-self: center;
+  align-self: center;
+}
