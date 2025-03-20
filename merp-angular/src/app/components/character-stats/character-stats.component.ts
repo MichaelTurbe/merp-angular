@@ -23,8 +23,15 @@ export class CharacterStatsComponent {
     //TODO - note that these things will have to happen in 
     // a guard for anything to work
     const characterId = this.route.snapshot.params['characterId'];
-    console.log(`CharacterId: ${characterId}`);
-    this.characterSheetStateService.loadCharacter(characterId);
+    if (characterId) {
+      console.log(`CharacterId: ${characterId}`);
+      if (characterId == '0') {
+        this.characterSheetStateService.createNewCharacter();
+      } else {
+        this.characterSheetStateService.loadCharacter(characterId);
+      }
+    }
+
 
     this.characterSheetStateService.strengthValueSignal = toSignal(
       this.strengthValueControl.valueChanges
