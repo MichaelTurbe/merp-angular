@@ -2,7 +2,6 @@ import { computed, Injectable, Signal, WritableSignal } from "@angular/core";
 import { Character } from "../models/Character";
 import { StatName } from "../models/StatName";
 import { Stat } from "../models/Stat";
-import { SelectMultipleControlValueAccessor } from "@angular/forms";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -17,11 +16,14 @@ export class CharacterSheetStateService {
 
   public loadCharacter(characterId: number) {
     this.character = this.getMockCharacterAsIfFromDB(characterId);
-    this.populateSignals();
+    this.initializeComputedSignals();
   }
 
-  public populateSignals() {
-    // this will need to be initialized from the component
+  public initializeComputedSignals() {
+    // any signals that are constructed with toSignal()
+    // to capture changes from a control's observable
+    // will need to be initialized from the component
+
     this.strengthNormalBonusSignal = computed(() => {
       return this.calculateNormalBonus(this.strengthValueSignal());
     });

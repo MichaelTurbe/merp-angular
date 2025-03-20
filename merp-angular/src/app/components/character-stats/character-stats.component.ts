@@ -26,19 +26,16 @@ export class CharacterStatsComponent {
     console.log(`CharacterId: ${characterId}`);
     this.characterSheetStateService.loadCharacter(characterId);
 
-    console.log(`initial value:`, this.characterSheetStateService.character.Strength.Value.toString());
-
     this.characterSheetStateService.strengthValueSignal = toSignal(
-      this.strengthValueControl.valueChanges,
-      // { initialValue: this.characterSheetStateService.character.Strength.Value.toString() },
+      this.strengthValueControl.valueChanges
     );
 
-    // now set the initial values into their controls to trigger the stuff
-    this.strengthValueControl.setValue(this.characterSheetStateService.character.Strength.Value.toString());
 
   }
 
   ngOnInit() {
+    // now set the initial values into their controls to trigger the stuff
+    this.strengthValueControl.setValue(this.characterSheetStateService.character.Strength.Value.toString());
 
 
   }
