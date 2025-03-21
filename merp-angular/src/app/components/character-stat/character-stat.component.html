@@ -1,0 +1,11 @@
+
+<div class="grid-cell character-stats-grid-div7">{{context.StatName}}</div>
+<div class="grid-cell character-stats-grid-div8">(ST)</div>
+<div class="grid-cell character-stats-grid-div9"><input class="text-box" type="text"
+    [formControl]="valueControl"></div>
+<div class="grid-cell character-stats-grid-div10"><input class="text-box" disabled="true" type="text"
+    [value]="normalBonusSignal()"></div>
+<div class="grid-cell character-stats-grid-div11"><input class="text-box" type="text"
+    [formControl]="raceBonusControl"></div>
+<div class="grid-cell character-stats-grid-div12"><input class="text-box" disabled="true" type="text"
+    [value]="totalBonusSignal()"></div>

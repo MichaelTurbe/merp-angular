@@ -71,4 +71,6 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     } as Stat;
     return character;
   }
+
+  
 }
