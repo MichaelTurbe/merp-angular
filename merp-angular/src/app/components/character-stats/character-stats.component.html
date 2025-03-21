@@ -12,13 +12,11 @@
       <input class="text-box" type="text" [formControl]="strengthValueControl">
     </div>
     <div class="grid-cell character-stats-grid-div10">
-      <input class="text-box" disabled="true" type="text"
-        [value]="characterSheetStateService.strengthNormalBonusSignal()">
+      <input class="text-box" disabled="true" type="text" [value]="context.state.StrengthNormalBonus()">
     </div>
     <div class="grid-cell character-stats-grid-div11"><input class="text-box" type="text"></div>
     <div class="grid-cell character-stats-grid-div12">
-      <input class="text-box" disabled="true" type="text"
-        [value]="characterSheetStateService.strengthTotalBonusSignal()">
+      <input class="text-box" disabled="true" type="text" [value]="context.state.StrengthTotalBonus()">
 
     </div>
     <div class="grid-cell character-stats-grid-div13">Agility</div>

@@ -17,7 +17,7 @@ export class CharacterStatsComponent {
 
 
   constructor(@Inject(DOCUMENT) private document: Document,
-    public characterSheetStateService: CharacterSheetStateService,
+    public context: CharacterSheetStateService,
     private route: ActivatedRoute) {
 
     //TODO - note that these things will have to happen in 
@@ -26,23 +26,22 @@ export class CharacterStatsComponent {
     if (characterId) {
       console.log(`CharacterId: ${characterId}`);
       if (characterId == '0') {
-        this.characterSheetStateService.createNewCharacter();
+        this.context.createNewCharacter();
       } else {
-        this.characterSheetStateService.loadCharacter(characterId);
+        this.context.loadCharacter(characterId);
       }
     }
 
 
-    this.characterSheetStateService.strengthValueSignal = toSignal(
+    this.context.state.StrengthValue = toSignal(
       this.strengthValueControl.valueChanges
     );
-
-
   }
 
   ngOnInit() {
     // now set the initial values into their controls to trigger the stuff
-    this.strengthValueControl.setValue(this.characterSheetStateService.character.Strength.Value.toString());
+    console.log(`REVISIT THIS`);
+    this.strengthValueControl.setValue(this.context.character.Strength.Value.toString());
 
 
   }

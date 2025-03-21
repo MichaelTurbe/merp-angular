@@ -3,23 +3,25 @@ import { Character } from "../models/Character";
 import { StatName } from "../models/StatName";
 import { Stat } from "../models/Stat";
 import { CharacterDataService } from "./character.data.service";
-import { findMatchingDirectivesAndPipes } from "@angular/compiler";
+import { CharacterSheetState } from "../utilities/character-sheet-state";
 
 @Injectable()
 export class CharacterSheetStateService {
   public character!: Character;
-  public strengthValueSignal!: Signal<any>;
-  public strengthNormalBonusSignal!: Signal<any>;
-  public strengthTotalBonusSignal!: Signal<any>;
+  public state: CharacterSheetState = {} as CharacterSheetState;
+  // public strengthValueSignal!: Signal<any>;
+  // public strengthNormalBonusSignal!: Signal<any>;
+  // public strengthTotalBonusSignal!: Signal<any>;
 
-  constructor(private CharacterDataService: CharacterDataService) {
+  constructor(private characterDataService: CharacterDataService) {
     console.log(`this is the ChraracterSheetStateService constructor!`);
   }
 
   public loadCharacter(characterId: string) {
-    const findCharacterDataResult = this.CharacterDataService.getItem(characterId);
+    const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
       this.character = findCharacterDataResult.value;
+      console.log('loaded character', this.character);
     } else {
       console.log(`couldn't find that character!`);
     }
@@ -28,7 +30,7 @@ export class CharacterSheetStateService {
 
   public createNewCharacter() {
     console.log('create new character');
-    this.character = this.CharacterDataService.createNewCharacter();
+    this.character = this.characterDataService.createNewCharacter();
   }
 
   public initializeComputedSignals() {
@@ -36,14 +38,32 @@ export class CharacterSheetStateService {
     // to capture changes from a control's observable
     // will need to be initialized from the component
 
-    this.strengthNormalBonusSignal = computed(() => {
-      return this.calculateNormalBonus(this.strengthValueSignal());
+    this.state.StrengthNormalBonus = computed(() => {
+      if (this.state.StrengthValue){
+        this.character.Strength.Value = this.state.StrengthValue();
+        const bonus = this.calculateNormalBonus(this.character.Strength.Value);
+        this.character.Strength.NormalBonus = bonus;
+        this.AutoSaveItem();
+        return `+${bonus}`;
+      } else {
+        return ''
+      }
     });
 
-    this.strengthTotalBonusSignal = computed(() => {
-      const bonus = this.calculateNormalBonus(this.strengthValueSignal()).toString();
-      return `+${bonus}`;
+    this.state.StrengthTotalBonus = computed(() => {
+      if (this.state.StrengthValue) {
+        //this.character.Strength.Value = this.characterSheetState.StrengthValue();
+        const bonus = this.calculateNormalBonus(this.state.StrengthValue()).toString();
+        return `+${bonus}`;
+      } else {
+        return ''
+      }
     });
+  }
+
+  private AutoSaveItem(): void {
+    console.log(`trying to save character`);
+    this.characterDataService.setItem(this.character);
   }
 
   public calculateNormalBonus(value: number): number {
@@ -62,6 +82,14 @@ export class CharacterSheetStateService {
     if (value == 102) { return 35; }
     return 0;
   }
+
+  // getBlankCharacterSheetState(): CharacterSheetState {
+  //   const blankCharacterSheetState = {} as CharacterSheetState;
+  //   blankCharacterSheetState.StrengthValue = null;
+  // public strengthNormalBonusSignal!: Signal<any>;
+  // public strengthTotalBonusSignal!: Signal<any>;
+  //   return blankCharacterSheetState;
+  // }
 
 
 }
