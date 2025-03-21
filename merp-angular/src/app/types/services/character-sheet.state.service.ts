@@ -9,9 +9,6 @@ import { CharacterSheetState } from "../utilities/character-sheet-state";
 export class CharacterSheetStateService {
   public character!: Character;
   public state: CharacterSheetState = {} as CharacterSheetState;
-  // public strengthValueSignal!: Signal<any>;
-  // public strengthNormalBonusSignal!: Signal<any>;
-  // public strengthTotalBonusSignal!: Signal<any>;
 
   constructor(private characterDataService: CharacterDataService) {
     console.log(`this is the ChraracterSheetStateService constructor!`);
@@ -39,24 +36,171 @@ export class CharacterSheetStateService {
     // will need to be initialized from the component
 
     this.state.StrengthNormalBonus = computed(() => {
-      if (this.state.StrengthValue){
+      if (this.state.StrengthValue) {
         this.character.Strength.Value = this.state.StrengthValue();
         const bonus = this.calculateNormalBonus(this.character.Strength.Value);
         this.character.Strength.NormalBonus = bonus;
         this.AutoSaveItem();
         return `+${bonus}`;
       } else {
-        return ''
+        return '';
       }
     });
 
     this.state.StrengthTotalBonus = computed(() => {
-      if (this.state.StrengthValue) {
+      if (this.state.StrengthValue && this.state.StrengthRaceBonus) {
         //this.character.Strength.Value = this.characterSheetState.StrengthValue();
-        const bonus = this.calculateNormalBonus(this.state.StrengthValue()).toString();
+        const normalBonus = this.calculateNormalBonus(this.state.StrengthValue());
+        const raceBonus = parseInt(this.state.StrengthRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Strength.RaceBonus = raceBonus;
+        this.character.Strength.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
+      }
+    });
+
+
+    this.state.AgilityNormalBonus = computed(() => {
+      if (this.state.AgilityValue) {
+        this.character.Agility.Value = this.state.AgilityValue();
+        const bonus = this.calculateNormalBonus(this.character.Agility.Value);
+        this.character.Agility.NormalBonus = bonus;
+        this.AutoSaveItem();
         return `+${bonus}`;
       } else {
-        return ''
+        return '';
+      }
+    });
+
+    this.state.AgilityTotalBonus = computed(() => {
+      if (this.state.AgilityValue && this.state.AgilityRaceBonus) {
+        //this.character.Agility.Value = this.characterSheetState.AgilityValue();
+        const normalBonus = this.calculateNormalBonus(this.state.AgilityValue());
+        const raceBonus = parseInt(this.state.AgilityRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Agility.RaceBonus = raceBonus;
+        this.character.Agility.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.ConstitutionNormalBonus = computed(() => {
+      if (this.state.ConstitutionValue) {
+        this.character.Constitution.Value = this.state.ConstitutionValue();
+        const bonus = this.calculateNormalBonus(this.character.Constitution.Value);
+        this.character.Constitution.NormalBonus = bonus;
+        this.AutoSaveItem();
+        return `+${bonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.ConstitutionTotalBonus = computed(() => {
+      if (this.state.ConstitutionValue && this.state.ConstitutionRaceBonus) {
+        //this.character.Constitution.Value = this.characterSheetState.ConstitutionValue();
+        const normalBonus = this.calculateNormalBonus(this.state.ConstitutionValue());
+        const raceBonus = parseInt(this.state.ConstitutionRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Constitution.RaceBonus = raceBonus;
+        this.character.Constitution.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.IntelligenceNormalBonus = computed(() => {
+      if (this.state.IntelligenceValue) {
+        this.character.Intelligence.Value = this.state.IntelligenceValue();
+        const bonus = this.calculateNormalBonus(this.character.Intelligence.Value);
+        this.character.Intelligence.NormalBonus = bonus;
+        this.AutoSaveItem();
+        return `+${bonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.IntelligenceTotalBonus = computed(() => {
+      if (this.state.IntelligenceValue && this.state.IntelligenceRaceBonus) {
+        //this.character.Intelligence.Value = this.characterSheetState.IntelligenceValue();
+        const normalBonus = this.calculateNormalBonus(this.state.IntelligenceValue());
+        const raceBonus = parseInt(this.state.IntelligenceRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Intelligence.RaceBonus = raceBonus;
+        this.character.Intelligence.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.IntuitionNormalBonus = computed(() => {
+      if (this.state.IntuitionValue) {
+        this.character.Intuition.Value = this.state.IntuitionValue();
+        const bonus = this.calculateNormalBonus(this.character.Intuition.Value);
+        this.character.Intuition.NormalBonus = bonus;
+        this.AutoSaveItem();
+        return `+${bonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.IntuitionTotalBonus = computed(() => {
+      if (this.state.IntuitionValue && this.state.IntuitionRaceBonus) {
+        //this.character.Intuition.Value = this.characterSheetState.IntuitionValue();
+        const normalBonus = this.calculateNormalBonus(this.state.IntuitionValue());
+        const raceBonus = parseInt(this.state.IntuitionRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Intuition.RaceBonus = raceBonus;
+        this.character.Intuition.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.PresenceNormalBonus = computed(() => {
+      if (this.state.PresenceValue) {
+        this.character.Presence.Value = this.state.PresenceValue();
+        const bonus = this.calculateNormalBonus(this.character.Presence.Value);
+        this.character.Presence.NormalBonus = bonus;
+        this.AutoSaveItem();
+        return `+${bonus}`;
+      } else {
+        return '';
+      }
+    });
+
+    this.state.PresenceTotalBonus = computed(() => {
+      if (this.state.PresenceValue && this.state.PresenceRaceBonus) {
+        //this.character.Presence.Value = this.characterSheetState.PresenceValue();
+        const normalBonus = this.calculateNormalBonus(this.state.PresenceValue());
+        const raceBonus = parseInt(this.state.PresenceRaceBonus());
+        const totalBonus = normalBonus + raceBonus;
+        // console.log()
+        this.character.Presence.RaceBonus = raceBonus;
+        this.character.Presence.TotalBonus = totalBonus;
+        this.AutoSaveItem();
+        return `+${totalBonus}`;
+      } else {
+        return '';
       }
     });
   }

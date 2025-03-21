@@ -8,46 +8,63 @@
     <div class="grid-cell character-stats-grid-div6">Total</div>
     <div class="grid-cell character-stats-grid-div7">Strength</div>
     <div class="grid-cell character-stats-grid-div8">(ST)</div>
-    <div class="grid-cell character-stats-grid-div9">
-      <input class="text-box" type="text" [formControl]="strengthValueControl">
-    </div>
-    <div class="grid-cell character-stats-grid-div10">
-      <input class="text-box" disabled="true" type="text" [value]="context.state.StrengthNormalBonus()">
-    </div>
-    <div class="grid-cell character-stats-grid-div11"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div12">
-      <input class="text-box" disabled="true" type="text" [value]="context.state.StrengthTotalBonus()">
-
-    </div>
+    <div class="grid-cell character-stats-grid-div9"><input class="text-box" type="text"
+        [formControl]="strengthValueControl"></div>
+    <div class="grid-cell character-stats-grid-div10"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.StrengthNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div11"><input class="text-box" type="text"
+        [formControl]="strengthRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div12"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.StrengthTotalBonus()"></div>
     <div class="grid-cell character-stats-grid-div13">Agility</div>
     <div class="grid-cell character-stats-grid-div14">(AG)</div>
-    <div class="grid-cell character-stats-grid-div15"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div16"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div17"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div18"> <input class="text-box" type="text"></div>
+    <div class="grid-cell character-stats-grid-div15"><input class="text-box" type="text"
+        [formControl]="agilityValueControl"></div>
+    <div class="grid-cell character-stats-grid-div16"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.AgilityNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div17"><input class="text-box" type="text"
+        [formControl]="agilityRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div18"> <input class="text-box" type="text" disabled="true"
+        [value]="context.state.AgilityTotalBonus()"></div>
     <div class="grid-cell character-stats-grid-div19">Constitution</div>
     <div class="grid-cell character-stats-grid-div20">(CO)</div>
-    <div class="grid-cell character-stats-grid-div21"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div22"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div23"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div24"><input class="text-box" type="text"></div>
+    <div class="grid-cell character-stats-grid-div21"><input class="text-box" type="text"
+        [formControl]="constitutionValueControl"></div>
+    <div class="grid-cell character-stats-grid-div22"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.ConstitutionNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div23"><input class="text-box" type="text"
+        [formControl]="constitutionRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div24"><input class="text-box" type="text" disabled="true"
+        [value]="context.state.ConstitutionTotalBonus()"></div>
     <div class="grid-cell character-stats-grid-div25">Intelligence</div>
     <div class="grid-cell character-stats-grid-div26">(IG)</div>
-    <div class="grid-cell character-stats-grid-div27"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div28"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div29"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div30"><input class="text-box" type="text"></div>
+    <div class="grid-cell character-stats-grid-div27"><input class="text-box" type="text"
+        [formControl]="intelligenceValueControl"></div>
+    <div class="grid-cell character-stats-grid-div28"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.IntelligenceNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div29"><input class="text-box" type="text"
+        [formControl]="intelligenceRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div30"><input class="text-box" type="text" disabled="true"
+        [value]="context.state.IntelligenceTotalBonus()"></div>
     <div class="grid-cell character-stats-grid-div31">Intuition</div>
     <div class="grid-cell character-stats-grid-div32">(IT)</div>
-    <div class="grid-cell character-stats-grid-div33"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div34"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div35"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div36"><input class="text-box" type="text"></div>
+    <div class="grid-cell character-stats-grid-div33"><input class="text-box" type="text"
+        [formControl]="intuitionValueControl"></div>
+    <div class="grid-cell character-stats-grid-div34"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.IntuitionNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div35"><input class="text-box" type="text"
+        [formControl]="intuitionRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div36"><input class="text-box" type="text" disabled="true"
+        [value]="context.state.IntuitionTotalBonus()"></div>
     <div class="grid-cell character-stats-grid-div37">Presence</div>
     <div class="grid-cell character-stats-grid-div38">(PR)</div>
-    <div class="grid-cell character-stats-grid-div39"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div40"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div41"><input class="text-box" type="text"></div>
-    <div class="grid-cell character-stats-grid-div42"><input class="text-box" type="text"></div>
+    <div class="grid-cell character-stats-grid-div39"><input class="text-box" type="text"
+        [formControl]="presenceValueControl"></div>
+    <div class="grid-cell character-stats-grid-div40"><input class="text-box" disabled="true" type="text"
+        [value]="context.state.PresenceNormalBonus()"></div>
+    <div class="grid-cell character-stats-grid-div41"><input class="text-box" type="text"
+        [formControl]="presenceRaceBonusControl"></div>
+    <div class="grid-cell character-stats-grid-div42"><input class="text-box" type="text" disabled="true"
+        [value]="context.state.PresenceTotalBonus()"></div>
   </div>
 </div>
