@@ -20,8 +20,10 @@ export class LocalStorageRepository<T extends StorageEntity> {
   getItem(id: string): DataResult<T> {
     let dataResult = { success: false } as DataResult<T>;
     const storageKey = this.generateStorageKey(id);
+    console.log(`trying to get an item with storageKey: ${storageKey}`);
     const item = localStorage.getItem(storageKey);
     if (item) {
+      console.log('found an item:', item);
       dataResult.success = true;
       dataResult.value = JSON.parse(item) as T;
     } else {
@@ -43,9 +45,7 @@ export class LocalStorageRepository<T extends StorageEntity> {
     let usedId = 1;
     let foundNextId = false;
     while (!foundNextId) {
-      const key = this.generateStorageKey(usedId.toString());
-      console.log(`looking for key: ${key}`);
-      const nextResult = this.getItem(key);
+      const nextResult = this.getItem(usedId.toString());
       if (nextResult.success) {
         usedId++;
       } else {

@@ -1,4 +1,4 @@
-import { computed, Injectable, Signal, WritableSignal } from "@angular/core";
+import { computed, effect, Injectable, Signal, WritableSignal } from "@angular/core";
 import { Character } from "../models/Character";
 import { StatName } from "../models/StatName";
 import { Stat } from "../models/Stat";
@@ -23,12 +23,14 @@ export class CharacterSheetStateService {
       console.log(`couldn't find that character!`);
     }
     this.initializeComputedSignals();
+    this.intializeEffects();
   }
 
   public createNewCharacter() {
     console.log('create new character');
     this.character = this.characterDataService.createNewCharacter();
     this.initializeComputedSignals();
+    this.intializeEffects();
   }
 
   public initializeComputedSignals() {
@@ -207,6 +209,24 @@ export class CharacterSheetStateService {
     });
   }
 
+  public intializeEffects() {
+    // effect(() => {
+    //   console.log('inside the effect invocation');
+    //   if ((this.state.AgilityValue() && this.state.AgilityRaceBonus()) ||
+    //     (this.state.ConstitutionValue() && this.state.ConstitutionRaceBonus()) ||
+    //     (this.state.IntelligenceValue() && this.state.IntelligenceRaceBonus()) ||
+    //     (this.state.IntuitionValue() && this.state.IntuitionRaceBonus()) ||
+    //     (this.state.PresenceNormalBonus() && this.state.PresenceRaceBonus()) ||
+    //     (this.state.StrengthValue() && this.state.StrengthRaceBonus)) {
+    //     this.AutoSaveItem();
+    //   }
+
+    // });
+
+
+
+  }
+
   private AutoSaveItem(): void {
     console.log(`trying to save character`);
     this.characterDataService.setItem(this.character);
@@ -228,14 +248,6 @@ export class CharacterSheetStateService {
     if (value == 102) { return 35; }
     return 0;
   }
-
-  // getBlankCharacterSheetState(): CharacterSheetState {
-  //   const blankCharacterSheetState = {} as CharacterSheetState;
-  //   blankCharacterSheetState.StrengthValue = null;
-  // public strengthNormalBonusSignal!: Signal<any>;
-  // public strengthTotalBonusSignal!: Signal<any>;
-  //   return blankCharacterSheetState;
-  // }
 
 
 }
