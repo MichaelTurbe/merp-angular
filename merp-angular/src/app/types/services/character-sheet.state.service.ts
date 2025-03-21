@@ -28,9 +28,11 @@ export class CharacterSheetStateService {
   public createNewCharacter() {
     console.log('create new character');
     this.character = this.characterDataService.createNewCharacter();
+    this.initializeComputedSignals();
   }
 
   public initializeComputedSignals() {
+    console.log('initializeComputedSignals');
     // any signals that are constructed with toSignal()
     // to capture changes from a control's observable
     // will need to be initialized from the component

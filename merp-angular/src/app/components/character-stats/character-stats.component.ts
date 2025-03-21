@@ -12,6 +12,7 @@ import { CharacterSheetStateService } from '../../types/services/character-sheet
 })
 export class CharacterStatsComponent {
 
+  // declare and instantiate all the form controls
   strengthValueControl = new FormControl('');
   strengthNormalBonusControl = new FormControl('');
   strengthRaceBonusControl = new FormControl('');
@@ -38,21 +39,7 @@ export class CharacterStatsComponent {
 
 
   constructor(@Inject(DOCUMENT) private document: Document,
-    public context: CharacterSheetStateService,
-    private route: ActivatedRoute) {
-
-    //TODO - note that these things will have to happen in 
-    // a guard for anything to work
-    const characterId = this.route.snapshot.params['characterId'];
-    if (characterId) {
-      console.log(`CharacterId: ${characterId}`);
-      if (characterId == '0') {
-        this.context.createNewCharacter();
-      } else {
-        this.context.loadCharacter(characterId);
-      }
-    }
-    console.log('the loaded character was:', this.context.character);
+    protected context: CharacterSheetStateService) {
     // initialize all the signals that are dependent on
     // control observables.  Needs to happen here
     // because toSignal must be called in a place where
