@@ -1,7 +1,7 @@
 export enum StatName {
   Strength = "Strength",
   Agility = "Agility",
-  Constition = "Constitution",
+  Constitution = "Constitution",
   Intelligence = "Intelligence",
   Intuition = "Intuition",
   Presence = "Presence",

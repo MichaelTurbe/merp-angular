@@ -1,17 +1,31 @@
 import { computed, effect, Injectable, Signal, WritableSignal } from "@angular/core";
 import { Character } from "../models/Character";
-import { StatName } from "../models/StatName";
-import { Stat } from "../models/Stat";
+import { CharacterStat } from "../models/CharacterStat";
 import { CharacterDataService } from "./character.data.service";
-import { CharacterSheetState } from "../utilities/character-sheet-state";
 import { SignalStore } from "./signal-store";
 import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
 import { StatFieldType } from "../models/StatFieldType";
+import { Stat } from "../models/Stat";
 
 @Injectable()
 export class CharacterSheetStateService {
   public character!: Character;
-  public state: CharacterSheetState = {} as CharacterSheetState;
+
+  public StatNames = ["Strength",
+    "Agility",
+     "Constitution",
+    "Intelligence",
+    "Intuition",
+    "Presence"]
+  
+  public AllStats: Stat[] = [
+    { id: 1, Name: "Strength", Abbreviation: "ST" } as Stat,
+    { id: 2, Name: "Agility", Abbreviation: "AG" } as Stat,
+    { id: 3, Name: "Constitution", Abbreviation: "CO" } as Stat,
+    { id: 4, Name: "Intelligence", Abbreviation: "IG" } as Stat,
+    { id: 5, Name: "Intuition", Abbreviation: "IT" } as Stat,
+    { id: 6, Name: "Presence", Abbreviation: "PR" } as Stat,
+  ]
 
   constructor(private characterDataService: CharacterDataService,
     private characterSheetSignalStore: CharacterSheetSignalStore
@@ -19,7 +33,7 @@ export class CharacterSheetStateService {
     console.log(`this is the ChraracterSheetStateService constructor!`);
   }
 
-  public loadCharacter(characterId: string) {
+  public loadCharacter(characterId: number) {
     const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
       this.character = findCharacterDataResult.value;
@@ -36,20 +50,38 @@ export class CharacterSheetStateService {
     this.initializeComputedSignals();
   }
 
+  GetCharacterStatByName(statName: string): CharacterStat {
+    switch (statName) {
+      case "Strength":
+        return this.character.Strength; 
+      case "Agility":
+        return this.character.Agility;
+      case "Constitution":
+        return this.character.Constitution;
+      case "Intelligence":
+        return this.character.Intelligence;
+      case "Intuition":
+        return this.character.Intuition;
+      case "Presence":
+        return this.character.Presence;
+      default:
+        return this.character.Strength;
+    }
+  }
+
   public initializeComputedSignals() {
     console.log('initializeComputedSignals');
     // any signals that are constructed with toSignal()
     // to capture changes from a control's observable
     // will need to be initialized from the component
-    const stats = [StatName.Strength, StatName.Agility, StatName.Constition, StatName.Intelligence, StatName.Intuition, StatName.Presence];
-    stats.forEach(stat => {
 
+    this.StatNames.forEach(stat => {
       const normalBonusSignal = computed(() => {
         if (this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.NormalBonus)) {
           const statValueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
-          this.character[stat].Value = statValueSignal();
-          const bonus = this.calculateNormalBonus(this.character[stat].Value);
-          this.character[stat].NormalBonus = bonus;
+          this.GetCharacterStatByName(stat).Value = statValueSignal();
+          const bonus = this.calculateNormalBonus(this.GetCharacterStatByName(stat).Value);
+          this.GetCharacterStatByName(stat).NormalBonus = bonus;
           this.AutoSaveItem();
           return `+${bonus}`;
         } else {
@@ -67,8 +99,8 @@ export class CharacterSheetStateService {
           const raceBonus = parseInt(raceBonusSignal());
           const totalBonus = normalBonus + raceBonus;
           // console.log()
-          this.character[stat].RaceBonus = raceBonus;
-          this.character[stat].TotalBonus = totalBonus;
+          this.GetCharacterStatByName(stat).RaceBonus = raceBonus;
+          this.GetCharacterStatByName(stat).TotalBonus = totalBonus;
           this.AutoSaveItem();
           return `+${totalBonus}`;
         } else {

@@ -1,4 +1,4 @@
 export interface StorageEntity{
-  id: string;
+  id: number;
   storageType: string;
 }

@@ -1,11 +1,12 @@
-
-<div class="grid-cell character-stats-grid-div7">{{context.StatName}}</div>
-<div class="grid-cell character-stats-grid-div8">(ST)</div>
-<div class="grid-cell character-stats-grid-div9"><input class="text-box" type="text"
-    [formControl]="valueControl"></div>
-<div class="grid-cell character-stats-grid-div10"><input class="text-box" disabled="true" type="text"
-    [value]="normalBonusSignal()"></div>
-<div class="grid-cell character-stats-grid-div11"><input class="text-box" type="text"
-    [formControl]="raceBonusControl"></div>
-<div class="grid-cell character-stats-grid-div12"><input class="text-box" disabled="true" type="text"
-    [value]="totalBonusSignal()"></div>
+<div class="character-stats-grid">
+  <div class="grid-cell character-stats-grid-div1">{{Stat().Name}}</div>
+  <div class="grid-cell character-stats-grid-div2">{{Stat().Abbreviation}}</div>
+  <div class="grid-cell character-stats-grid-div3"><input class="text-box" type="text" [formControl]="valueControl">
+  </div>
+  <div class="grid-cell character-stats-grid-div4"><input class="text-box" disabled="true" type="text"
+      [value]="normalBonusSignal()"></div>
+  <div class="grid-cell character-stats-grid-div5"><input class="text-box" type="text" [formControl]="raceBonusControl">
+  </div>
+  <div class="grid-cell character-stats-grid-div6"><input class="text-box" disabled="true" type="text"
+      [value]="totalBonusSignal()"></div>
+</div>

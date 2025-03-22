@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+.stats-grid-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-box {
+  width: 100%;
+  border: 0px;
+  border-bottom: 1px solid darkslategray;
+}
+
+.character-stats-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+.grid-cell {
+  display: flex;
+}
+
+.character-stats-grid-div1 {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.character-stats-grid-div2 {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.character-stats-grid-div3 {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.character-stats-grid-div4 {
+  grid-area: 1 / 4 / 2 / 5;
+}
+
+.character-stats-grid-div5 {
+  grid-area: 1 / 5 / 2 / 6;
+}
+
+.character-stats-grid-div6 {
+  grid-area: 1 / 6 / 2 / 7;
+}

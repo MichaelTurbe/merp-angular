@@ -1,7 +1,6 @@
 import { computed, Injectable, Signal, WritableSignal } from "@angular/core";
 import { Character } from "../models/Character";
-import { StatName } from "../models/StatName";
-import { Stat } from "../models/Stat";
+import { CharacterStat } from "../models/CharacterStat";
 import { LocalStorageRepository } from "./local-storage.repository";
 
 @Injectable({ providedIn: 'root' })
@@ -18,7 +17,7 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     return newCharacter;
   }
 
-  getNewCharacterId(): string {
+  getNewCharacterId(): number {
     return this.getNextAvailableIdForType();
   }
 
@@ -28,49 +27,49 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     character.storageType = 'character';
     console.log(`creating new character with id: ${character.id}`);
     character.Strength = {
-      StatName: StatName.Strength,
+      StatName: "Strength",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     character.Agility = {
-      StatName: StatName.Agility,
+      StatName: "Agility",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     character.Constitution = {
-      StatName: StatName.Constition,
+      StatName: "Constitution",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     character.Intelligence = {
-      StatName: StatName.Intelligence,
+      StatName: "Intelligence",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     character.Intuition = {
-      StatName: StatName.Intuition,
+      StatName: "Intuition",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     character.Presence = {
-      StatName: StatName.Presence,
+      StatName: "Presence",
       Value: 1,
       NormalBonus: -25,
       RaceBonus: 0,
       TotalBonus: -25
-    } as Stat;
+    } as CharacterStat;
     return character;
   }
 
-  
+
 }

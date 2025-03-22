@@ -1,14 +1,15 @@
-import { Stat } from "./Stat";
+import { CharacterStat } from "./CharacterStat";
 import { StorageEntity } from "../utilities/storage-entity";
 
 export interface Character extends StorageEntity {
   // id: string,
   // storageType: 'string',
-  CharacterName: string,
-  Strength: Stat,
-  Agility: Stat,
-  Constitution: Stat,
-  Intelligence: Stat,
-  Intuition: Stat,
-  Presence: Stat;
+  Name: string,
+  Strength: CharacterStat,
+  Agility: CharacterStat,
+  Constitution: CharacterStat,
+  Intelligence: CharacterStat,
+  Intuition: CharacterStat,
+  Presence: CharacterStat;
+  
 }

@@ -7,10 +7,8 @@
         <div class="grid-cell character-stats-grid-div5">Race</div>
         <div class="grid-cell character-stats-grid-div6">Total</div>
     </div>
-    <app-character-stat StatName="StatNameEnum.Strength"></app-character-stat>
-    <app-character-stat StatName="StatNameEnum.Agility"></app-character-stat>
-    <app-character-stat StatName="StatNameEnum.Constitution"></app-character-stat>
-    <app-character-stat StatName="StatNameEnum.Intelligence"></app-character-stat>
-    <app-character-stat StatName="StatNameEnum.Intuition"></app-character-stat>
-    <app-character-stat StatName="StatNameEnum.Presence"></app-character-stat>
+    @for (stat of context.AllStats; track stat.id) {
+        <app-character-stat [Stat]="stat"></app-character-stat>
+    }
+
 </div>
