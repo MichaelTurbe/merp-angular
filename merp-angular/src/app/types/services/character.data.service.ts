@@ -8,7 +8,6 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
 
   constructor() {
     super('character');
-
   }
 
   createNewCharacter(): Character {

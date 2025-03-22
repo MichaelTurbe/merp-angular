@@ -6,6 +6,7 @@ import { SignalStore } from "./signal-store";
 import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
 import { StatFieldType } from "../models/StatFieldType";
 import { Stat } from "../models/Stat";
+import { SystemDataService } from "./system.data.service";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -18,19 +19,14 @@ export class CharacterSheetStateService {
     "Intuition",
     "Presence"]
   
-  public AllStats: Stat[] = [
-    { id: 1, Name: "Strength", Abbreviation: "ST" } as Stat,
-    { id: 2, Name: "Agility", Abbreviation: "AG" } as Stat,
-    { id: 3, Name: "Constitution", Abbreviation: "CO" } as Stat,
-    { id: 4, Name: "Intelligence", Abbreviation: "IG" } as Stat,
-    { id: 5, Name: "Intuition", Abbreviation: "IT" } as Stat,
-    { id: 6, Name: "Presence", Abbreviation: "PR" } as Stat,
-  ]
+  public AllStats!: Array<Stat>;
 
   constructor(private characterDataService: CharacterDataService,
-    private characterSheetSignalStore: CharacterSheetSignalStore
+    private characterSheetSignalStore: CharacterSheetSignalStore,
+    private systemDataService: SystemDataService
   ) {
     console.log(`this is the ChraracterSheetStateService constructor!`);
+    this.AllStats = systemDataService.GetAllStats();
   }
 
   public loadCharacter(characterId: number) {
