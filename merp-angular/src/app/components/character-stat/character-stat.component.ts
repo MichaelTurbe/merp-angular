@@ -22,7 +22,7 @@ export class CharacterStatComponent {
   normalBonusSignal!: Signal<any>;
   totalBonusSignal!: Signal<any>;
 
-  constructor(private context: CharacterSheetStateService,
+  constructor(protected context: CharacterSheetStateService,
     protected signalStore: CharacterSheetSignalStore
   ) {
     let valueSignal = toSignal(

@@ -1,6 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, input, Signal } from '@angular/core';
 import { Skill } from '../../types/models/Skill';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-character-skill',
@@ -21,6 +24,7 @@ export class CharacterSkillComponent {
   fivePercentRankCheckbox8 = new FormControl(false);
   fivePercentRankCheckbox9 = new FormControl(false);
   fivePercentRankCheckbox10 = new FormControl(false);
+  fivePercentRankSignals = new Array<Signal<any>>();
 
   twoPercentRankCheckboxes: Array<FormControl> = new Array<FormControl>();
   twoPercentRankCheckbox1 = new FormControl(false);
@@ -29,8 +33,22 @@ export class CharacterSkillComponent {
   twoPercentRankCheckbox4 = new FormControl(false);
   twoPercentRankCheckbox5 = new FormControl(false);
 
-  constructor() {
+  valueSignal!: Signal<any>;
+
+  constructor(protected signalStore: CharacterSheetSignalStore,
+    protected context: CharacterSheetStateService
+  ) {
     this.gatherCheckBoxControls();
+    console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
+
+    this.fivePercentRankCheckboxes.forEach(control =>  {
+      let fivePercentRankCheckSignal = toSignal(
+        control.valueChanges
+      );
+
+      this.fivePercentRankSignals.push(fivePercentRankCheckSignal);
+      console.log("adding fivePercentRank signal to array");
+    });
   }
 
   gatherCheckBoxControls() {
@@ -50,6 +68,12 @@ export class CharacterSkillComponent {
     this.twoPercentRankCheckboxes.push(this.twoPercentRankCheckbox3);
     this.twoPercentRankCheckboxes.push(this.twoPercentRankCheckbox4);
     this.twoPercentRankCheckboxes.push(this.twoPercentRankCheckbox5);
+  }
 
+  ngOnInit() {
+    for (let i: number = 0; i < this.fivePercentRankSignals.length; i++) {
+      console.log(`Adding a signal for a 5% rank signal for the skill ${this.Skill().Name} to the store`);
+      this.signalStore.AddFivePercentSkillRankSignal(this.Skill(), i, this.fivePercentRankSignals[i]);
+    }
   }
 }

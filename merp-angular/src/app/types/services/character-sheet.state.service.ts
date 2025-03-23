@@ -2,12 +2,12 @@ import { computed, effect, Injectable, Signal, WritableSignal } from "@angular/c
 import { Character } from "../models/Character";
 import { CharacterStat } from "../models/CharacterStat";
 import { CharacterDataService } from "./character.data.service";
-import { SignalStore } from "./signal-store";
 import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
 import { StatFieldType } from "../models/StatFieldType";
 import { Stat } from "../models/Stat";
 import { SystemDataService } from "./system.data.service";
 import { Skill } from "../models/Skill";
+import { SkillFieldType } from "../models/SkillFieldType";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -69,6 +69,7 @@ export class CharacterSheetStateService {
     }
   }
 
+
   public initializeComputedSignals() {
     console.log('initializeComputedSignals');
     // any signals that are constructed with toSignal()
@@ -108,6 +109,36 @@ export class CharacterSheetStateService {
         }
       });
       this.characterSheetSignalStore.AddStatSignal(stat, StatFieldType.TotalBonus, totalBonusSignal);
+    });
+
+    this.MovingManeuverSkills.forEach(skill => {
+      const rankBonusSignal = computed(() => {
+        let rankBonus = 0;
+        const rankSignals = this.characterSheetSignalStore.GetAllFivePercentSkillRankSignals(skill);
+        rankSignals.forEach(rankSignal => {
+          const checked = rankSignal();
+          if (checked) {
+            rankBonus = rankBonus + 5;
+          }
+          console.log('value of checked signal:', checked);
+        });
+        // if (this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.NormalBonus)) {
+        //   const statValueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
+        //   this.GetCharacterStatByName(stat).Value = statValueSignal();
+        //   const bonus = this.calculateNormalBonus(this.GetCharacterStatByName(stat).Value);
+        //   this.GetCharacterStatByName(stat).NormalBonus = bonus;
+        //   this.AutoSaveItem();
+        //   return `+${bonus}`;
+        // } else {
+        //   return '';
+        // }
+
+        // TODO - sort out how character skill bonuses are set on the
+        // character and save the value
+        return `+${rankBonus}`;
+      });
+      this.characterSheetSignalStore.AddSkillSignal(skill, SkillFieldType.RankBonus, rankBonusSignal);
+
     });
 
   }

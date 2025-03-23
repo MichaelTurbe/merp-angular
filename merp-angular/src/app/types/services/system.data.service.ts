@@ -65,7 +65,7 @@ export class SystemDataService {
     skillsForMovementAndManeuver.push(noArmor);
 
     const softLeather = {
-      id: 1,
+      id: 2,
       Name: "Soft Leather",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
@@ -82,7 +82,7 @@ export class SystemDataService {
     skillsForMovementAndManeuver.push(softLeather);
 
     const rigidLeather = {
-      id: 1,
+      id: 3,
       Name: "Rigid Leather",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
@@ -99,7 +99,7 @@ export class SystemDataService {
     skillsForMovementAndManeuver.push(rigidLeather);
 
     const chain = {
-      id: 1,
+      id: 4,
       Name: "Chain",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
@@ -116,7 +116,7 @@ export class SystemDataService {
     skillsForMovementAndManeuver.push(chain);
 
     const plate = {
-      id: 1,
+      id: 5,
       Name: "Plate",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
