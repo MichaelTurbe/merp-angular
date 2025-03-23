@@ -3,10 +3,11 @@ import { CharacterStatsComponent } from '../character-stats/character-stats.comp
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+import { CharacterSkillsComponent } from '../character-skills/character-skills.component';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [CharacterStatsComponent],
+  imports: [CharacterStatsComponent, CharacterSkillsComponent],
   providers: [CharacterSheetStateService, CharacterSheetSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'

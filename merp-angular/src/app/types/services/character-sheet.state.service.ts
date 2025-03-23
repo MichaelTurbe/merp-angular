@@ -7,6 +7,7 @@ import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
 import { StatFieldType } from "../models/StatFieldType";
 import { Stat } from "../models/Stat";
 import { SystemDataService } from "./system.data.service";
+import { Skill } from "../models/Skill";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -14,12 +15,13 @@ export class CharacterSheetStateService {
 
   public StatNames = ["Strength",
     "Agility",
-     "Constitution",
+    "Constitution",
     "Intelligence",
     "Intuition",
-    "Presence"]
-  
+    "Presence"];
+
   public AllStats!: Array<Stat>;
+  MovingManeuverSkills: Array<Skill> = new Array<Skill>();
 
   constructor(private characterDataService: CharacterDataService,
     private characterSheetSignalStore: CharacterSheetSignalStore,
@@ -27,6 +29,8 @@ export class CharacterSheetStateService {
   ) {
     console.log(`this is the ChraracterSheetStateService constructor!`);
     this.AllStats = systemDataService.GetAllStats();
+    this.MovingManeuverSkills = systemDataService.GetSkillsByCategory("Movement And Maneuver");
+    console.log(this.MovingManeuverSkills);
   }
 
   public loadCharacter(characterId: number) {
@@ -49,7 +53,7 @@ export class CharacterSheetStateService {
   GetCharacterStatByName(statName: string): CharacterStat {
     switch (statName) {
       case "Strength":
-        return this.character.Strength; 
+        return this.character.Strength;
       case "Agility":
         return this.character.Agility;
       case "Constitution":
