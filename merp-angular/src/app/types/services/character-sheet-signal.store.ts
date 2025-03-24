@@ -48,14 +48,15 @@ export class CharacterSheetSignalStore extends SignalStore {
   }
 
   public GetAllFivePercentSkillRankSignals(skill: Skill): Array<Signal<any>> {
+    console.log(this);
     const signals = new Array<Signal<any>>();
-    for (let i: number = 1; i < 11; i++) {
-      const key = `${skill.Name}-fivePercentSkillRank-${i}`;
+    for (let i: number = 0; i < 10; i++) {
+      const key = `${skill.Name}-fivePercentSkillRank-${i + 1}`;
       const fivePercentSignal = this.get(key);
       if (fivePercentSignal) {
         signals.push(fivePercentSignal);
       } else {
-        console.log(`Error in GetAllFivePercentSkillRankSignals`);
+        console.log(`Error in GetAllFivePercentSkillRankSignals when tryng to get item ${i} for ${skill.Name}`);
         throw ('error');
       }
     }

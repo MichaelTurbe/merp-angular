@@ -112,9 +112,12 @@ export class CharacterSheetStateService {
     });
 
     this.MovingManeuverSkills.forEach(skill => {
+      console.log(`about to create a computed signal for skill ${skill.Name}`);
       const rankBonusSignal = computed(() => {
+        console.log(`in computed signal for rank bonus for skill ${skill.Name}`);
         let rankBonus = 0;
         const rankSignals = this.characterSheetSignalStore.GetAllFivePercentSkillRankSignals(skill);
+        console.log(`Found ${rankSignals.length} rank signals for ${skill.Name}`);
         rankSignals.forEach(rankSignal => {
           const checked = rankSignal();
           if (checked) {
@@ -135,6 +138,7 @@ export class CharacterSheetStateService {
 
         // TODO - sort out how character skill bonuses are set on the
         // character and save the value
+        console.log(`came up with a rank bonus of ${rankBonus}`)
         return `+${rankBonus}`;
       });
       this.characterSheetSignalStore.AddSkillSignal(skill, SkillFieldType.RankBonus, rankBonusSignal);
