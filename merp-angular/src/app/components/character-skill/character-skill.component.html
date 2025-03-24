@@ -25,6 +25,7 @@
         </div>
     </div>
     <div class="grid-cell skill-row-div3">
+        @if(showTwoPercentSkillRanks){
         <div class="two-percent-rank-grid">
             <div class="two-percent-rank-grid-div1"><input class="rank-checkbox" type="checkbox"
                     [formControl]="twoPercentRankCheckbox1"></div>
@@ -37,11 +38,14 @@
             <div class="two-percent-rank-grid-div5"><input class="rank-checkbox" type="checkbox"
                     [formControl]="twoPercentRankCheckbox5"></div>
         </div>
+        }
     </div>
     <div class="grid-cell skill-row-div4">
         <input class="text-box" type="text" disabled="true" [value]="rankBonusSignal()">
     </div>
-    <div class="grid-cell skill-row-div5"><input class="text-box" type="text"></div>
+    <div class="grid-cell skill-row-div5"><span>{{Skill().Stat.Abbreviation}}</span>
+        <input class="text-box" type="text" disabled="true" [value]="statTotalBonusSignal()">
+    </div>
     <div class="grid-cell skill-row-div6"><input class="text-box" type="text"></div>
     <div class="grid-cell skill-row-div7"><input class="text-box" type="text"></div>
     <div class="grid-cell skill-row-div8"><input class="text-box" type="text"></div>

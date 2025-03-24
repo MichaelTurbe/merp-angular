@@ -1,10 +1,11 @@
-import { Component, input, Signal } from '@angular/core';
+import { Component, computed, input, Signal } from '@angular/core';
 import { Skill } from '../../types/models/Skill';
 import { FormControl, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkillFieldType } from '../../types/models/SkillFieldType';
+import { StatFieldType } from '../../types/models/StatFieldType';
 
 @Component({
   selector: 'app-character-skill',
@@ -15,7 +16,9 @@ import { SkillFieldType } from '../../types/models/SkillFieldType';
 export class CharacterSkillComponent {
   Skill = input.required<Skill>();
   fivePercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
-  // fivePercentRankCheckboxes: Array<FormControl> = new Array<FormControl>();
+  showTwoPercentSkillRanks = true;
+  statTotalBonusSignal!: Signal<any>;
+
   fivePercentRankCheckbox1 = new FormControl(false);
   fivePercentRankCheckbox2 = new FormControl(false);
   fivePercentRankCheckbox3 = new FormControl(false);
@@ -76,12 +79,30 @@ export class CharacterSkillComponent {
   }
 
   ngOnInit() {
+    console.log(`Stat for this skill: ${this.Skill().Stat.Name}`);
+    this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
+    console.log("the stat total bonus:", this.statTotalBonusSignal());
+    // const something = computed(() => {
+
+    // })
     for (let i: number = 0; i < this.fivePercentRankSignals.length; i++) {
       console.log(`Adding a signal for a 5% rank signal for the skill ${this.Skill().Name} to the store`);
       this.signalStore.AddFivePercentSkillRankSignal(this.Skill(), i + 1, this.fivePercentRankSignals[i]);
     }
     this.rankBonusSignal = this.signalStore.GetSkillSignal(this.Skill(), SkillFieldType.RankBonus);
-    // console.log(this.rankBonusSignal());
-    // this.skillRankBonusControl
+    this.applySkillRestrictions();
+  }
+
+  applySkillRestrictions() {
+    const skill = this.Skill();
+    if (skill.HasMaximumNumberOfRanks) {
+      this.showTwoPercentSkillRanks = false;
+      // kill the checkboxes beyond those allowed
+      for (let i: number = 0; i < 10; i++) {
+        if (i + 1 > skill.MaximumNumberOfRanks) {
+          this.fivePercentRankCheckboxes.controls[i].disable();
+        }
+      }
+    }
   }
 }
