@@ -6,4 +6,6 @@ export enum SkillFieldType {
   SpecialBonus1 = "Special Bonus 1",
   SpecialBonus2 = "Special Bonus 2",
   TotalBonus = "Total Bonus",
+  FivePercentRanks = "Five Percent Ranks",
+  TwoPercentRanks = "Two Percent Ranks"
 }

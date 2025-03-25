@@ -49,8 +49,10 @@
         <div class="grid-cell skill-row-div6"><input class="text-box" type="text"></div>
         <div class="grid-cell skill-row-div7"><input class="text-box" type="text" [formControl]="itemBonusControl">
         </div>
-        <div class="grid-cell skill-row-div8"><input class="text-box" type="text"></div>
-        <div class="grid-cell skill-row-div9"><input class="text-box" type="text"></div>
-        <div class="grid-cell skill-row-div10"><input class="text-box" [value]="skillTotalBonusSignal()"
+        <div class="grid-cell skill-row-div8"><input class="text-box" type="text" [formControl]="specialBonusControl1">
+        </div>
+        <div class="grid-cell skill-row-div9"><input class="text-box" type="text" [formControl]="specialBonusControl2">
+        </div>
+        <div class="grid-cell skill-row-div10"><input class="text-box" [value]="skillTotalBonusSignal()" disabled="true"
                         type="text"><span>{{Skill().SkillTypeAbbreviation}}</span></div>
 </div>

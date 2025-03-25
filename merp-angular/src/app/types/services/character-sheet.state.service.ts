@@ -31,14 +31,12 @@ export class CharacterSheetStateService {
     console.log(`this is the ChraracterSheetStateService constructor!`);
     this.AllStats = systemDataService.GetAllStats();
     this.MovingManeuverSkills = systemDataService.GetSkillsByCategory("Movement And Maneuver");
-    console.log(this.MovingManeuverSkills);
   }
 
   public loadCharacter(characterId: number) {
     const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
       this.character = findCharacterDataResult.value;
-      console.log('loaded character', this.character);
     } else {
       console.log(`couldn't find that character!`);
     }
@@ -81,90 +79,8 @@ export class CharacterSheetStateService {
     return foundCharacterSkill;
   }
 
-
   public initializeComputedSignals() {
     console.log('initializeComputedSignals');
-    // any signals that are constructed with toSignal()
-    // to capture changes from a control's observable
-    // will need to be initialized from the component
-
-    this.StatNames.forEach(stat => {
-      const normalBonusSignal = computed(() => {
-        if (this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.NormalBonus)) {
-          const statValueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
-          this.GetCharacterStatByName(stat).Value = statValueSignal();
-          const bonus = this.calculateNormalBonus(this.GetCharacterStatByName(stat).Value);
-          this.GetCharacterStatByName(stat).NormalBonus = bonus;
-          this.AutoSaveItem();
-          return `+${bonus}`;
-        } else {
-          return '';
-        }
-      });
-      this.characterSheetSignalStore.AddStatSignal(stat, StatFieldType.NormalBonus, normalBonusSignal);
-
-      const totalBonusSignal = computed(() => {
-        if (this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.RaceBonus)) {
-          //this.character.Strength.Value = this.characterSheetState.StrengthValue();
-          const valueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
-          const normalBonus = this.calculateNormalBonus(valueSignal());
-          const raceBonusSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.RaceBonus);
-          const raceBonus = parseInt(raceBonusSignal());
-          const totalBonus = normalBonus + raceBonus;
-          // console.log()
-          this.GetCharacterStatByName(stat).RaceBonus = raceBonus;
-          this.GetCharacterStatByName(stat).TotalBonus = totalBonus;
-          this.AutoSaveItem();
-          return `+${totalBonus}`;
-        } else {
-          return '';
-        }
-      });
-      this.characterSheetSignalStore.AddStatSignal(stat, StatFieldType.TotalBonus, totalBonusSignal);
-    });
-
-    this.MovingManeuverSkills.forEach(skill => {
-      console.log(`about to create a computed signal for skill ${skill.Name}`);
-      const rankBonusSignal = computed(() => {
-        console.log(`in computed signal for rank bonus for skill ${skill.Name}`);
-        let rankBonus = 0;
-        const rankSignals = this.characterSheetSignalStore.GetAllFivePercentSkillRankSignals(skill);
-        console.log(`Found ${rankSignals.length} rank signals for ${skill.Name}`);
-        rankSignals.forEach(rankSignal => {
-          const checked = rankSignal();
-          if (checked) {
-            rankBonus = rankBonus + 5;
-          }
-          console.log('value of checked signal:', checked);
-        });
-
-        // TODO - sort out how character skill bonuses are set on the
-        // character and save the value
-        console.log(`came up with a rank bonus of ${rankBonus}`);
-        this.AutoSaveItem();
-        return `+${rankBonus}`;
-      });
-      this.characterSheetSignalStore.AddSkillSignal(skill, SkillFieldType.RankBonus, rankBonusSignal);
-
-      const totalSkillBonusSignal = computed(() => {
-        const rankBonusSignal = this.characterSheetSignalStore.GetSkillSignal(skill, SkillFieldType.RankBonus);
-        const itemBonusSignal = this.characterSheetSignalStore.GetSkillSignal(skill, SkillFieldType.ItemBonus);
-        const statBonusSignal = this.characterSheetSignalStore.GetStatSignal(skill.Name, StatFieldType.TotalBonus);
-        // const raceBonusSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.RaceBonus);
-        // const raceBonus = parseInt(raceBonusSignal());
-        const rankBonus = parseInt(rankBonusSignal());
-        const itemBonus = parseInt(itemBonusSignal());
-        // const statBonus = parseInt(statBonusSignal());
-
-        const totalBonus = rankBonus + itemBonus;// + statBonus;
-        // console.log()
-        this.GetCharacterSkillByName(skill.Name).TotalBonus = totalBonus;
-        this.AutoSaveItem();
-        return `+${totalBonus}`;
-      });
-      this.characterSheetSignalStore.AddSkillSignal(skill, SkillFieldType.TotalBonus, totalSkillBonusSignal);
-    });
-
   }
 
   private AutoSaveItem(): void {
@@ -172,21 +88,54 @@ export class CharacterSheetStateService {
     this.characterDataService.setItem(this.character);
   }
 
-  public calculateNormalBonus(value: number): number {
-    if (value == 1) { return -25; }
-    if (value == 2) { return -20; }
-    if (value <= 4) { return -15; }
-    if (value <= 9) { return -10; }
-    if (value <= 24) { return -5; }
-    if (value <= 74) { return 0; }
-    if (value <= 89) { return 5; }
-    if (value <= 94) { return 10; }
-    if (value <= 97) { return 15; }
-    if (value <= 99) { return 20; }
-    if (value == 100) { return 25; }
-    if (value == 101) { return 30; }
-    if (value == 102) { return 35; }
-    return 0;
+  public SetCharacterStatField(stat: Stat, value: number, fieldType: StatFieldType): void{
+    const characterStat = this.GetCharacterStatByName(stat.Name);
+    switch (fieldType) {
+      case StatFieldType.Value:
+        characterStat.Value = value;
+        break;
+      case StatFieldType.NormalBonus:
+        characterStat.NormalBonus = value;
+        break;
+      case StatFieldType.RaceBonus:
+        characterStat.RaceBonus = value;
+        break;
+      case StatFieldType.TotalBonus:
+        characterStat.TotalBonus = value;
+        break;
+    }
+    this.AutoSaveItem()
+  }
+
+  public SetCharacterSkillField(skill: Skill, value: number, fieldType: SkillFieldType): void {
+    const characterSkill = this.GetCharacterSkillByName(skill.Name);
+    switch (fieldType) {
+      case SkillFieldType.RankBonus:
+        characterSkill.RankBonus = value;
+        break;
+      case SkillFieldType.ItemBonus:
+        characterSkill.ItemBonus = value;
+        break;
+      case SkillFieldType.StatBonus:
+        characterSkill.StatBonus = value;
+        break;
+      case SkillFieldType.ProfessionalBonus:
+        characterSkill.ProfessionalBonus = value;
+        break;
+      case SkillFieldType.SpecialBonus1:
+        characterSkill.SpecialBonus1 = value;
+        break;
+      case SkillFieldType.SpecialBonus2:
+        characterSkill.SpecialBonus2 = value;
+        break;
+      case SkillFieldType.FivePercentRanks:
+        characterSkill.FivePercentRanks = value;
+        break;
+      case SkillFieldType.TwoPercentRanks:
+        characterSkill.TwoPercentRanks = value;
+        break;
+    }
+    this.AutoSaveItem();
   }
 
 }

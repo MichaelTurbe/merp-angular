@@ -178,4 +178,32 @@ export class SystemDataService {
     if (foundStat) { return foundStat; }
     else { return this.stats[0]; }
   }
+
+  CalculateNormalBonus(value: number): number {
+    if (value == 1) { return -25; }
+    if (value == 2) { return -20; }
+    if (value <= 4) { return -15; }
+    if (value <= 9) { return -10; }
+    if (value <= 24) { return -5; }
+    if (value <= 74) { return 0; }
+    if (value <= 89) { return 5; }
+    if (value <= 94) { return 10; }
+    if (value <= 97) { return 15; }
+    if (value <= 99) { return 20; }
+    if (value == 100) { return 25; }
+    if (value == 101) { return 30; }
+    if (value == 102) { return 35; }
+    return 0;
+  }
+
+  isNumber(value?: string | number): boolean {
+    return ((value != null) &&
+      (value !== '') &&
+      !isNaN(Number(value.toString())));
+  }
+
+  formatBonusPrefix(bonus: number) {
+    if (bonus < 0) { return `${bonus}`; }
+    else { return `+${bonus}`; }
+  }
 }

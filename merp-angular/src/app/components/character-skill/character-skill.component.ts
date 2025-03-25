@@ -6,6 +6,7 @@ import { CharacterSheetStateService } from '../../types/services/character-sheet
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { StatFieldType } from '../../types/models/StatFieldType';
+import { SystemDataService } from '../../types/services/system.data.service';
 
 @Component({
   selector: 'app-character-skill',
@@ -22,6 +23,11 @@ export class CharacterSkillComponent {
 
   itemBonusControl = new FormControl('');
   itemBonusSignal!: Signal<any>;
+
+  specialBonusControl1 = new FormControl('');
+  specialBonusSignal1: Signal<any>;
+  specialBonusControl2 = new FormControl('');
+  specialBonusSignal2: Signal<any>;
 
   fivePercentRankCheckbox1 = new FormControl(false);
   fivePercentRankCheckbox2 = new FormControl(false);
@@ -43,11 +49,11 @@ export class CharacterSkillComponent {
   twoPercentRankCheckbox5 = new FormControl(false);
 
   valueSignal: Signal<any>;
-
   rankBonusSignal: Signal<any>;
 
   constructor(protected signalStore: CharacterSheetSignalStore,
-    protected context: CharacterSheetStateService
+    protected context: CharacterSheetStateService,
+    protected systemDataService: SystemDataService
   ) {
     this.gatherCheckBoxControls();
     console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
@@ -66,6 +72,16 @@ export class CharacterSkillComponent {
       this.itemBonusControl.valueChanges
     );
     this.itemBonusSignal = itemBonusSignal;
+
+    let specialBonusSignal1 = toSignal(
+      this.specialBonusControl1.valueChanges
+    );
+    this.specialBonusSignal1 = specialBonusSignal1;
+
+    let specialBonusSignal2 = toSignal(
+      this.specialBonusControl2.valueChanges
+    );
+    this.specialBonusSignal2 = specialBonusSignal2;
   }
 
   gatherCheckBoxControls() {
@@ -88,21 +104,65 @@ export class CharacterSkillComponent {
   }
 
   ngOnInit() {
-    console.log(`Stat for this skill: ${this.Skill().Stat.Name}`);
     this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
     console.log("the stat total bonus:", this.statTotalBonusSignal());
-    // const something = computed(() => {
 
-    // })
-    for (let i: number = 0; i < this.fivePercentRankSignals.length; i++) {
-      console.log(`Adding a signal for a 5% rank signal for the skill ${this.Skill().Name} to the store`);
-      this.signalStore.AddFivePercentSkillRankSignal(this.Skill(), i + 1, this.fivePercentRankSignals[i]);
-    }
-    this.rankBonusSignal = this.signalStore.GetSkillSignal(this.Skill(), SkillFieldType.RankBonus);
-    this.skillTotalBonusSignal = this.signalStore.GetSkillSignal(this.Skill(), SkillFieldType.TotalBonus)
-    this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.ItemBonus, this.itemBonusSignal);
+    this.rankBonusSignal = computed(() => {
+      console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
+      let rankBonus = 0;
+      const rankSignals = this.fivePercentRankSignals;
+      console.log(`Found ${rankSignals.length} rank signals for ${this.Skill().Name}`);
+      rankSignals.forEach(rankSignal => {
+        const checked = rankSignal();
+        if (checked) {
+          rankBonus = rankBonus + 5;
+        }
+        console.log('value of checked signal:', checked);
+      });
+
+      // TODO save the value in the state service?
+      console.log(`came up with a rank bonus of ${rankBonus}`);
+      return `+${rankBonus}`;
+    });
+
+    this.skillTotalBonusSignal = computed(() => {
+      let rankBonus = 0;
+      if (this.systemDataService.isNumber(this.rankBonusSignal())) {
+        rankBonus = parseInt(this.rankBonusSignal());
+      }
+      console.log(`Rank bonus is: ${rankBonus}`);
+      let itemBonus = 0;
+      if (this.systemDataService.isNumber(this.itemBonusSignal())) {
+        itemBonus = parseInt(this.itemBonusSignal());
+      }
+      console.log(`Item bonus is: ${itemBonus}`);
+
+      let specialBonus2 = 0;
+      if (this.Skill().HasInherentSpecialBonus) {
+        specialBonus2 = this.Skill().InherentSpecialBonus;
+      } else {
+        if (this.systemDataService.isNumber(this.specialBonusSignal2())) {
+          specialBonus2 = parseInt(this.specialBonusSignal2());
+        }
+      }
+
+      let statBonus = 0;
+      if (this.systemDataService.isNumber(this.statTotalBonusSignal())) {
+        statBonus = parseInt(this.statTotalBonusSignal());
+      }
+      console.log(`Stat bonus is: ${statBonus}`);
+
+      const totalBonus = rankBonus + itemBonus + statBonus + specialBonus2;
+      return this.systemDataService.formatBonusPrefix(totalBonus);
+    });
+    this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.TotalBonus, this.skillTotalBonusSignal);
 
     this.applySkillRestrictions();
+
+    if (this.Skill().HasInherentSpecialBonus) {
+      this.specialBonusControl2.setValue(this.Skill().InherentSpecialBonus.toString());
+      this.specialBonusControl2.disable();
+    }
   }
 
   applySkillRestrictions() {
