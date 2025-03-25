@@ -15,4 +15,5 @@ export interface Skill {
   CanHaveItemBonus: boolean;
   InherentSpecialBonus: number;
   HasInherentSpecialBonus: boolean;
+  SkillTypeAbbreviation: string;
 }

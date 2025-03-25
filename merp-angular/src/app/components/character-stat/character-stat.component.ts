@@ -17,10 +17,10 @@ export class CharacterStatComponent {
   valueControl = new FormControl('');
   bonusControl = new FormControl('');
   raceBonusControl = new FormControl('');
-  valueSignal!: Signal<any>;
-  raceBonusSignal!: Signal<any>;
-  normalBonusSignal!: Signal<any>;
-  totalBonusSignal!: Signal<any>;
+  valueSignal: Signal<any>;
+  raceBonusSignal: Signal<any>;
+  normalBonusSignal: Signal<any>;
+  totalBonusSignal: Signal<any>;
 
   constructor(protected context: CharacterSheetStateService,
     protected signalStore: CharacterSheetSignalStore
@@ -29,7 +29,7 @@ export class CharacterStatComponent {
       this.valueControl.valueChanges
     );
     this.valueSignal = valueSignal;
-    
+
 
     let raceBonusSignal = toSignal(
       this.raceBonusControl.valueChanges

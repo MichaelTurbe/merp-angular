@@ -18,11 +18,6 @@ export class SystemDataService {
     this.initializeStats();
     this.initializeSkillCategories();
     this.initializeSkills();
-    console.log(this.stats);
-    console.log("skillCategories", this.skillCategories);
-    console.log("skillCategoriesByName", this.skillCategoriesByName);
-    console.log("skills", this.skills);
-    console.log("skillsByCategory", this.skillsByCategory);
   }
 
   initializeSkillCategories() {
@@ -59,7 +54,8 @@ export class SystemDataService {
       CanHaveProfessionalBonus: false,
       CanHaveItemBonus: true,
       InherentSpecialBonus: 0,
-      HasInherentSpecialBonus: true
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "MM"
     } as Skill;
     this.skills.push(noArmor);
     skillsForMovementAndManeuver.push(noArmor);
@@ -76,7 +72,8 @@ export class SystemDataService {
       CanHaveProfessionalBonus: false,
       CanHaveItemBonus: true,
       InherentSpecialBonus: -15,
-      HasInherentSpecialBonus: true
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "MM"
     } as Skill;
     this.skills.push(softLeather);
     skillsForMovementAndManeuver.push(softLeather);
@@ -93,7 +90,8 @@ export class SystemDataService {
       CanHaveProfessionalBonus: false,
       CanHaveItemBonus: true,
       InherentSpecialBonus: -30,
-      HasInherentSpecialBonus: true
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "MM"
     } as Skill;
     this.skills.push(rigidLeather);
     skillsForMovementAndManeuver.push(rigidLeather);
@@ -110,7 +108,8 @@ export class SystemDataService {
       CanHaveProfessionalBonus: false,
       CanHaveItemBonus: true,
       InherentSpecialBonus: -45,
-      HasInherentSpecialBonus: true
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "MM"
     } as Skill;
     this.skills.push(chain);
     skillsForMovementAndManeuver.push(chain);
@@ -127,7 +126,8 @@ export class SystemDataService {
       CanHaveProfessionalBonus: false,
       CanHaveItemBonus: true,
       InherentSpecialBonus: -60,
-      HasInherentSpecialBonus: true
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "MM"
     } as Skill;
     this.skills.push(plate);
     skillsForMovementAndManeuver.push(plate);

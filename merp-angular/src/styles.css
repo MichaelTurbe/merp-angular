@@ -19,6 +19,7 @@
   width: 100%;
   border: 0px;
   border-bottom: 1px solid darkslategray;
+  text-align: center;
 }
 
 .character-stats-grid {
@@ -60,7 +61,7 @@
 
 .skill-row-grid {
   display: grid;
-  grid-template-columns: 1.5fr 2fr 1fr repeat(7, .5fr);
+  grid-template-columns: 1.5fr 2fr 1fr .5fr .75fr repeat(4, .5fr) .75fr;
   grid-template-rows: 1fr;
   grid-column-gap: 5px;
   grid-row-gap: 5px;

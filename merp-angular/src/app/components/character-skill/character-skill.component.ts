@@ -17,7 +17,11 @@ export class CharacterSkillComponent {
   Skill = input.required<Skill>();
   fivePercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
   showTwoPercentSkillRanks = true;
-  statTotalBonusSignal!: Signal<any>;
+  statTotalBonusSignal: Signal<any>;
+  skillTotalBonusSignal: Signal<any>;
+
+  itemBonusControl = new FormControl('');
+  itemBonusSignal!: Signal<any>;
 
   fivePercentRankCheckbox1 = new FormControl(false);
   fivePercentRankCheckbox2 = new FormControl(false);
@@ -38,9 +42,9 @@ export class CharacterSkillComponent {
   twoPercentRankCheckbox4 = new FormControl(false);
   twoPercentRankCheckbox5 = new FormControl(false);
 
-  valueSignal!: Signal<any>;
+  valueSignal: Signal<any>;
 
-  rankBonusSignal!: Signal<any>;
+  rankBonusSignal: Signal<any>;
 
   constructor(protected signalStore: CharacterSheetSignalStore,
     protected context: CharacterSheetStateService
@@ -57,6 +61,11 @@ export class CharacterSkillComponent {
       this.fivePercentRankSignals.push(fivePercentRankCheckSignal);
       console.log("adding fivePercentRank signal to array");
     });
+
+    let itemBonusSignal = toSignal(
+      this.itemBonusControl.valueChanges
+    );
+    this.itemBonusSignal = itemBonusSignal;
   }
 
   gatherCheckBoxControls() {
@@ -90,6 +99,9 @@ export class CharacterSkillComponent {
       this.signalStore.AddFivePercentSkillRankSignal(this.Skill(), i + 1, this.fivePercentRankSignals[i]);
     }
     this.rankBonusSignal = this.signalStore.GetSkillSignal(this.Skill(), SkillFieldType.RankBonus);
+    this.skillTotalBonusSignal = this.signalStore.GetSkillSignal(this.Skill(), SkillFieldType.TotalBonus)
+    this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.ItemBonus, this.itemBonusSignal);
+
     this.applySkillRestrictions();
   }
 
