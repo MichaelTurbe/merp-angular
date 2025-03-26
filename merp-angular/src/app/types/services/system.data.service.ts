@@ -37,6 +37,122 @@ export class SystemDataService {
   }
   initializeSkills() {
     this.initializeMovementAndManeuverSkills();
+    this.initializeWeaponSkills();
+  }
+
+  initializeWeaponSkills() {
+    const weaponSkills = new Array<Skill>();
+
+    const oneHandedEdged = {
+      id: 1,
+      Name: "1-H Edged",
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Strength"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(oneHandedEdged);
+    weaponSkills.push(oneHandedEdged);
+
+    const oneHandedConcussion = {
+      id: 2,
+      Name: "1-H Concussion",
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Strength"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(oneHandedConcussion);
+    weaponSkills.push(oneHandedConcussion);
+
+    const twoHanded = {
+      id: 3,
+      Name: "2-Handed",
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Strength"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(twoHanded);
+    weaponSkills.push(twoHanded);
+
+    const thrown = {
+      id: 4,
+      Name: "Thrown",
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(thrown);
+    weaponSkills.push(thrown);
+
+    const missile = {
+      id: 5,
+      Name: "Missile",
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(thrown);
+    weaponSkills.push(thrown);
+
+    const poleArms = {
+      id: 6,
+      Name: "Pole arms",
+      SkillCategory: this.GetSkillCategoryByName("WeaponSkills"),
+      CanHaveRanks: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Strength"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(poleArms);
+    weaponSkills.push(poleArms);
+
+    this.skillsByCategory.set("Weapon Skills", weaponSkills);
+    console.log('weapon skills:', weaponSkills);
   }
 
   initializeMovementAndManeuverSkills() {

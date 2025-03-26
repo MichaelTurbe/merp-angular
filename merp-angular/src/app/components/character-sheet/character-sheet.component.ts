@@ -27,6 +27,6 @@ export class CharacterSheetComponent {
         this.context.loadCharacter(characterId);
       }
     }
-    console.log('the loaded character was:', this.context.character);
+    // console.log('the loaded character was:', this.context.character);
   }
 }

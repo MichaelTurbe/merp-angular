@@ -12,7 +12,7 @@ import { CharacterSkill } from "../models/CharacterSkill";
 
 @Injectable()
 export class CharacterSheetStateService {
-  public character!: Character;
+  private character!: Character;
 
   public StatNames = ["Strength",
     "Agility",
@@ -22,7 +22,8 @@ export class CharacterSheetStateService {
     "Presence"];
 
   public AllStats!: Array<Stat>;
-  MovingManeuverSkills: Array<Skill> = new Array<Skill>();
+  public MovingManeuverSkills: Array<Skill> = new Array<Skill>();
+  public WeaponSkills: Array<Skill> = new Array<Skill>();
 
   constructor(private characterDataService: CharacterDataService,
     private characterSheetSignalStore: CharacterSheetSignalStore,
@@ -31,6 +32,7 @@ export class CharacterSheetStateService {
     console.log(`this is the ChraracterSheetStateService constructor!`);
     this.AllStats = systemDataService.GetAllStats();
     this.MovingManeuverSkills = systemDataService.GetSkillsByCategory("Movement And Maneuver");
+    this.WeaponSkills = systemDataService.GetSkillsByCategory("Weapon Skills");
   }
 
   public loadCharacter(characterId: number) {
@@ -73,6 +75,17 @@ export class CharacterSheetStateService {
     let foundCharacterSkill: CharacterSkill = null;
     characterSkills.forEach(characterSkill => {
       if (characterSkill.Skill.Name === skillName) {
+        foundCharacterSkill = characterSkill;
+      }
+    });
+    return foundCharacterSkill;
+  }
+
+  GetCharacterSkillBy(skill: Skill): CharacterSkill {
+    const characterSkills = this.character.Skills;
+    let foundCharacterSkill: CharacterSkill = null;
+    characterSkills.forEach(characterSkill => {
+      if (characterSkill.Skill.Name === skill.Name) {
         foundCharacterSkill = characterSkill;
       }
     });

@@ -34,4 +34,40 @@
   @for (skill of context.MovingManeuverSkills; track skill.id) {
   <app-character-skill [Skill]="skill"></app-character-skill>
   }
+
+  <div class="skill-row-grid">
+    <div class="grid-cell skill-row-div1 grid-header-text">
+      <span>Weapon Skills</span>
+    </div>
+    <div class="grid-cell skill-row-div2 grid-header-text">
+      <span>5% Ranks</span>
+    </div>
+    <div class="grid-cell skill-row-div3 grid-header-text">
+      <span>2% Ranks</span>
+    </div>
+    <div class="grid-cell skill-row-div4 grid-header-text">
+      <span>Rank</span>
+    </div>
+    <div class="grid-cell skill-row-div5 grid-header-text">
+      <span>Stat</span>
+    </div>
+    <div class="grid-cell skill-row-div6 grid-header-text">
+      <span>Prof</span>
+    </div>
+    <div class="grid-cell skill-row-div7 grid-header-text">
+      <span>Item</span>
+    </div>
+    <div class="grid-cell skill-row-div8 grid-header-text">
+      <span>Spec</span>
+    </div>
+    <div class="grid-cell skill-row-div9 grid-header-text">
+      <span>Spec</span>
+    </div>
+    <div class="grid-cell skill-row-div10 grid-header-text">
+      <span>Total</span>
+    </div>
+  </div>
+  @for (weaponSkill of context.WeaponSkills; track weaponSkill.id) {
+  <app-character-skill [Skill]="weaponSkill"></app-character-skill>
+  }
 </div>

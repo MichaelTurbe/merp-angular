@@ -17,6 +17,7 @@ import { SystemDataService } from '../../types/services/system.data.service';
 export class CharacterSkillComponent {
   Skill = input.required<Skill>();
   fivePercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
+  twoPercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
   showTwoPercentSkillRanks = true;
   statTotalBonusSignal: Signal<any>;
   skillTotalBonusSignal: Signal<any>;
@@ -41,12 +42,13 @@ export class CharacterSkillComponent {
   fivePercentRankCheckbox10 = new FormControl(false);
   fivePercentRankSignals = new Array<Signal<any>>();
 
-  twoPercentRankCheckboxes: Array<FormControl> = new Array<FormControl>();
+
   twoPercentRankCheckbox1 = new FormControl(false);
   twoPercentRankCheckbox2 = new FormControl(false);
   twoPercentRankCheckbox3 = new FormControl(false);
   twoPercentRankCheckbox4 = new FormControl(false);
   twoPercentRankCheckbox5 = new FormControl(false);
+  twoPercentRankSignals = new Array<Signal<any>>();
 
   valueSignal: Signal<any>;
   rankBonusSignal: Signal<any>;
@@ -59,13 +61,17 @@ export class CharacterSkillComponent {
     console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
 
     this.fivePercentRankCheckboxes.controls.forEach(control => {
-      console.log('yo should be 10 of these');
       let fivePercentRankCheckSignal = toSignal(
         control.valueChanges
       );
-
       this.fivePercentRankSignals.push(fivePercentRankCheckSignal);
-      console.log("adding fivePercentRank signal to array");
+    });
+
+    this.twoPercentRankCheckboxes.controls.forEach(control => {
+      let twoPercentRankCheckSignal = toSignal(
+        control.valueChanges
+      );
+      this.twoPercentRankSignals.push(twoPercentRankCheckSignal);
     });
 
     let itemBonusSignal = toSignal(
@@ -104,33 +110,66 @@ export class CharacterSkillComponent {
   }
 
   ngOnInit() {
+    // set control values from character:
+    const itemBonus = this.context.GetCharacterSkillBy(this.Skill()).ItemBonus;
+    if (itemBonus != 0) {
+      this.itemBonusControl.setValue(itemBonus.toString());
+    }
+
+    if (this.Skill().HasInherentSpecialBonus) {
+      this.specialBonusControl2.setValue(this.Skill().InherentSpecialBonus.toString());
+      this.specialBonusControl2.disable();
+    }
+    
+    let numberOfFivePercentRanks = this.context.GetCharacterSkillBy(this.Skill()).FivePercentRanks;
+    for (let y = 0; y < numberOfFivePercentRanks; y++) {
+      this.fivePercentRankCheckboxes.controls[y].setValue(true);
+    }
+    let numberOfTwoPercentRanks = this.context.GetCharacterSkillBy(this.Skill()).TwoPercentRanks;
+    for (let z = 0; z < numberOfTwoPercentRanks; z++) {
+      this.twoPercentRankCheckboxes.controls[z].setValue(true);
+    }
+
     this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
-    console.log("the stat total bonus:", this.statTotalBonusSignal());
 
     this.rankBonusSignal = computed(() => {
       console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
+
       let rankBonus = 0;
-      const rankSignals = this.fivePercentRankSignals;
-      console.log(`Found ${rankSignals.length} rank signals for ${this.Skill().Name}`);
-      rankSignals.forEach(rankSignal => {
+      const fivePercentRankSignals = this.fivePercentRankSignals;
+      let numberOfFivePercentRanks = 0;
+      fivePercentRankSignals.forEach(rankSignal => {
         const checked = rankSignal();
         if (checked) {
           rankBonus = rankBonus + 5;
+          numberOfFivePercentRanks++;
         }
-        console.log('value of checked signal:', checked);
       });
 
-      // TODO save the value in the state service?
+      const twoPercentRankSignals = this.twoPercentRankSignals;
+      let numberOfTwoPercentRanks = 0;
+      twoPercentRankSignals.forEach(rankSignal => {
+        const checked = rankSignal();
+        if (checked) {
+          rankBonus = rankBonus + 5;
+          numberOfTwoPercentRanks++;
+        }
+      });
+
+      this.context.SetCharacterSkillField(this.Skill(), numberOfFivePercentRanks, SkillFieldType.FivePercentRanks);
+      this.context.SetCharacterSkillField(this.Skill(), numberOfTwoPercentRanks, SkillFieldType.TwoPercentRanks);
       console.log(`came up with a rank bonus of ${rankBonus}`);
       return `+${rankBonus}`;
     });
 
     this.skillTotalBonusSignal = computed(() => {
+      console.log(`in computed signal for total bonus for skill ${this.Skill().Name}`);
       let rankBonus = 0;
       if (this.systemDataService.isNumber(this.rankBonusSignal())) {
         rankBonus = parseInt(this.rankBonusSignal());
       }
       console.log(`Rank bonus is: ${rankBonus}`);
+
       let itemBonus = 0;
       if (this.systemDataService.isNumber(this.itemBonusSignal())) {
         itemBonus = parseInt(this.itemBonusSignal());
@@ -153,19 +192,19 @@ export class CharacterSkillComponent {
       console.log(`Stat bonus is: ${statBonus}`);
 
       const totalBonus = rankBonus + itemBonus + statBonus + specialBonus2;
+      //save values in state service, sine this computed signal will be called when basically any field values change
+      this.context.SetCharacterSkillField(this.Skill(), totalBonus, SkillFieldType.TotalBonus);
+      this.context.SetCharacterSkillField(this.Skill(), itemBonus, SkillFieldType.ItemBonus);
+      this.context.SetCharacterSkillField(this.Skill(), rankBonus, SkillFieldType.RankBonus);
       return this.systemDataService.formatBonusPrefix(totalBonus);
     });
+    // other spots will care about the total bonus of skills
     this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.TotalBonus, this.skillTotalBonusSignal);
 
-    this.applySkillRestrictions();
-
-    if (this.Skill().HasInherentSpecialBonus) {
-      this.specialBonusControl2.setValue(this.Skill().InherentSpecialBonus.toString());
-      this.specialBonusControl2.disable();
-    }
+    this.applySkillRankRestrictions();
   }
 
-  applySkillRestrictions() {
+  applySkillRankRestrictions() {
     const skill = this.Skill();
     if (skill.HasMaximumNumberOfRanks) {
       this.showTwoPercentSkillRanks = false;

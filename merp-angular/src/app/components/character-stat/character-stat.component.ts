@@ -46,7 +46,9 @@ export class CharacterStatComponent {
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.RaceBonus, this.raceBonusSignal);
     // now set the initial values into their controls to trigger the stuff
     this.valueControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).Value.toString());
-    this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
+    if (this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus > 0) {
+      this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
+    }
 
     this.normalBonusSignal = computed(() => {
       const value = this.valueSignal();
@@ -75,6 +77,7 @@ export class CharacterStatComponent {
       }
 
       const totalBonus = normalBonus + raceBonus;
+      this.context.SetCharacterStatField(this.Stat(), raceBonus, StatFieldType.RaceBonus);
       this.context.SetCharacterStatField(this.Stat(), totalBonus, StatFieldType.TotalBonus);
       return this.systemDataService.formatBonusPrefix(totalBonus);
     });
