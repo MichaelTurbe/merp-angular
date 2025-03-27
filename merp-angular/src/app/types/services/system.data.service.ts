@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { Skill } from "../models/Skill";
 import { SkillCategory } from "../models/SkillCategory";
 import { Stat } from "../models/Stat";
+import { Race } from "../models/Race";
+import { RaceSkillRank } from "../models/RaceSkillRank";
+import { RaceStatBonus } from "../models/RaceStatBonus";
 
 @Injectable({ providedIn: 'root' })
 export class SystemDataService {
@@ -14,10 +17,13 @@ export class SystemDataService {
   stats: Array<Stat> = new Array<Stat>();
   statsByName: Map<string, Stat> = new Map<string, Stat>();
 
+  races: Array<Race> = new Array<Race>();
+
   constructor() {
     this.initializeStats();
     this.initializeSkillCategories();
     this.initializeSkills();
+    this.initializeRaces();
   }
 
   initializeSkillCategories() {
@@ -321,5 +327,45 @@ export class SystemDataService {
   formatBonusPrefix(bonus: number) {
     if (bonus < 0) { return `${bonus}`; }
     else { return `+${bonus}`; }
+  }
+
+  initializeRaces() {
+    let Dwarves = {
+      id: 1,
+      Name: "Dwarves",
+      IsMannish: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Agility"), Bonus: 5 } as RaceStatBonus
+      ]
+    } as Race; this.races.push(Dwarves);
+
+    let Umli = { id: 2, Name: "Umli", IsMannish: false } as Race; this.races.push(Umli);
+    let HalfElves = { id: 3, Name: "Half-elves", IsMannish: false } as Race; this.races.push(HalfElves);
+    let NoldorElves = { id: 4, Name: "Noldor Elves", IsMannish: false } as Race; this.races.push(NoldorElves);
+    let SindarElves = { id: 5, Name: "Sindar Elves", IsMannish: false } as Race; this.races.push(SindarElves);
+    let SilvanElves = { id: 6, Name: "Silvan Elves", IsMannish: false } as Race; this.races.push(SilvanElves);
+    let Hobbits = { id: 7, Name: "Hobbits", IsMannish: false } as Race; this.races.push(Hobbits);
+    let CommonOrcs = { id: 8, Name: "Common Orcs", IsMannish: false } as Race; this.races.push(CommonOrcs);
+    let UrukHai = { id: 9, Name: "Uruk-hai", IsMannish: false } as Race; this.races.push(UrukHai);
+    let HalfOrcs = { id: 10, Name: "Half-orcs", IsMannish: false } as Race; this.races.push(HalfOrcs);
+    let NormalTrolls = { id: 11, Name: "Normal Trolls", IsMannish: false } as Race; this.races.push(NormalTrolls);
+    let OlogHai = { id: 12, Name: "Olog-hai", IsMannish: false } as Race; this.races.push(OlogHai);
+    let HalfTrolls = { id: 13, Name: "Half-trolls", IsMannish: false } as Race; this.races.push(HalfTrolls);
+    let Beornings = { id: 14, Name: "Beornings", IsMannish: true } as Race; this.races.push(Beornings);
+    let BlackNumenoreans = { id: 15, Name: "Black Numenoreans", IsMannish: true } as Race; this.races.push(BlackNumenoreans);
+    let Corsairs = { id: 16, Name: "Corsairs", IsMannish: true } as Race; this.races.push(Corsairs);
+    let Dorwinrim = { id: 17, Name: "Dorwinrim", IsMannish: true } as Race; this.races.push(Dorwinrim);
+    let Dunedain = { id: 18, Name: "Dunedain", IsMannish: true } as Race; this.races.push(Dunedain);
+    let Dunlendings = { id: 19, Name: "Dunlendings", IsMannish: true } as Race; this.races.push(Dunlendings);
+    let Easterlings = { id: 20, Name: "Easterlings", IsMannish: true } as Race; this.races.push(Easterlings);
+    let Haradrim = { id: 21, Name: "Haradrim", IsMannish: true } as Race; this.races.push(Haradrim);
+    let Lossoth = { id: 22, Name: "Lossoth", IsMannish: true } as Race; this.races.push(Lossoth);
+    let Rohirrim = { id: 23, Name: "Rohirrim", IsMannish: true } as Race; this.races.push(Rohirrim);
+    let RuralMen = { id: 24, Name: "Rural Men", IsMannish: true } as Race; this.races.push(RuralMen);
+    let UrbanMen = { id: 25, Name: "Urban Men", IsMannish: true } as Race; this.races.push(UrbanMen);
+    let Variags = { id: 26, Name: "Variags", IsMannish: true } as Race; this.races.push(Variags);
+    let Woodmen = { id: 27, Name: "Woodmen", IsMannish: true } as Race; this.races.push(Woodmen);
+    let Woses = { id: 28, Name: "Woses", IsMannish: true } as Race; this.races.push(Woses);
   }
 }
