@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { StatFieldType } from '../../types/models/StatFieldType';
 import { Stat } from '../../types/models/Stat';
 import { SystemDataService } from '../../types/services/system.data.service';
+import { Race } from '../../types/models/Race';
 @Component({
   selector: 'app-character-stat',
   imports: [ReactiveFormsModule],
@@ -17,7 +18,7 @@ export class CharacterStatComponent {
   Stat = input.required<Stat>();
   valueControl = new FormControl('');
   bonusControl = new FormControl('');
-  raceBonusControl = new FormControl('');
+  // raceBonusControl = new FormControl('');
 
   valueSignal: Signal<any>;
   raceBonusSignal: Signal<any>;
@@ -33,11 +34,11 @@ export class CharacterStatComponent {
     );
     this.valueSignal = valueSignal;
 
-
-    let raceBonusSignal = toSignal(
-      this.raceBonusControl.valueChanges
-    );
-    this.raceBonusSignal = raceBonusSignal;
+    // this.raceBonusSignal = this.signalStore.GetRaceSignal();
+    // let raceBonusSignal = toSignal(
+    //   this.raceBonusControl.valueChanges
+    // );
+    // this.raceBonusSignal = raceBonusSignal;
 
   }
 
@@ -46,9 +47,9 @@ export class CharacterStatComponent {
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.RaceBonus, this.raceBonusSignal);
     // now set the initial values into their controls to trigger the stuff
     this.valueControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).Value.toString());
-    if (this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus > 0) {
-      this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
-    }
+    // if (this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus > 0) {
+    //   this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
+    // }
 
     this.normalBonusSignal = computed(() => {
       const value = this.valueSignal();
@@ -63,6 +64,17 @@ export class CharacterStatComponent {
       return this.systemDataService.formatBonusPrefix(bonus);
     });
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.NormalBonus, this.normalBonusSignal);
+
+    this.raceBonusSignal = computed(() => {
+      const raceSignal = this.signalStore.GetRaceSignal();
+      const race: Race = raceSignal();
+      console.log('race selected elsewhere:', race);
+      if (race) {
+        return this.systemDataService.formatBonusPrefix(this.getRaceBonusForThisStat(race));
+      } else {
+        return 0;
+      }
+    });
 
     this.totalBonusSignal = computed(() => {
       //const valueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
@@ -83,5 +95,19 @@ export class CharacterStatComponent {
     });
 
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.TotalBonus, this.totalBonusSignal);
+  }
+
+  getRaceBonusForThisStat(race: Race) {
+    let bonus = 0;
+    console.log('found race:', race);
+    if (race) {
+      let statBonuses = race.StatBonuses;
+      statBonuses.forEach(statBonus => {
+        if (this.Stat().Name === statBonus.Stat.Name) {
+          bonus = statBonus.Bonus;
+        }
+      });
+    }
+    return bonus;
   }
 }

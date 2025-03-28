@@ -12,8 +12,8 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     super('character');
   }
 
-  createNewCharacter(): Character {
-    let newCharacter = this.getBlankCharacter();
+  createNewCharacter(randomCharacterName: string): Character {
+    let newCharacter = this.getBlankCharacter(randomCharacterName);
     this.setItem(newCharacter);
     return newCharacter;
   }
@@ -22,9 +22,10 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     return this.getNextAvailableIdForType();
   }
 
-  public getBlankCharacter(): Character {
+  public getBlankCharacter(name:string): Character {
     const character = {} as Character;
     character.id = this.getNewCharacterId();
+    character.Name = name;
     character.storageType = 'character';
     console.log(`creating new character with id: ${character.id}`);
     character.Strength = {

@@ -51,4 +51,20 @@ export class LocalStorageRepository<T extends StorageEntity> {
     }
     return usedId;
   }
+
+  getAllItems(): Array<T> {
+    let allItems = new Array<T>();
+    let usedId = 1;
+    let foundNextId = false;
+    while (!foundNextId) {
+      const nextResult = this.getItem(usedId);
+      if (nextResult.success) {
+        allItems.push(nextResult.value);
+        usedId++;
+      } else {
+        foundNextId = true;
+      }
+    }
+    return allItems;
+  }
 }

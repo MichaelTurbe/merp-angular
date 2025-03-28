@@ -1,0 +1,5 @@
+<p>Character Manager:</p>
+<button (click)="createNewCharacter()">Create New Character</button>
+@for(character of allCharacters; track character.id){
+<p><a [routerLink]="['/character', character.id]"> {{character.Name}}</a></p>
+}

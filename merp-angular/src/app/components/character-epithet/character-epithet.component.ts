@@ -19,7 +19,9 @@ export class CharacterEpithetComponent {
   raceTypeControl = new FormControl([]);
   raceControl = new FormControl([]);
   nameSignal: Signal<any>;
+  characterNameSignal: Signal<any>;
   raceTypeSignal: Signal<any>;
+  raceNameSignal: Signal<any>;
   raceSignal: Signal<any>;
   availableRacesSignal: Signal<any>;
   allRaceTypes: Array<KeyValue>;
@@ -27,18 +29,23 @@ export class CharacterEpithetComponent {
 
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
-    protected characterSheetSignalStore: CharacterSheetSignalStore
+    protected characterSheetSignalStore: CharacterSheetSignalStore,
+    protected characterSheetStateService: CharacterSheetStateService
   ) {
 
     this.nameSignal = toSignal(this.nameControl.valueChanges);
     this.raceTypeSignal = toSignal(this.raceTypeControl.valueChanges);
-    this.raceSignal = toSignal(this.raceControl.valueChanges);
-    this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
+    this.raceNameSignal = toSignal(this.raceControl.valueChanges);
+
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
 
   }
 
   ngOnInit() {
+    const characterName = this.context.getCurrentCharacter().Name;
+    if (characterName) {
+      this.nameControl.setValue(characterName);
+    }
 
     this.availableRacesSignal = computed(() => {
       let raceType = this.raceTypeSignal();
@@ -51,8 +58,31 @@ export class CharacterEpithetComponent {
 
     //console.log(this.availableRacesSignal());
 
+    this.raceSignal = computed(() => {
+      const raceName = this.raceNameSignal();
+      console.log(`race name changed to ${raceName}`);
+      if (raceName) {
+        const race = this.systemDataService.GetRaceByName(raceName);
+        return race;
+      } else {
+        return null;
+      }
+    });
 
+    this.characterNameSignal = computed(() => {
+      console.log('CHANGE THE NAME');
+      const name = this.nameSignal();
+      console.log(`name changed to ${name}`);
+      this.characterSheetStateService.SetCharacterName(name);
+      if (name) {
+        return name;
+      } else {
+        return '';
+      }
+    });
 
+    this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
+    this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
   }
 
 }

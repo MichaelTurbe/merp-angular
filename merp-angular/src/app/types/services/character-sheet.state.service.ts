@@ -35,6 +35,10 @@ export class CharacterSheetStateService {
     this.WeaponSkills = systemDataService.GetSkillsByCategory("Weapon Skills");
   }
 
+  public getCurrentCharacter(): Character {
+    return this.character;
+  }
+
   public loadCharacter(characterId: number) {
     const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
@@ -47,7 +51,8 @@ export class CharacterSheetStateService {
 
   public createNewCharacter() {
     console.log('create new character');
-    this.character = this.characterDataService.createNewCharacter();
+    let randomCharacterName = this.systemDataService.GetRandomCharacterName();
+    this.character = this.characterDataService.createNewCharacter(randomCharacterName);
     this.initializeComputedSignals();
   }
 
@@ -98,10 +103,11 @@ export class CharacterSheetStateService {
 
   private AutoSaveItem(): void {
     console.log(`trying to save character`);
+    console.log(this.character)
     this.characterDataService.setItem(this.character);
   }
 
-  public SetCharacterStatField(stat: Stat, value: number, fieldType: StatFieldType): void{
+  public SetCharacterStatField(stat: Stat, value: number, fieldType: StatFieldType): void {
     const characterStat = this.GetCharacterStatByName(stat.Name);
     switch (fieldType) {
       case StatFieldType.Value:
@@ -117,7 +123,7 @@ export class CharacterSheetStateService {
         characterStat.TotalBonus = value;
         break;
     }
-    this.AutoSaveItem()
+    this.AutoSaveItem();
   }
 
   public SetCharacterSkillField(skill: Skill, value: number, fieldType: SkillFieldType): void {
@@ -149,6 +155,13 @@ export class CharacterSheetStateService {
         break;
     }
     this.AutoSaveItem();
+  }
+
+  SetCharacterName(name: string) {
+    console.log(`set character name: ${name}`);
+    this.character.Name = name;
+    console.log(this.character)
+    // this.AutoSaveItem();
   }
 
 }
