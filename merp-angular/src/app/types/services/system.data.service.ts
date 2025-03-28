@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Skill } from "../models/Skill";
 import { SkillCategory } from "../models/SkillCategory";
 import { Stat } from "../models/Stat";
+import { KeyValue } from "../utilities/key-value";
 import { Race } from "../models/Race";
 import { RaceSkillRank } from "../models/RaceSkillRank";
 import { RaceStatBonus } from "../models/RaceStatBonus";
@@ -333,39 +334,120 @@ export class SystemDataService {
     let Dwarves = {
       id: 1,
       Name: "Dwarves",
-      IsMannish: false,
+      Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
-        { Stat: this.GetStatByName("Agility"), Bonus: 5 } as RaceStatBonus
+        { Stat: this.GetStatByName("Agility"), Bonus: -5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 15 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: -5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: -5 } as RaceStatBonus,
       ]
     } as Race; this.races.push(Dwarves);
 
-    let Umli = { id: 2, Name: "Umli", IsMannish: false } as Race; this.races.push(Umli);
-    let HalfElves = { id: 3, Name: "Half-elves", IsMannish: false } as Race; this.races.push(HalfElves);
-    let NoldorElves = { id: 4, Name: "Noldor Elves", IsMannish: false } as Race; this.races.push(NoldorElves);
-    let SindarElves = { id: 5, Name: "Sindar Elves", IsMannish: false } as Race; this.races.push(SindarElves);
-    let SilvanElves = { id: 6, Name: "Silvan Elves", IsMannish: false } as Race; this.races.push(SilvanElves);
-    let Hobbits = { id: 7, Name: "Hobbits", IsMannish: false } as Race; this.races.push(Hobbits);
-    let CommonOrcs = { id: 8, Name: "Common Orcs", IsMannish: false } as Race; this.races.push(CommonOrcs);
-    let UrukHai = { id: 9, Name: "Uruk-hai", IsMannish: false } as Race; this.races.push(UrukHai);
-    let HalfOrcs = { id: 10, Name: "Half-orcs", IsMannish: false } as Race; this.races.push(HalfOrcs);
-    let NormalTrolls = { id: 11, Name: "Normal Trolls", IsMannish: false } as Race; this.races.push(NormalTrolls);
-    let OlogHai = { id: 12, Name: "Olog-hai", IsMannish: false } as Race; this.races.push(OlogHai);
-    let HalfTrolls = { id: 13, Name: "Half-trolls", IsMannish: false } as Race; this.races.push(HalfTrolls);
-    let Beornings = { id: 14, Name: "Beornings", IsMannish: true } as Race; this.races.push(Beornings);
-    let BlackNumenoreans = { id: 15, Name: "Black Numenoreans", IsMannish: true } as Race; this.races.push(BlackNumenoreans);
-    let Corsairs = { id: 16, Name: "Corsairs", IsMannish: true } as Race; this.races.push(Corsairs);
-    let Dorwinrim = { id: 17, Name: "Dorwinrim", IsMannish: true } as Race; this.races.push(Dorwinrim);
-    let Dunedain = { id: 18, Name: "Dunedain", IsMannish: true } as Race; this.races.push(Dunedain);
-    let Dunlendings = { id: 19, Name: "Dunlendings", IsMannish: true } as Race; this.races.push(Dunlendings);
-    let Easterlings = { id: 20, Name: "Easterlings", IsMannish: true } as Race; this.races.push(Easterlings);
-    let Haradrim = { id: 21, Name: "Haradrim", IsMannish: true } as Race; this.races.push(Haradrim);
-    let Lossoth = { id: 22, Name: "Lossoth", IsMannish: true } as Race; this.races.push(Lossoth);
-    let Rohirrim = { id: 23, Name: "Rohirrim", IsMannish: true } as Race; this.races.push(Rohirrim);
-    let RuralMen = { id: 24, Name: "Rural Men", IsMannish: true } as Race; this.races.push(RuralMen);
-    let UrbanMen = { id: 25, Name: "Urban Men", IsMannish: true } as Race; this.races.push(UrbanMen);
-    let Variags = { id: 26, Name: "Variags", IsMannish: true } as Race; this.races.push(Variags);
-    let Woodmen = { id: 27, Name: "Woodmen", IsMannish: true } as Race; this.races.push(Woodmen);
-    let Woses = { id: 28, Name: "Woses", IsMannish: true } as Race; this.races.push(Woses);
+    let Umli = {
+      id: 2, Name: "Umli", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 10 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: -5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: -5 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(Umli);
+
+    let Dunedain = {
+      id: 18, Name: "Dunedain", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 10 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: 5 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(Dunedain);
+
+    let HalfElves = {
+      id: 3, Name: "Half-elves", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Agility"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: 5 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(HalfElves);
+    let NoldorElves = {
+      id: 4, Name: "Noldor Elves", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Agility"), Bonus: 15 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 10 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intelligence"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: 15 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(NoldorElves);
+    let SindarElves = {
+      id: 5, Name: "Sindar Elves", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Agility"), Bonus: 10 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: 5 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(SindarElves);
+    let SilvanElves = {
+      id: 6, Name: "Silvan Elves", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Agility"), Bonus: 10 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: 5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: 10 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(SilvanElves);
+    let Hobbits = {
+      id: 7, Name: "Hobbits", Human: false,
+      StatBonuses: [
+        { Stat: this.GetStatByName("Strength"), Bonus: -20 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Agility"), Bonus: 15 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Constitution"), Bonus: 15 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Intuition"), Bonus: -5 } as RaceStatBonus,
+        { Stat: this.GetStatByName("Presence"), Bonus: -5 } as RaceStatBonus,
+      ]
+    } as Race; this.races.push(Hobbits);
+    // let CommonOrcs = { id: 8, Name: "Common Orcs", Human: false } as Race; this.races.push(CommonOrcs);
+    // let UrukHai = { id: 9, Name: "Uruk-hai", Human: false } as Race; this.races.push(UrukHai);
+    // let HalfOrcs = { id: 10, Name: "Half-orcs", Human: false } as Race; this.races.push(HalfOrcs);
+    // let NormalTrolls = { id: 11, Name: "Normal Trolls", Human: false } as Race; this.races.push(NormalTrolls);
+    // let OlogHai = { id: 12, Name: "Olog-hai", Human: false } as Race; this.races.push(OlogHai);
+    // let HalfTrolls = { id: 13, Name: "Half-trolls", Human: false } as Race; this.races.push(HalfTrolls);
+    let Beornings = { id: 14, Name: "Beornings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Beornings);
+    let BlackNumenoreans = { id: 15, Name: "Black Numenoreans", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(BlackNumenoreans);
+    let Corsairs = { id: 16, Name: "Corsairs", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Corsairs);
+    let Dorwinrim = { id: 17, Name: "Dorwinrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Dorwinrim);
+
+    let Dunlendings = { id: 19, Name: "Dunlendings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Dunlendings);
+    let Easterlings = { id: 20, Name: "Easterlings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Easterlings);
+    let Haradrim = { id: 21, Name: "Haradrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Haradrim);
+    let Lossoth = { id: 22, Name: "Lossoth", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Lossoth);
+    let Rohirrim = { id: 23, Name: "Rohirrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Rohirrim);
+    let RuralMen = { id: 24, Name: "Rural Men", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(RuralMen);
+    let UrbanMen = { id: 25, Name: "Urban Men", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(UrbanMen);
+    let Variags = { id: 26, Name: "Variags", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Variags);
+    let Woodmen = { id: 27, Name: "Woodmen", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Woodmen);
+    let Woses = { id: 28, Name: "Woses", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus] } as Race; this.races.push(Woses);
+  }
+
+  GetAllRaceTypes(): Array<KeyValue> {
+    let keyValues = new Array<KeyValue>();
+    keyValues.push({ id: 1, Name: "Human" } as KeyValue);
+    keyValues.push({ id: 2, Name: "Nonhuman" } as KeyValue);
+    return keyValues;
+  }
+
+  GetRacesByType(raceType: string): Array<Race> {
+    let someRaces = new Array<Race>();
+    let humanValue = true;
+    if (raceType === "Nonhuman") {
+      humanValue = false;
+    }
+    this.races.forEach(race => {
+      if (race.Human == humanValue) { someRaces.push(race); }
+    });
+    return someRaces;
   }
 }

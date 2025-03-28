@@ -79,4 +79,20 @@ export class CharacterSheetSignalStore extends SignalStore {
     }
   }
 
+  public AddRaceSignal(raceSignal: Signal<any>) {
+    const key = `race`;
+    this.add(key, raceSignal);
+  }
+
+  public GetRaceSignal(): Signal<any> {
+    const key = `race`;
+    const raceSignal = this.get(key);
+    if (raceSignal) {
+      return raceSignal;
+    } else {
+      console.log(`Error in GetRaceSignal`);
+      throw ('error');
+    }
+  }
+
 }

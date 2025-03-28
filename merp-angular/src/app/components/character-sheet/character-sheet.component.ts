@@ -4,10 +4,11 @@ import { CharacterSheetStateService } from '../../types/services/character-sheet
 import { ActivatedRoute } from '@angular/router';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterSkillsComponent } from '../character-skills/character-skills.component';
+import { CharacterEpithetComponent } from '../character-epithet/character-epithet.component';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [CharacterStatsComponent, CharacterSkillsComponent],
+  imports: [CharacterStatsComponent, CharacterSkillsComponent, CharacterEpithetComponent],
   providers: [CharacterSheetStateService, CharacterSheetSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'

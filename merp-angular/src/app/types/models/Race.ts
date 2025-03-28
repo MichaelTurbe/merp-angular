@@ -4,7 +4,7 @@ import { RaceStatBonus } from "./RaceStatBonus";
 export interface Race {
   id: number;
   Name: string;
-  IsMannish: boolean;
+  Human: boolean;
   StatBonuses: Array<RaceStatBonus>;
   AdolescentSkillRanks: Array<RaceSkillRank>;
 }

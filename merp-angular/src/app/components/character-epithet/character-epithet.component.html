@@ -1,0 +1,22 @@
+<div class="epithet-flexbox">
+  <div class="epithet-title"><span class="epithet-title-text">Name:</span></div>
+  <div class="epithet-data">
+    <input class="text-box" type="text" [formControl]="nameControl">
+  </div>
+  <div class="epithet-title"> Race Type:</div>
+  <div class="epithet-data">
+    <select [formControl]="raceTypeControl" class="select-in-long-cell">
+      @for (raceType of allRaceTypes; track raceType.id) {
+      <option [value]="raceType.Name">{{ raceType.Name }}</option>
+      }
+    </select>
+  </div>
+  <div class="epithet-title">Race:</div>
+  <div class="epithet-data">
+    <select [formControl]="raceControl" class="select-in-long-cell">
+      @for (race of availableRacesSignal(); track race.id) {
+      <option [value]="race.Name">{{ race.Name }}</option>
+      }
+    </select>
+  </div>
+</div>

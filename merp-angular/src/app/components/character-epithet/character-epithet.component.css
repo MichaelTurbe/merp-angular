@@ -1,0 +1,22 @@
+.epithet-flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.epithet-title {
+  display: flex;
+  width: 25%;
+  justify-content: right;
+  align-items: center;
+}
+
+.epithet-title-text {
+  text-align: right;
+}
+
+.epithet-data {
+  display: flex;
+  width: 70%;
+}
