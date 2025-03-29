@@ -440,14 +440,16 @@ export class SystemDataService {
   }
 
   GetRacesByType(raceType: string): Array<Race> {
+    console.log(`get races for type: ${raceType}`);
     let someRaces = new Array<Race>();
     let humanValue = true;
-    if (raceType === "Nonhuman") {
+    if (raceType == "Nonhuman") {
       humanValue = false;
     }
     this.races.forEach(race => {
-      if (race.Human == humanValue) { someRaces.push(race); }
+      if (race.Human === humanValue) { someRaces.push(race); }
     });
+    console.log(`got races for type: ${raceType}`, someRaces);
     return someRaces;
   }
 

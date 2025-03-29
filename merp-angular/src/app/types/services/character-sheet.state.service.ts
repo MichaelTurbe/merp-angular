@@ -9,6 +9,7 @@ import { SystemDataService } from "./system.data.service";
 import { Skill } from "../models/Skill";
 import { SkillFieldType } from "../models/SkillFieldType";
 import { CharacterSkill } from "../models/CharacterSkill";
+import { Race } from "../models/Race";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -158,6 +159,14 @@ export class CharacterSheetStateService {
 
   GetCharacterName() {
     return this.character.Name;
+  }
+
+  GetCharacterRace() {
+    return this.character.Race;
+  }
+
+  SetCharacterRace(race: Race) {
+    this.character.Race = race;
   }
 
   SaveCharacter() {

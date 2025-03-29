@@ -1,6 +1,7 @@
 import { CharacterStat } from "./CharacterStat";
 import { StorageEntity } from "../utilities/storage-entity";
 import { CharacterSkill } from "./CharacterSkill";
+import { Race } from "./Race";
 
 export interface Character extends StorageEntity {
   // id: string,
@@ -13,4 +14,5 @@ export interface Character extends StorageEntity {
   Intuition: CharacterStat,
   Presence: CharacterStat;
   Skills: Array<CharacterSkill>;
+  Race: Race;
 }

@@ -50,9 +50,9 @@ export class CharacterStatComponent {
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.RaceBonus, this.raceBonusSignal);
     // now set the initial values into their controls to trigger the stuff
     this.characterStat = this.context.GetCharacterStatByName(this.Stat().Name);
-    console.log('got the stat for this character:', this.characterStat)
+    // .log('got the stat for this character:', this.characterStat)
     this.valueControl.setValue(this.characterStat.Value.toString());
-    console.log(`setting the value of stat on load to:`, this.characterStat.Value)
+    // console.log(`setting the value of stat on load to:`, this.characterStat.Value)
     // if (this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus > 0) {
     //   this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
     // }
@@ -67,7 +67,7 @@ export class CharacterStatComponent {
       // TODO - do this with setters in the state service
       // this.context.GetCharacterStatByName(this.Stat().Name).NormalBonus = bonus;
       // this.context.SetCharacterStatField(this.Stat(), bonus, StatFieldType.NormalBonus);
-      
+
       // this.context.AutoSaveItem();
       return this.systemDataService.formatBonusPrefix(bonus);
     });
@@ -76,7 +76,7 @@ export class CharacterStatComponent {
     this.raceBonusSignal = computed(() => {
       const raceSignal = this.signalStore.GetRaceSignal();
       const race: Race = raceSignal();
-      console.log('race selected elsewhere:', race);
+      // console.log('race selected elsewhere:', race);
       if (race) {
         let raceBonus = this.getRaceBonusForThisStat(race);
         this.characterStat.RaceBonus = raceBonus;

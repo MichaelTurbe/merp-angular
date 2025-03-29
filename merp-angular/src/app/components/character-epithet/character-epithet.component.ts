@@ -5,6 +5,7 @@ import { KeyValue } from '../../types/utilities/key-value';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Race } from '../../types/models/Race';
+
 import { SignalStore } from '../../types/services/signal-store';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 
@@ -46,6 +47,21 @@ export class CharacterEpithetComponent {
       this.nameControl.setValue(characterName);
     }
 
+
+    // get the character's race and set it on the sheet if 
+    // it exists:
+    const race: Race = this.context.GetCharacterRace();
+    console.log('trying to load race:', race);
+    if (race) {
+      if (race.Human) {
+        this.raceTypeControl.setValue(["Human"]);
+      } else {
+        this.raceTypeControl.setValue(["Nonhuman"]);
+      }
+
+      this.raceControl.setValue([race.Name]);
+    }
+
     this.availableRacesSignal = computed(() => {
       let raceType = this.raceTypeSignal();
       console.log(`looking for ${raceType}`);
@@ -62,6 +78,7 @@ export class CharacterEpithetComponent {
       console.log(`race name changed to ${raceName}`);
       if (raceName) {
         const race = this.systemDataService.GetRaceByName(raceName);
+        this.context.SetCharacterRace(race);
         return race;
       } else {
         return null;
@@ -83,6 +100,8 @@ export class CharacterEpithetComponent {
 
     // this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
     this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
+
+
   }
 
   public SaveCharacter() {

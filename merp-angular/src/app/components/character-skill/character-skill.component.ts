@@ -58,7 +58,7 @@ export class CharacterSkillComponent {
     protected systemDataService: SystemDataService
   ) {
     this.gatherCheckBoxControls();
-    console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
+    //console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
 
     this.fivePercentRankCheckboxes.controls.forEach(control => {
       let fivePercentRankCheckSignal = toSignal(
@@ -120,7 +120,7 @@ export class CharacterSkillComponent {
       this.specialBonusControl2.setValue(this.Skill().InherentSpecialBonus.toString());
       this.specialBonusControl2.disable();
     }
-    
+
     let numberOfFivePercentRanks = this.context.GetCharacterSkillBy(this.Skill()).FivePercentRanks;
     for (let y = 0; y < numberOfFivePercentRanks; y++) {
       this.fivePercentRankCheckboxes.controls[y].setValue(true);
@@ -133,7 +133,7 @@ export class CharacterSkillComponent {
     this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
 
     this.rankBonusSignal = computed(() => {
-      console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
+      // console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
 
       let rankBonus = 0;
       const fivePercentRankSignals = this.fivePercentRankSignals;
@@ -158,23 +158,23 @@ export class CharacterSkillComponent {
 
       this.context.SetCharacterSkillField(this.Skill(), numberOfFivePercentRanks, SkillFieldType.FivePercentRanks);
       this.context.SetCharacterSkillField(this.Skill(), numberOfTwoPercentRanks, SkillFieldType.TwoPercentRanks);
-      console.log(`came up with a rank bonus of ${rankBonus}`);
+      // console.log(`came up with a rank bonus of ${rankBonus}`);
       return `+${rankBonus}`;
     });
 
     this.skillTotalBonusSignal = computed(() => {
-      console.log(`in computed signal for total bonus for skill ${this.Skill().Name}`);
+      // console.log(`in computed signal for total bonus for skill ${this.Skill().Name}`);
       let rankBonus = 0;
       if (this.systemDataService.isNumber(this.rankBonusSignal())) {
         rankBonus = parseInt(this.rankBonusSignal());
       }
-      console.log(`Rank bonus is: ${rankBonus}`);
+      // console.log(`Rank bonus is: ${rankBonus}`);
 
       let itemBonus = 0;
       if (this.systemDataService.isNumber(this.itemBonusSignal())) {
         itemBonus = parseInt(this.itemBonusSignal());
       }
-      console.log(`Item bonus is: ${itemBonus}`);
+      // console.log(`Item bonus is: ${itemBonus}`);
 
       let specialBonus2 = 0;
       if (this.Skill().HasInherentSpecialBonus) {
@@ -189,7 +189,7 @@ export class CharacterSkillComponent {
       if (this.systemDataService.isNumber(this.statTotalBonusSignal())) {
         statBonus = parseInt(this.statTotalBonusSignal());
       }
-      console.log(`Stat bonus is: ${statBonus}`);
+      // console.log(`Stat bonus is: ${statBonus}`);
 
       const totalBonus = rankBonus + itemBonus + statBonus + specialBonus2;
       //save values in state service, sine this computed signal will be called when basically any field values change
