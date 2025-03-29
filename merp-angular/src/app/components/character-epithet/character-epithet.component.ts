@@ -19,14 +19,16 @@ export class CharacterEpithetComponent {
   nameControl = new FormControl('');
   raceTypeControl = new FormControl([]);
   raceControl = new FormControl([]);
+  levelControl = new FormControl(0);
   nameSignal: Signal<any>;
   characterNameSignal: Signal<any>;
   raceTypeSignal: Signal<any>;
   raceNameSignal: Signal<any>;
   raceSignal: Signal<any>;
   availableRacesSignal: Signal<any>;
+  levelSignal: Signal<number>;
+
   allRaceTypes: Array<KeyValue>;
-  count = 1;
 
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
@@ -37,6 +39,7 @@ export class CharacterEpithetComponent {
     this.nameSignal = toSignal(this.nameControl.valueChanges);
     this.raceTypeSignal = toSignal(this.raceTypeControl.valueChanges);
     this.raceNameSignal = toSignal(this.raceControl.valueChanges);
+    this.levelSignal = toSignal(this.levelControl.valueChanges);
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
 
   }

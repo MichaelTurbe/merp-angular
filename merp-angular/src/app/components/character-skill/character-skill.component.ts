@@ -25,6 +25,8 @@ export class CharacterSkillComponent {
   itemBonusControl = new FormControl('');
   itemBonusSignal!: Signal<any>;
 
+  manualRankBonusControl = new FormControl('');
+
   specialBonusControl1 = new FormControl('');
   specialBonusSignal1: Signal<any>;
   specialBonusControl2 = new FormControl('');
@@ -52,6 +54,7 @@ export class CharacterSkillComponent {
 
   valueSignal: Signal<any>;
   rankBonusSignal: Signal<any>;
+  manualRankBonusSignal: Signal<any>;
 
   constructor(protected signalStore: CharacterSheetSignalStore,
     protected context: CharacterSheetStateService,
@@ -88,6 +91,13 @@ export class CharacterSkillComponent {
       this.specialBonusControl2.valueChanges
     );
     this.specialBonusSignal2 = specialBonusSignal2;
+
+
+    let manualRankBonusSignal = toSignal(
+      this.manualRankBonusControl.valueChanges
+    );
+    this.manualRankBonusSignal = manualRankBonusSignal;
+
   }
 
   gatherCheckBoxControls() {
@@ -129,12 +139,17 @@ export class CharacterSkillComponent {
     for (let z = 0; z < numberOfTwoPercentRanks; z++) {
       this.twoPercentRankCheckboxes.controls[z].setValue(true);
     }
+    if (this.Skill().HasStat) {
+      this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
+    }
 
-    this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
+    if (this.Skill().HasManualRankBonus) {
+      const manualBonus = this.context.GetCharacterSkillBy(this.Skill()).RankBonus;
+      this.manualRankBonusControl.setValue(manualBonus.toString());
+    }
 
     this.rankBonusSignal = computed(() => {
       // console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
-
       let rankBonus = 0;
       const fivePercentRankSignals = this.fivePercentRankSignals;
       let numberOfFivePercentRanks = 0;
@@ -159,7 +174,12 @@ export class CharacterSkillComponent {
       this.context.SetCharacterSkillField(this.Skill(), numberOfFivePercentRanks, SkillFieldType.FivePercentRanks);
       this.context.SetCharacterSkillField(this.Skill(), numberOfTwoPercentRanks, SkillFieldType.TwoPercentRanks);
       // console.log(`came up with a rank bonus of ${rankBonus}`);
-      return `+${rankBonus}`;
+      if (this.Skill().HasManualRankBonus) {
+        let manualRankBonus = this.manualRankBonusSignal();
+        return `+${manualRankBonus}`;
+      } else {
+        return `+${rankBonus}`;
+      }
     });
 
     this.skillTotalBonusSignal = computed(() => {
@@ -186,7 +206,7 @@ export class CharacterSkillComponent {
       }
 
       let statBonus = 0;
-      if (this.systemDataService.isNumber(this.statTotalBonusSignal())) {
+      if (this.statTotalBonusSignal && this.systemDataService.isNumber(this.statTotalBonusSignal())) {
         statBonus = parseInt(this.statTotalBonusSignal());
       }
       // console.log(`Stat bonus is: ${statBonus}`);

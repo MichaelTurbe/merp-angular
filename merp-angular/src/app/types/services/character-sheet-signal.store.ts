@@ -84,6 +84,16 @@ export class CharacterSheetSignalStore extends SignalStore {
     this.add(key, raceSignal);
   }
 
+  public AddLevelSignal(levelSignal: Signal<number>) {
+    const key = 'level';
+    this.add(key, levelSignal);
+  }
+
+  public GetLevelSignal(): Signal<number> {
+    const key = 'level';
+    return this.get(key);
+  }
+ 
   public GetRaceSignal(): Signal<any> {
     const key = `race`;
     const raceSignal = this.get(key);

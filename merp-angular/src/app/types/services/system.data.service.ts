@@ -25,6 +25,7 @@ export class SystemDataService {
     this.initializeSkillCategories();
     this.initializeSkills();
     this.initializeRaces();
+    this.initializeProfessions();
   }
 
   initializeSkillCategories() {
@@ -45,6 +46,9 @@ export class SystemDataService {
   initializeSkills() {
     this.initializeMovementAndManeuverSkills();
     this.initializeWeaponSkills();
+    this.initializeGeneralSkills();
+    this.initializeSubterfugeSkills();
+    this.initializeMiscSkills();
   }
 
   initializeWeaponSkills() {
@@ -73,6 +77,7 @@ export class SystemDataService {
       Name: "1-H Concussion",
       SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Strength"),
       HasMaximumNumberOfRanks: false,
@@ -91,6 +96,7 @@ export class SystemDataService {
       Name: "2-Handed",
       SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Strength"),
       HasMaximumNumberOfRanks: false,
@@ -109,6 +115,7 @@ export class SystemDataService {
       Name: "Thrown",
       SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Agility"),
       HasMaximumNumberOfRanks: false,
@@ -127,6 +134,7 @@ export class SystemDataService {
       Name: "Missile",
       SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Agility"),
       HasMaximumNumberOfRanks: false,
@@ -145,6 +153,7 @@ export class SystemDataService {
       Name: "Pole arms",
       SkillCategory: this.GetSkillCategoryByName("WeaponSkills"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Strength"),
       HasMaximumNumberOfRanks: false,
@@ -170,6 +179,7 @@ export class SystemDataService {
       Name: "No Armor",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Agility"),
       HasMaximumNumberOfRanks: true,
@@ -188,6 +198,7 @@ export class SystemDataService {
       Name: "Soft Leather",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Agility"),
       HasMaximumNumberOfRanks: true,
@@ -206,6 +217,7 @@ export class SystemDataService {
       Name: "Rigid Leather",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Agility"),
       HasMaximumNumberOfRanks: true,
@@ -224,6 +236,7 @@ export class SystemDataService {
       Name: "Chain",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Strength"),
       HasMaximumNumberOfRanks: true,
@@ -242,6 +255,7 @@ export class SystemDataService {
       Name: "Plate",
       SkillCategory: this.GetSkillCategoryByName("Movement And Maneuver"),
       CanHaveRanks: true,
+      HasManualRankBonus: false,
       HasStat: true,
       Stat: this.GetStatByName("Strength"),
       HasMaximumNumberOfRanks: true,
@@ -258,6 +272,220 @@ export class SystemDataService {
     this.skillsByCategory.set("Movement And Maneuver", skillsForMovementAndManeuver);
     console.log('skillsForMovementAndManeuver', skillsForMovementAndManeuver);
   }
+
+  initializeGeneralSkills() {
+    const generalSkills = new Array<Skill>();
+
+    const climb = {
+      id: 1,
+      Name: "Climb",
+      SkillCategory: this.GetSkillCategoryByName("General"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "MM"
+    } as Skill;
+    this.skills.push(climb);
+    generalSkills.push(climb);
+
+    const ride = {
+      id: 2,
+      Name: "Ride",
+      SkillCategory: this.GetSkillCategoryByName("General"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intuition"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "MM"
+    } as Skill;
+    this.skills.push(ride);
+    generalSkills.push(ride);
+
+    const swim = {
+      id: 3,
+      Name: "Swim",
+      SkillCategory: this.GetSkillCategoryByName("General"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "MM"
+    } as Skill;
+    this.skills.push(swim);
+    generalSkills.push(swim);
+
+    const track = {
+      id: 4,
+      Name: "Track",
+      SkillCategory: this.GetSkillCategoryByName("General"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intelligence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(track);
+    generalSkills.push(track);
+
+    this.skillsByCategory.set("General Skills", generalSkills);
+    console.log("generalSkills", this.skillsByCategory.get("General Skills"));
+
+  }
+
+  initializeSubterfugeSkills() {
+    const subterfugeSkills = new Array<Skill>();
+
+    const ambush = {
+      id: 1,
+      Name: "Ambush",
+      SkillCategory: this.GetSkillCategoryByName("Subterfuge Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: true,
+      HasStat: false,
+      // Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: false,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SP"
+    } as Skill;
+    this.skills.push(ambush);
+    subterfugeSkills.push(ambush);
+
+    const stalkAndHide = {
+      id: 2,
+      Name: "Stalk/Hide",
+      SkillCategory: this.GetSkillCategoryByName("Subterfuge Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Presence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SP"
+    } as Skill;
+    this.skills.push(stalkAndHide);
+    subterfugeSkills.push(stalkAndHide);
+
+    const pickLock = {
+      id: 3,
+      Name: "Pick Lock",
+      SkillCategory: this.GetSkillCategoryByName("Subterfuge Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intelligence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(pickLock);
+    subterfugeSkills.push(pickLock);
+
+    const disarmTrap = {
+      id: 4,
+      Name: "Disarm Trap",
+      SkillCategory: this.GetSkillCategoryByName("Subterfuge Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intuition"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(disarmTrap);
+    subterfugeSkills.push(disarmTrap);
+
+    this.skillsByCategory.set("Subterfuge Skills", subterfugeSkills);
+    // console.log("generalSkills", this.skillsByCategory.get("General Skills"));
+
+  }
+
+  initializeMiscSkills() {
+    const miscSkills = new Array<Skill>();
+
+    const perception = {
+      id: 1,
+      Name: "Perception",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intuition"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(perception);
+    miscSkills.push(perception);
+
+    const bodyDevelopment = {
+      id: 1,
+      Name: "Body Development",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: true,
+      HasManualRankBonus: true,
+      HasStat: true,
+      Stat: this.GetStatByName("Constitution"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 5,
+      HasInherentSpecialBonus: true,
+      SkillTypeAbbreviation: "HP"
+    } as Skill;
+    this.skills.push(bodyDevelopment);
+    miscSkills.push(bodyDevelopment);
+
+    this.skillsByCategory.set("Misc Skills And Bonuses", miscSkills);
+    // "Misc Skills And Bonuses"
+  }
+
 
   initializeStats() {
 
@@ -762,13 +990,33 @@ export class SystemDataService {
       "Scar",
       "Scar",
       "Dusk"];
-    let number = this.getRandomNumber(0, 299);
+    let number = this.GetRandomNumber(0, 299);
     return names[number];
   }
 
-  getRandomNumber(min: number, max: number): number {
+  GetRandomNumber(min: number, max: number): number {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  GetSkillByName(name: string): Skill {
+    let foundSkill = null;
+    this.GetAllSkills().forEach(skill => {
+      if (skill.Name == name) {
+        foundSkill = skill;
+      }
+    });
+    return foundSkill;
+  }
+
+  initializeProfessions() {
+    let movement = this.GetSkillCategoryByName("Movement And Maneuver");
+    let weapon = this.GetSkillCategoryByName("Weapon Skills");
+    let general = this.GetSkillCategoryByName("General Skills");
+    let subterfuge = this.GetSkillCategoryByName("Subterfuge Skills");
+    let magic = this.GetSkillCategoryByName("Magical Skills");
+
+    let perception = this.GetSkillByName("Perception");
   }
 }

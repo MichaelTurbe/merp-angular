@@ -25,6 +25,9 @@ export class CharacterSheetStateService {
   public AllStats!: Array<Stat>;
   public MovingManeuverSkills: Array<Skill> = new Array<Skill>();
   public WeaponSkills: Array<Skill> = new Array<Skill>();
+  public GeneralSkills: Array<Skill> = new Array<Skill>();
+  public SubterfugeSkills: Array<Skill> = new Array<Skill>();
+  public MiscSkills: Array<Skill> = new Array<Skill>();
 
   constructor(private characterDataService: CharacterDataService,
     private characterSheetSignalStore: CharacterSheetSignalStore,
@@ -34,6 +37,9 @@ export class CharacterSheetStateService {
     this.AllStats = systemDataService.GetAllStats();
     this.MovingManeuverSkills = systemDataService.GetSkillsByCategory("Movement And Maneuver");
     this.WeaponSkills = systemDataService.GetSkillsByCategory("Weapon Skills");
+    this.GeneralSkills = systemDataService.GetSkillsByCategory("General Skills");
+    this.SubterfugeSkills = systemDataService.GetSkillsByCategory("Subterfuge Skills");
+    this.MiscSkills = systemDataService.GetSkillsByCategory("Misc Skills And Bonuses");
   }
 
   public getCurrentCharacter(): Character {
@@ -44,7 +50,7 @@ export class CharacterSheetStateService {
     const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
       this.character = findCharacterDataResult.value;
-      console.log('loaded character: ', this.character)
+      console.log('loaded character: ', this.character);
     } else {
       console.log(`couldn't find that character!`);
     }

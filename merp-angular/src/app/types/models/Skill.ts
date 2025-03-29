@@ -7,6 +7,7 @@ export interface Skill {
   Name: string;
   SkillCategory: SkillCategory;
   CanHaveRanks: boolean;
+  HasManualRankBonus: boolean;
   HasStat: boolean;
   Stat: Stat;
   HasMaximumNumberOfRanks: boolean;
