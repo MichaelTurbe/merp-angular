@@ -36,13 +36,12 @@ export class CharacterEpithetComponent {
     this.nameSignal = toSignal(this.nameControl.valueChanges);
     this.raceTypeSignal = toSignal(this.raceTypeControl.valueChanges);
     this.raceNameSignal = toSignal(this.raceControl.valueChanges);
-
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
 
   }
 
   ngOnInit() {
-    const characterName = this.context.getCurrentCharacter().Name;
+    const characterName = this.context.GetCharacterName();
     if (characterName) {
       this.nameControl.setValue(characterName);
     }
@@ -73,6 +72,7 @@ export class CharacterEpithetComponent {
       console.log('CHANGE THE NAME');
       const name = this.nameSignal();
       console.log(`name changed to ${name}`);
+
       this.characterSheetStateService.SetCharacterName(name);
       if (name) {
         return name;
@@ -81,8 +81,12 @@ export class CharacterEpithetComponent {
       }
     });
 
-    this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
+    // this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
     this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
+  }
+
+  public SaveCharacter() {
+    this.characterSheetStateService.SaveCharacter();
   }
 
 }

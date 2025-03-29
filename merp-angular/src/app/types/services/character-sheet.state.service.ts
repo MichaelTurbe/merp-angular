@@ -12,7 +12,7 @@ import { CharacterSkill } from "../models/CharacterSkill";
 
 @Injectable()
 export class CharacterSheetStateService {
-  private character!: Character;
+  private character: Character;
 
   public StatNames = ["Strength",
     "Agility",
@@ -43,6 +43,7 @@ export class CharacterSheetStateService {
     const findCharacterDataResult = this.characterDataService.getItem(characterId);
     if (findCharacterDataResult.success) {
       this.character = findCharacterDataResult.value;
+      console.log('loaded character: ', this.character)
     } else {
       console.log(`couldn't find that character!`);
     }
@@ -101,12 +102,6 @@ export class CharacterSheetStateService {
     console.log('initializeComputedSignals');
   }
 
-  private AutoSaveItem(): void {
-    console.log(`trying to save character`);
-    console.log(this.character)
-    this.characterDataService.setItem(this.character);
-  }
-
   public SetCharacterStatField(stat: Stat, value: number, fieldType: StatFieldType): void {
     const characterStat = this.GetCharacterStatByName(stat.Name);
     switch (fieldType) {
@@ -123,7 +118,6 @@ export class CharacterSheetStateService {
         characterStat.TotalBonus = value;
         break;
     }
-    this.AutoSaveItem();
   }
 
   public SetCharacterSkillField(skill: Skill, value: number, fieldType: SkillFieldType): void {
@@ -154,14 +148,20 @@ export class CharacterSheetStateService {
         characterSkill.TwoPercentRanks = value;
         break;
     }
-    this.AutoSaveItem();
   }
 
   SetCharacterName(name: string) {
     console.log(`set character name: ${name}`);
     this.character.Name = name;
-    console.log(this.character)
-    // this.AutoSaveItem();
+    console.log(this.character);
+  }
+
+  GetCharacterName() {
+    return this.character.Name;
+  }
+
+  SaveCharacter() {
+    this.characterDataService.setItem(this.character);
   }
 
 }

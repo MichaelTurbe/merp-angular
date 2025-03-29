@@ -10,7 +10,9 @@ export class LocalStorageRepository<T extends StorageEntity> {
   }
 
   setItem(item: T): void {
+    console.log('trying to save the current character, which is:', item);
     const storageKey = this.generateStorageKeyForItem(item);
+    console.log(`trying to save this character, the key being used is: ${storageKey}`);
     localStorage.setItem(storageKey, JSON.stringify(item));
   }
 
@@ -20,7 +22,6 @@ export class LocalStorageRepository<T extends StorageEntity> {
     console.log(`trying to get an item with storageKey: ${storageKey}`);
     const item = localStorage.getItem(storageKey);
     if (item) {
-      console.log('found an item:', item);
       dataResult.success = true;
       dataResult.value = JSON.parse(item) as T;
     } else {

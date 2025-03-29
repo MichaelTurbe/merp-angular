@@ -7,6 +7,7 @@ import { StatFieldType } from '../../types/models/StatFieldType';
 import { Stat } from '../../types/models/Stat';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { Race } from '../../types/models/Race';
+import { CharacterStat } from '../../types/models/CharacterStat';
 @Component({
   selector: 'app-character-stat',
   imports: [ReactiveFormsModule],
@@ -19,6 +20,8 @@ export class CharacterStatComponent {
   valueControl = new FormControl('');
   bonusControl = new FormControl('');
   // raceBonusControl = new FormControl('');
+  // this will be an actual reference to the stat on the character
+  characterStat: CharacterStat;
 
   valueSignal: Signal<any>;
   raceBonusSignal: Signal<any>;
@@ -46,7 +49,10 @@ export class CharacterStatComponent {
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.Value, this.valueSignal);
     this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.RaceBonus, this.raceBonusSignal);
     // now set the initial values into their controls to trigger the stuff
-    this.valueControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).Value.toString());
+    this.characterStat = this.context.GetCharacterStatByName(this.Stat().Name);
+    console.log('got the stat for this character:', this.characterStat)
+    this.valueControl.setValue(this.characterStat.Value.toString());
+    console.log(`setting the value of stat on load to:`, this.characterStat.Value)
     // if (this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus > 0) {
     //   this.raceBonusControl.setValue(this.context.GetCharacterStatByName(this.Stat().Name).RaceBonus.toString());
     // }
@@ -55,11 +61,13 @@ export class CharacterStatComponent {
       const value = this.valueSignal();
       let bonus = 0;
       if (this.systemDataService.isNumber(value)) {
+        this.characterStat.Value = value;
         bonus = this.systemDataService.CalculateNormalBonus(this.valueSignal());
       }
       // TODO - do this with setters in the state service
       // this.context.GetCharacterStatByName(this.Stat().Name).NormalBonus = bonus;
-      this.context.SetCharacterStatField(this.Stat(), bonus, StatFieldType.NormalBonus);
+      // this.context.SetCharacterStatField(this.Stat(), bonus, StatFieldType.NormalBonus);
+      
       // this.context.AutoSaveItem();
       return this.systemDataService.formatBonusPrefix(bonus);
     });
@@ -70,14 +78,15 @@ export class CharacterStatComponent {
       const race: Race = raceSignal();
       console.log('race selected elsewhere:', race);
       if (race) {
-        return this.systemDataService.formatBonusPrefix(this.getRaceBonusForThisStat(race));
+        let raceBonus = this.getRaceBonusForThisStat(race);
+        this.characterStat.RaceBonus = raceBonus;
+        return this.systemDataService.formatBonusPrefix(raceBonus);
       } else {
         return 0;
       }
     });
 
     this.totalBonusSignal = computed(() => {
-      //const valueSignal = this.characterSheetSignalStore.GetStatSignal(stat, StatFieldType.Value);
       let normalBonus = 0;
       if (this.systemDataService.isNumber(this.normalBonusSignal())) {
         normalBonus = parseInt(this.normalBonusSignal());
@@ -89,8 +98,9 @@ export class CharacterStatComponent {
       }
 
       const totalBonus = normalBonus + raceBonus;
-      this.context.SetCharacterStatField(this.Stat(), raceBonus, StatFieldType.RaceBonus);
-      this.context.SetCharacterStatField(this.Stat(), totalBonus, StatFieldType.TotalBonus);
+      // this.context.SetCharacterStatField(this.Stat(), raceBonus, StatFieldType.RaceBonus);
+      // this.context.SetCharacterStatField(this.Stat(), totalBonus, StatFieldType.TotalBonus);
+      this.characterStat.TotalBonus = totalBonus;
       return this.systemDataService.formatBonusPrefix(totalBonus);
     });
 
