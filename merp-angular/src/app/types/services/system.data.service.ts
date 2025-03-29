@@ -49,6 +49,7 @@ export class SystemDataService {
     this.initializeGeneralSkills();
     this.initializeSubterfugeSkills();
     this.initializeMiscSkills();
+    this.initializeMagicSkills();
   }
 
   initializeWeaponSkills() {
@@ -464,7 +465,7 @@ export class SystemDataService {
     miscSkills.push(perception);
 
     const bodyDevelopment = {
-      id: 1,
+      id: 2,
       Name: "Body Development",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: true,
@@ -482,10 +483,186 @@ export class SystemDataService {
     this.skills.push(bodyDevelopment);
     miscSkills.push(bodyDevelopment);
 
+    const baseSpells = {
+      id: 3,
+      Name: "Base Spells",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: false,
+
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(baseSpells);
+    miscSkills.push(baseSpells);
+
+    const leadershipAndInfluence = {
+      id: 3,
+      Name: "Leadership & Influence",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Presence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(leadershipAndInfluence);
+    miscSkills.push(leadershipAndInfluence);
+
+    const defensiveBonus = {
+      id: 4,
+      Name: "Defensive Bonus",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "DB"
+    } as Skill;
+    this.skills.push(defensiveBonus);
+    miscSkills.push(defensiveBonus);
+
+    const essenceRR = {
+      id: 5,
+      Name: "Essence RR",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intelligence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "RR"
+    } as Skill;
+    this.skills.push(essenceRR);
+    miscSkills.push(essenceRR);
+
+    const poisonRR = {
+      id: 6,
+      Name: "Poison RR",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Constitution"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "RR"
+    } as Skill;
+    this.skills.push(poisonRR);
+    miscSkills.push(poisonRR);
+
+    const diseaseRR = {
+      id: 7,
+      Name: "Disease RR",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Constitution"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "RR"
+    } as Skill;
+    this.skills.push(diseaseRR);
+    miscSkills.push(diseaseRR);
+
     this.skillsByCategory.set("Misc Skills And Bonuses", miscSkills);
     // "Misc Skills And Bonuses"
   }
 
+  initializeMagicSkills() {
+    const magicSkills = new Array<Skill>();
+
+    const readRunes = {
+      id: 1,
+      Name: "Read Runes",
+      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intelligence"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "SM"
+    } as Skill;
+    this.skills.push(readRunes);
+    magicSkills.push(readRunes);
+
+    const useItems = {
+      id: 2,
+      Name: "Use Items",
+      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intuition"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "AM"
+    } as Skill;
+    this.skills.push(useItems);
+    magicSkills.push(useItems);
+
+    const directedSpells = {
+      id: 3,
+      Name: "Directed Spells",
+      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      CanHaveRanks: true,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Agility"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: true,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "OB"
+    } as Skill;
+    this.skills.push(directedSpells);
+    magicSkills.push(directedSpells);
+
+    this.skillsByCategory.set("Magic Skills", magicSkills);
+  }
 
   initializeStats() {
 
@@ -1018,5 +1195,7 @@ export class SystemDataService {
     let magic = this.GetSkillCategoryByName("Magical Skills");
 
     let perception = this.GetSkillByName("Perception");
+    let bodyDevelopment = this.GetSkillByName("Body Development");
+
   }
 }

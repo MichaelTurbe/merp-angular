@@ -27,6 +27,7 @@ export class CharacterSheetStateService {
   public WeaponSkills: Array<Skill> = new Array<Skill>();
   public GeneralSkills: Array<Skill> = new Array<Skill>();
   public SubterfugeSkills: Array<Skill> = new Array<Skill>();
+  public MagicSkills: Array<Skill> = new Array<Skill>();
   public MiscSkills: Array<Skill> = new Array<Skill>();
 
   constructor(private characterDataService: CharacterDataService,
@@ -40,6 +41,7 @@ export class CharacterSheetStateService {
     this.GeneralSkills = systemDataService.GetSkillsByCategory("General Skills");
     this.SubterfugeSkills = systemDataService.GetSkillsByCategory("Subterfuge Skills");
     this.MiscSkills = systemDataService.GetSkillsByCategory("Misc Skills And Bonuses");
+    this.MagicSkills = systemDataService.GetSkillsByCategory("Magic Skills")
   }
 
   public getCurrentCharacter(): Character {

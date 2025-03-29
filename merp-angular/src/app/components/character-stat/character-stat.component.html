@@ -1,6 +1,7 @@
 <div class="character-stats-grid">
-        <div class="grid-cell character-stats-grid-div1">{{Stat().Name}}</div>
-        <div class="grid-cell character-stats-grid-div2">{{Stat().Abbreviation}}</div>
+        <div class="grid-cell character-stats-grid-div1"><span>{{Stat().Name}}</span></div>
+        <div class="grid-cell character-stats-grid-div2"><span class="fixed-width"
+                        style="justify-content: center;">{{Stat().Abbreviation}}</span></div>
         <div class="grid-cell character-stats-grid-div3"><input class="text-box" type="text"
                         [formControl]="valueControl">
         </div>

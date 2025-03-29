@@ -1,5 +1,5 @@
 <div class="skills-grid-container">
-  <div class="skill-row-grid">
+  <div class="skill-row-grid" style="margin-bottom: 15px;">
     <div class="grid-cell skill-row-div1 grid-header-text">
       <span>Movement and Maneuver</span>
     </div>
@@ -35,7 +35,7 @@
   <app-character-skill [Skill]="skill"></app-character-skill>
   }
 
-  <div class="skill-row-grid">
+  <div class="skill-row-grid" style="margin-top: 15px; margin-bottom: 15px;">
     <div class="grid-cell skill-row-div1 grid-header-text">
       <span>Weapon Skills</span>
     </div>
@@ -71,7 +71,7 @@
   <app-character-skill [Skill]="weaponSkill"></app-character-skill>
   }
 
-  <div class="skill-row-grid">
+  <div class="skill-row-grid" style="margin-top: 15px; margin-bottom: 15px;">
     <div class="grid-cell skill-row-div1 grid-header-text">
       <span>General Skills</span>
     </div>
@@ -107,7 +107,7 @@
   <app-character-skill [Skill]="generalSkill"></app-character-skill>
   }
 
-  <div class="skill-row-grid">
+  <div class="skill-row-grid" style="margin-top: 15px; margin-bottom: 15px;">
     <div class="grid-cell skill-row-div1 grid-header-text">
       <span>Subterfuge Skills</span>
     </div>
@@ -142,7 +142,44 @@
   @for (subterfugeSkill of context.SubterfugeSkills; track subterfugeSkill.id) {
   <app-character-skill [Skill]="subterfugeSkill"></app-character-skill>
   }
-  <div class="skill-row-grid">
+
+<div class="skill-row-grid" style="margin-top: 15px; margin-bottom: 15px;">
+  <div class="grid-cell skill-row-div1 grid-header-text">
+    <span>Magic Skills</span>
+  </div>
+  <div class="grid-cell skill-row-div2 grid-header-text">
+    <span>5% Ranks</span>
+  </div>
+  <div class="grid-cell skill-row-div3 grid-header-text">
+    <span>2% Ranks</span>
+  </div>
+  <div class="grid-cell skill-row-div4 grid-header-text">
+    <span>Rank</span>
+  </div>
+  <div class="grid-cell skill-row-div5 grid-header-text">
+    <span>Stat</span>
+  </div>
+  <div class="grid-cell skill-row-div6 grid-header-text">
+    <span>Prof</span>
+  </div>
+  <div class="grid-cell skill-row-div7 grid-header-text">
+    <span>Item</span>
+  </div>
+  <div class="grid-cell skill-row-div8 grid-header-text">
+    <span>Spec</span>
+  </div>
+  <div class="grid-cell skill-row-div9 grid-header-text">
+    <span>Spec</span>
+  </div>
+  <div class="grid-cell skill-row-div10 grid-header-text">
+    <span>Total</span>
+  </div>
+</div>
+@for (magicSkill of context.MagicSkills; track magicSkill.id) {
+<app-character-skill [Skill]="magicSkill"></app-character-skill>
+}
+
+  <div class="skill-row-grid" style="margin-top: 15px; margin-bottom: 15px;">
     <div class="grid-cell skill-row-div1 grid-header-text">
       <span>Miscellaneous Skills</span>
     </div>

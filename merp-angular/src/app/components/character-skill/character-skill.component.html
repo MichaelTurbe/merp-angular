@@ -1,6 +1,7 @@
 <div class="skill-row-grid">
         <div class="grid-cell skill-row-div1">{{Skill().Name}}</div>
         <div class="grid-cell skill-row-div2">
+                @if(Skill().CanHaveRanks){
                 <div class="five-percent-rank-grid">
                         <div class="five-percent-rank-grid-div1"><input class="rank-checkbox" type="checkbox"
                                         [formControl]="fivePercentRankCheckbox1"></div>
@@ -23,9 +24,10 @@
                         <div class="five-percent-rank-grid-div10"><input class="rank-checkbox" type="checkbox"
                                         [formControl]="fivePercentRankCheckbox10"></div>
                 </div>
+                }
         </div>
         <div class="grid-cell skill-row-div3">
-                @if(showTwoPercentSkillRanks){
+                @if(showTwoPercentSkillRanks && Skill().CanHaveRanks){
                 <div class="two-percent-rank-grid">
                         <div class="two-percent-rank-grid-div1"><input class="rank-checkbox" type="checkbox"
                                         [formControl]="twoPercentRankCheckbox1"></div>
@@ -40,15 +42,16 @@
                 </div>
                 }
         </div>
+        @if(Skill().CanHaveRanks){
         <div class="grid-cell skill-row-div4">
                 @if(Skill().HasManualRankBonus){
-                        <input class="text-box" type="text" [formControl]="manualRankBonusControl">
+                <input class="text-box" type="text" [formControl]="manualRankBonusControl">
                 } @else {
-                        <input class="text-box" type="text" disabled="true" [value]="rankBonusSignal()">
+                <input class="text-box" type="text" disabled="true" [value]="rankBonusSignal()">
                 }
-        </div>
+        </div>}
         <div class="grid-cell skill-row-div5">
-                @if(Skill().HasStat){ <span>{{Skill().Stat.Abbreviation}}</span> }
+                @if(Skill().HasStat){ <span class="fixed-width">{{Skill().Stat.Abbreviation}}</span> }
                 @if(statTotalBonusSignal){
                 <input class="text-box" type="text" disabled="true" [value]="statTotalBonusSignal()">
                 } @else {
@@ -63,5 +66,5 @@
         <div class="grid-cell skill-row-div9"><input class="text-box" type="text" [formControl]="specialBonusControl2">
         </div>
         <div class="grid-cell skill-row-div10"><input class="text-box" [value]="skillTotalBonusSignal()" disabled="true"
-                        type="text"><span class="line-const">{{Skill().SkillTypeAbbreviation}}</span></div>
+                        type="text"><span class="fixed-width">{{Skill().SkillTypeAbbreviation}}</span></div>
 </div>
