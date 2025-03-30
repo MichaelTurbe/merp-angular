@@ -1,4 +1,4 @@
-import { Component, computed, Signal } from '@angular/core';
+import { Component, computed, effect, Signal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { KeyValue } from '../../types/utilities/key-value';
@@ -8,6 +8,7 @@ import { Race } from '../../types/models/Race';
 
 import { SignalStore } from '../../types/services/signal-store';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+import { Profession } from '../../types/models/Profession';
 
 @Component({
   selector: 'app-character-epithet',
@@ -27,8 +28,12 @@ export class CharacterEpithetComponent {
   raceSignal: Signal<any>;
   availableRacesSignal: Signal<any>;
   levelSignal: Signal<number>;
+  professionNameSignal: Signal<any>;
+  professionSignal: Signal<any>;
+  professionControl = new FormControl([]);
 
   allRaceTypes: Array<KeyValue>;
+  allProfessions: Array<Profession>;
 
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
@@ -40,8 +45,10 @@ export class CharacterEpithetComponent {
     this.raceTypeSignal = toSignal(this.raceTypeControl.valueChanges);
     this.raceNameSignal = toSignal(this.raceControl.valueChanges);
     this.levelSignal = toSignal(this.levelControl.valueChanges);
-    this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
+    this.professionNameSignal = toSignal(this.professionControl.valueChanges);
 
+    this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
+    this.allProfessions = this.systemDataService.GetAllProfessions();
   }
 
   ngOnInit() {
@@ -63,6 +70,11 @@ export class CharacterEpithetComponent {
       }
 
       this.raceControl.setValue([race.Name]);
+    }
+
+    const profession: Profession = this.context.GetCharacterProfession();
+    if (profession) {
+      this.professionControl.setValue([profession.Name]);
     }
 
     this.availableRacesSignal = computed(() => {
@@ -101,10 +113,17 @@ export class CharacterEpithetComponent {
       }
     });
 
+    this.professionSignal = computed(() => {
+      console.log('in the prof signal');
+      let profession = this.professionSignal();
+      if (profession) {
+        this.context.SetCharacterProfession(profession);
+      }
+    });
+
     // this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
     this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
-
-
+    this.characterSheetSignalStore.AddProfessionSignal(this.professionSignal);
   }
 
   public SaveCharacter() {

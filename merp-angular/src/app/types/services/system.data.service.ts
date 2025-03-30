@@ -6,6 +6,9 @@ import { KeyValue } from "../utilities/key-value";
 import { Race } from "../models/Race";
 import { RaceSkillRank } from "../models/RaceSkillRank";
 import { RaceStatBonus } from "../models/RaceStatBonus";
+import { Profession } from "../models/Profession";
+import { SkillCategoryProfessionalBonus } from "../models/SkillCategoryProfessionalBonus";
+import { ParticularSkillProfessionalBonus } from "../models/ParticularSkillProfessionalBonus";
 
 @Injectable({ providedIn: 'root' })
 export class SystemDataService {
@@ -19,6 +22,8 @@ export class SystemDataService {
   statsByName: Map<string, Stat> = new Map<string, Stat>();
 
   races: Array<Race> = new Array<Race>();
+
+  professions: Array<Profession> = new Array<Profession>();
 
   constructor() {
     this.initializeStats();
@@ -1196,6 +1201,77 @@ export class SystemDataService {
 
     let perception = this.GetSkillByName("Perception");
     let bodyDevelopment = this.GetSkillByName("Body Development");
+    let useItems = this.GetSkillByName("Use Items");
+    let baseSpells = this.GetSkillByName("Base Spells");
+    let readRunes = this.GetSkillByName("Read Runes");
+    let directedSpells = this.GetSkillByName("Directed Spells");
+    let stalkAndHide = this.GetSkillByName("Stalk/Hide");
 
+    let warrior = {
+      id: 1,
+      Name: "Warrior",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    warrior.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: general, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    warrior.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: weapon, BonusPerLevel: 3 } as SkillCategoryProfessionalBonus
+    );
+    warrior.ParticularSkillProfessionalBonuses.push(
+      { Skill: perception, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    this.professions.push(warrior);
+
+    let scout = {
+      id: 2,
+      Name: "Scout",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    scout.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: general, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    scout.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: weapon, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    scout.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: subterfuge, BonusPerLevel: 3 } as SkillCategoryProfessionalBonus
+    );
+    scout.ParticularSkillProfessionalBonuses.push(
+      { Skill: perception, BonusPerLevel: 3 } as ParticularSkillProfessionalBonus
+    );
+    this.professions.push(scout);
+
+    let mage = {
+      id: 3,
+      Name: "Mage",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    mage.ParticularSkillProfessionalBonuses.push(
+      { Skill: readRunes, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    mage.ParticularSkillProfessionalBonuses.push(
+      { Skill: useItems, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    mage.ParticularSkillProfessionalBonuses.push(
+      { Skill: baseSpells, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    mage.ParticularSkillProfessionalBonuses.push(
+      { Skill: readRunes, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    mage.ParticularSkillProfessionalBonuses.push(
+      { Skill: directedSpells, BonusPerLevel: 3 } as ParticularSkillProfessionalBonus
+    );
+    this.professions.push(mage);
+  }
+
+  GetAllProfessions(): Array<Profession>{
+    return this.professions;
   }
 }

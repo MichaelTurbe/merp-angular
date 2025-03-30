@@ -10,6 +10,7 @@ import { Skill } from "../models/Skill";
 import { SkillFieldType } from "../models/SkillFieldType";
 import { CharacterSkill } from "../models/CharacterSkill";
 import { Race } from "../models/Race";
+import { Profession } from "../models/Profession";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -175,6 +176,14 @@ export class CharacterSheetStateService {
 
   SetCharacterRace(race: Race) {
     this.character.Race = race;
+  }
+
+  GetCharacterProfession() {
+    return this.character.Profession;
+  }
+
+  SetCharacterProfession(profession: Profession) {
+    this.character.Profession = profession;
   }
 
   SaveCharacter() {

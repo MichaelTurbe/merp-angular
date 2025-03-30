@@ -19,6 +19,14 @@
       }
     </select>
   </div>
+  <div class="epithet-title">Profession:</div>
+  <div class="epithet-data">
+    <select [formControl]="professionControl" class="select-in-long-cell">
+      @for (profession of allProfessions; track profession.id) {
+      <option [value]="profession.Name">{{ profession.Name }}</option>
+      }
+    </select>
+  </div>
   <div class="epithet-title"><span class="epithet-title-text">Level:</span></div>
   <div class="epithet-data">
     <input class="text-box" type="number" [formControl]="levelControl">

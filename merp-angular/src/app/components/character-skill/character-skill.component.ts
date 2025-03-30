@@ -7,6 +7,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { StatFieldType } from '../../types/models/StatFieldType';
 import { SystemDataService } from '../../types/services/system.data.service';
+import { Profession } from '../../types/models/Profession';
+import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-character-skill',
@@ -21,6 +23,9 @@ export class CharacterSkillComponent {
   showTwoPercentSkillRanks = true;
   statTotalBonusSignal: Signal<any>;
   skillTotalBonusSignal: Signal<any>;
+  professionSignal: Signal<any>;
+  professionBonusSignal: Signal<any>;
+  levelSignal: Signal<any>;
 
   itemBonusControl = new FormControl('');
   itemBonusSignal!: Signal<any>;
@@ -143,6 +148,19 @@ export class CharacterSkillComponent {
       this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
     }
 
+    this.professionSignal = this.signalStore.GetProfessionSignal();
+    this.levelSignal = this.signalStore.GetLevelSignal();
+    this.professionBonusSignal = computed(() => {
+      const profession = this.professionSignal();
+      const level = this.levelSignal();
+      if (this.systemDataService.isNumber(level)) {
+        if (profession) {
+          return this.getProfessionBonus(level, profession);
+        }
+      }
+      return 0;
+    })
+
     if (this.Skill().HasManualRankBonus) {
       const manualBonus = this.context.GetCharacterSkillBy(this.Skill()).RankBonus;
       this.manualRankBonusControl.setValue(manualBonus.toString());
@@ -234,6 +252,12 @@ export class CharacterSkillComponent {
           this.fivePercentRankCheckboxes.controls[i].disable();
         }
       }
+    }
+  }
+
+  getProfessionBonus(level: number, profession: Profession) {
+    if (profession && (level > 0)) {
+      
     }
   }
 }

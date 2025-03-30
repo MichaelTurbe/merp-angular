@@ -93,7 +93,17 @@ export class CharacterSheetSignalStore extends SignalStore {
     const key = 'level';
     return this.get(key);
   }
+
+  public AddProfessionSignal(professionSignal: Signal<any>) {
+    const key = 'profession';
+    this.add(key, professionSignal);
+  }
  
+  public GetProfessionSignal(): Signal<any>{
+    const key = 'profession';
+    return this.get(key);
+  }
+  
   public GetRaceSignal(): Signal<any> {
     const key = `race`;
     const raceSignal = this.get(key);
