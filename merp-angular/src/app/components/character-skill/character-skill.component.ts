@@ -8,7 +8,6 @@ import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { StatFieldType } from '../../types/models/StatFieldType';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { Profession } from '../../types/models/Profession';
-import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-character-skill',
@@ -66,8 +65,7 @@ export class CharacterSkillComponent {
     protected systemDataService: SystemDataService
   ) {
     this.gatherCheckBoxControls();
-    //console.log(`there are ${this.fivePercentRankCheckboxes.length} 5% checkboxes`);
-
+  
     this.fivePercentRankCheckboxes.controls.forEach(control => {
       let fivePercentRankCheckSignal = toSignal(
         control.valueChanges
@@ -96,7 +94,6 @@ export class CharacterSkillComponent {
       this.specialBonusControl2.valueChanges
     );
     this.specialBonusSignal2 = specialBonusSignal2;
-
 
     let manualRankBonusSignal = toSignal(
       this.manualRankBonusControl.valueChanges
@@ -150,16 +147,15 @@ export class CharacterSkillComponent {
 
     this.professionSignal = this.signalStore.GetProfessionSignal();
     this.levelSignal = this.signalStore.GetLevelSignal();
+
     this.professionBonusSignal = computed(() => {
       const profession = this.professionSignal();
       const level = this.levelSignal();
-      if (this.systemDataService.isNumber(level)) {
-        if (profession) {
-          return this.getProfessionBonus(level, profession);
-        }
+      if (this.systemDataService.isNumber(level) && profession) {
+        return this.getProfessionBonus(level, profession);
       }
       return 0;
-    })
+    });
 
     if (this.Skill().HasManualRankBonus) {
       const manualBonus = this.context.GetCharacterSkillBy(this.Skill()).RankBonus;
@@ -227,9 +223,13 @@ export class CharacterSkillComponent {
       if (this.statTotalBonusSignal && this.systemDataService.isNumber(this.statTotalBonusSignal())) {
         statBonus = parseInt(this.statTotalBonusSignal());
       }
-      // console.log(`Stat bonus is: ${statBonus}`);
 
-      const totalBonus = rankBonus + itemBonus + statBonus + specialBonus2;
+      let professionalBonus = 0;
+      if (this.professionBonusSignal && this.systemDataService.isNumber(this.professionBonusSignal())) {
+        professionalBonus = parseInt(this.professionBonusSignal());
+      }
+
+      const totalBonus = rankBonus + professionalBonus + itemBonus + statBonus + specialBonus2;
       //save values in state service, sine this computed signal will be called when basically any field values change
       this.context.SetCharacterSkillField(this.Skill(), totalBonus, SkillFieldType.TotalBonus);
       this.context.SetCharacterSkillField(this.Skill(), itemBonus, SkillFieldType.ItemBonus);
@@ -255,9 +255,27 @@ export class CharacterSkillComponent {
     }
   }
 
-  getProfessionBonus(level: number, profession: Profession) {
+  getProfessionBonus(level: number, profession: Profession): number {
+    let bonus = 0;
     if (profession && (level > 0)) {
-      
+      const skillCategory = this.Skill().SkillCategory;
+      if (profession.SkillCategoryProfessionalBonuses) {
+        profession.SkillCategoryProfessionalBonuses.forEach(skillCategoryProfessionalBonus => {
+          if (skillCategoryProfessionalBonus.SkillCategory.Name == skillCategory.Name) {
+            bonus = skillCategoryProfessionalBonus.BonusPerLevel * level;
+          }
+        });
+      }
+
+      if (profession.ParticularSkillProfessionalBonuses) {
+        profession.ParticularSkillProfessionalBonuses.forEach(particularSkillProfessionalBonus => {
+          if (particularSkillProfessionalBonus.Skill.Name == this.Skill().Name) {
+            bonus = particularSkillProfessionalBonus.BonusPerLevel * level;
+          }
+        });
+      }
     }
+    console.log(`Professional bonus for ${this.Skill()} is ${bonus}`);
+    return bonus;
   }
 }

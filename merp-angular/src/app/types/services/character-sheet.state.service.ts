@@ -42,7 +42,7 @@ export class CharacterSheetStateService {
     this.GeneralSkills = systemDataService.GetSkillsByCategory("General Skills");
     this.SubterfugeSkills = systemDataService.GetSkillsByCategory("Subterfuge Skills");
     this.MiscSkills = systemDataService.GetSkillsByCategory("Misc Skills And Bonuses");
-    this.MagicSkills = systemDataService.GetSkillsByCategory("Magic Skills")
+    this.MagicSkills = systemDataService.GetSkillsByCategory("Magic Skills");
   }
 
   public getCurrentCharacter(): Character {
@@ -184,6 +184,14 @@ export class CharacterSheetStateService {
 
   SetCharacterProfession(profession: Profession) {
     this.character.Profession = profession;
+  }
+
+  GetCharacterLevel() {
+    return this.character.Level;
+  }
+
+  SetCharacterLevel(level: number) {
+    this.character.Level = level;
   }
 
   SaveCharacter() {

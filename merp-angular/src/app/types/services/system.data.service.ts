@@ -1274,4 +1274,14 @@ export class SystemDataService {
   GetAllProfessions(): Array<Profession>{
     return this.professions;
   }
+
+  GetProfessionByName(name: string): Profession{
+    let foundProfession: Profession = null;
+    this.professions.forEach(profession => {
+      if (profession.Name == name) {
+        foundProfession = profession;
+      }
+    })
+    return foundProfession;
+  }
 }

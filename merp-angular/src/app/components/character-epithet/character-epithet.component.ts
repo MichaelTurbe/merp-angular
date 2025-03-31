@@ -49,6 +49,18 @@ export class CharacterEpithetComponent {
 
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
     this.allProfessions = this.systemDataService.GetAllProfessions();
+
+
+
+    effect(() => {
+      console.log(`in the set level effect`);
+      const level = this.levelSignal();
+      console.log(`the level is ${level}`)
+      this.characterSheetStateService.SetCharacterLevel(level);
+    });
+
+
+
   }
 
   ngOnInit() {
@@ -75,6 +87,11 @@ export class CharacterEpithetComponent {
     const profession: Profession = this.context.GetCharacterProfession();
     if (profession) {
       this.professionControl.setValue([profession.Name]);
+    }
+
+    const level = this.context.GetCharacterLevel();
+    if (level) {
+      this.levelControl.setValue(level);
     }
 
     this.availableRacesSignal = computed(() => {
@@ -114,14 +131,16 @@ export class CharacterEpithetComponent {
     });
 
     this.professionSignal = computed(() => {
-      console.log('in the prof signal');
-      let profession = this.professionSignal();
+      let professionName = this.professionNameSignal();
+      let profession = this.systemDataService.GetProfessionByName(professionName);
       if (profession) {
         this.context.SetCharacterProfession(profession);
       }
+      return profession;
     });
 
-    // this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
+    this.characterSheetSignalStore.AddLevelSignal(this.levelSignal);
+    this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
     this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
     this.characterSheetSignalStore.AddProfessionSignal(this.professionSignal);
   }
