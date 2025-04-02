@@ -151,8 +151,8 @@ export class SystemDataService {
       HasInherentSpecialBonus: false,
       SkillTypeAbbreviation: "OB"
     } as Skill;
-    this.skills.push(thrown);
-    weaponSkills.push(thrown);
+    this.skills.push(missile);
+    weaponSkills.push(missile);
 
     const poleArms = {
       id: 6,
@@ -564,8 +564,27 @@ export class SystemDataService {
     this.skills.push(essenceRR);
     miscSkills.push(essenceRR);
 
-    const poisonRR = {
+    const channelingRR = {
       id: 6,
+      Name: "Channeling RR",
+      SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
+      CanHaveRanks: false,
+      HasManualRankBonus: false,
+      HasStat: true,
+      Stat: this.GetStatByName("Intuition"),
+      HasMaximumNumberOfRanks: false,
+      MaximumNumberOfRanks: 0,
+      CanHaveProfessionalBonus: false,
+      CanHaveItemBonus: true,
+      InherentSpecialBonus: 0,
+      HasInherentSpecialBonus: false,
+      SkillTypeAbbreviation: "RR"
+    } as Skill;
+    this.skills.push(channelingRR);
+    miscSkills.push(channelingRR);
+
+    const poisonRR = {
+      id: 7,
       Name: "Poison RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -584,7 +603,7 @@ export class SystemDataService {
     miscSkills.push(poisonRR);
 
     const diseaseRR = {
-      id: 7,
+      id: 8,
       Name: "Disease RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -1271,17 +1290,17 @@ export class SystemDataService {
     this.professions.push(mage);
   }
 
-  GetAllProfessions(): Array<Profession>{
+  GetAllProfessions(): Array<Profession> {
     return this.professions;
   }
 
-  GetProfessionByName(name: string): Profession{
+  GetProfessionByName(name: string): Profession {
     let foundProfession: Profession = null;
     this.professions.forEach(profession => {
       if (profession.Name == name) {
         foundProfession = profession;
       }
-    })
+    });
     return foundProfession;
   }
 }

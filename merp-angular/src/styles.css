@@ -50,7 +50,7 @@
 .character-stats-grid {
   display: grid;
   grid-template-columns: 3fr repeat(5, 1fr);
-  grid-template-rows: 1.5fr;
+  grid-template-rows: 30px;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 }
