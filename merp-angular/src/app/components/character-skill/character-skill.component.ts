@@ -1,4 +1,4 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, Inject, input, Signal } from '@angular/core';
 import { Skill } from '../../types/models/Skill';
 import { FormControl, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
@@ -8,6 +8,11 @@ import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { StatFieldType } from '../../types/models/StatFieldType';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { Profession } from '../../types/models/Profession';
+import { DiceService } from '../../types/services/dice.service';
+import { DOCUMENT } from '@angular/common';
+import { parseRollEquation, ThreeDDiceAPI, ThreeDDiceRollEvent } from "dddice-js";
+
+
 
 @Component({
   selector: 'app-character-skill',
@@ -25,6 +30,7 @@ export class CharacterSkillComponent {
   professionSignal: Signal<any>;
   professionBonusSignal: Signal<any>;
   levelSignal: Signal<any>;
+  private dddice!: ThreeDDice;
 
   itemBonusControl = new FormControl('');
   itemBonusSignal!: Signal<any>;
@@ -60,12 +66,14 @@ export class CharacterSkillComponent {
   rankBonusSignal: Signal<any>;
   manualRankBonusSignal: Signal<any>;
 
-  constructor(protected signalStore: CharacterSheetSignalStore,
+  constructor(@Inject(DOCUMENT) private document: Document,
+    protected signalStore: CharacterSheetSignalStore,
     protected context: CharacterSheetStateService,
-    protected systemDataService: SystemDataService
+    protected systemDataService: SystemDataService,
+    protected diceService: DiceService
   ) {
     this.gatherCheckBoxControls();
-  
+
     this.fivePercentRankCheckboxes.controls.forEach(control => {
       let fivePercentRankCheckSignal = toSignal(
         control.valueChanges
@@ -278,4 +286,23 @@ export class CharacterSkillComponent {
     console.log(`Professional bonus for ${this.Skill()} is ${bonus}`);
     return bonus;
   }
+
+  executeRoll() {
+    const modifier: string = this.skillTotalBonusSignal().toString();
+    const options = {
+      label: `${this.context.GetCharacterName()} rolled:`
+    } as IDiceRollOptions;
+    const diceRoll1 = {
+      type: "d10x",
+
+    } as IDiceRoll;
+
+    const diceRoll2 = {
+      type: "mod",
+      value: modifier
+    } as IDiceRoll;
+
+    this.dddice.roll([diceRoll1, diceRoll2], options);
+  }
+  
 }
