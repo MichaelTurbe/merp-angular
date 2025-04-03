@@ -42,7 +42,7 @@ export class CharacterSheetStateService {
     this.GeneralSkills = systemDataService.GetSkillsByCategory("General Skills");
     this.SubterfugeSkills = systemDataService.GetSkillsByCategory("Subterfuge Skills");
     this.MiscSkills = systemDataService.GetSkillsByCategory("Misc Skills And Bonuses");
-    this.MagicSkills = systemDataService.GetSkillsByCategory("Magic Skills");
+    this.MagicSkills = systemDataService.GetSkillsByCategory("Magical Skills");
   }
 
   public getCurrentCharacter(): Character {

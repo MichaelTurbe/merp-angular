@@ -10,6 +10,7 @@
   width: 25%;
   justify-content: right;
   align-items: center;
+  height: 30px;
 }
 
 .epithet-title-text {
@@ -19,4 +20,5 @@
 .epithet-data {
   display: flex;
   width: 70%;
+  height: 30px;
 }

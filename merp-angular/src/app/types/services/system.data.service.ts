@@ -631,7 +631,7 @@ export class SystemDataService {
     const readRunes = {
       id: 1,
       Name: "Read Runes",
-      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      SkillCategory: this.GetSkillCategoryByName("Magical Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -650,7 +650,7 @@ export class SystemDataService {
     const useItems = {
       id: 2,
       Name: "Use Items",
-      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      SkillCategory: this.GetSkillCategoryByName("Magical Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -669,7 +669,7 @@ export class SystemDataService {
     const directedSpells = {
       id: 3,
       Name: "Directed Spells",
-      SkillCategory: this.GetSkillCategoryByName("Magic Skills"),
+      SkillCategory: this.GetSkillCategoryByName("Magical Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -685,7 +685,7 @@ export class SystemDataService {
     this.skills.push(directedSpells);
     magicSkills.push(directedSpells);
 
-    this.skillsByCategory.set("Magic Skills", magicSkills);
+    this.skillsByCategory.set("Magical Skills", magicSkills);
   }
 
   initializeStats() {
@@ -1288,6 +1288,87 @@ export class SystemDataService {
       { Skill: directedSpells, BonusPerLevel: 3 } as ParticularSkillProfessionalBonus
     );
     this.professions.push(mage);
+
+    let ranger = {
+      id: 4,
+      Name: "Ranger",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    ranger.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: general, BonusPerLevel: 3 } as SkillCategoryProfessionalBonus
+    );
+    ranger.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: weapon, BonusPerLevel: 2 } as SkillCategoryProfessionalBonus
+    );
+
+    ranger.ParticularSkillProfessionalBonuses.push(
+      { Skill: perception, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    ranger.ParticularSkillProfessionalBonuses.push(
+      { Skill: stalkAndHide, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    this.professions.push(ranger);
+
+    let bard = {
+      id: 5,
+      Name: "Bard",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    bard.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: weapon, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    bard.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: general, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    bard.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: subterfuge, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+    bard.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: magic, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+
+    bard.ParticularSkillProfessionalBonuses.push(
+      { Skill: perception, BonusPerLevel: 1 } as ParticularSkillProfessionalBonus
+    );
+
+    bard.ParticularSkillProfessionalBonuses.push(
+      { Skill: baseSpells, BonusPerLevel: 1 } as ParticularSkillProfessionalBonus
+    );
+    this.professions.push(bard);
+
+    let animist = {
+      id: 6,
+      Name: "Animist",
+      SkillCategoryProfessionalBonuses: new Array<SkillCategoryProfessionalBonus>(),
+      ParticularSkillProfessionalBonuses: new Array<ParticularSkillProfessionalBonus>()
+
+    } as Profession;
+    animist.SkillCategoryProfessionalBonuses.push(
+      { SkillCategory: general, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
+    );
+
+    animist.ParticularSkillProfessionalBonuses.push(
+      { Skill: readRunes, BonusPerLevel: 1 } as ParticularSkillProfessionalBonus
+    );
+    animist.ParticularSkillProfessionalBonuses.push(
+      { Skill: useItems, BonusPerLevel: 1 } as ParticularSkillProfessionalBonus
+    );
+    animist.ParticularSkillProfessionalBonuses.push(
+      { Skill: baseSpells, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+
+    animist.ParticularSkillProfessionalBonuses.push(
+      { Skill: directedSpells, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+    );
+    animist.ParticularSkillProfessionalBonuses.push(
+      { Skill: perception, BonusPerLevel: 1 } as ParticularSkillProfessionalBonus
+    );
+
+    this.professions.push(animist);
   }
 
   GetAllProfessions(): Array<Profession> {
