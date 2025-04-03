@@ -1,3 +1,8 @@
+.paper {
+  background-image: url('/06.jpg');
+  background-size: cover;
+}
+
 .select-in-long-cell {
   display: flex;
   justify-self: stretch;
@@ -46,6 +51,17 @@
   border: 0px;
   border-bottom: 1px solid darkslategray;
   text-align: center;
+  background: transparent;
+}
+
+.text-box-name {
+  width: 100%;
+  border: 0px;
+  border-bottom: 1px solid darkslategray;
+  text-align: center;
+  background: transparent;
+  font-size: larger;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .character-stats-grid {
