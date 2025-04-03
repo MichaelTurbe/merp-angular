@@ -157,7 +157,7 @@ export class SystemDataService {
     const poleArms = {
       id: 6,
       Name: "Pole arms",
-      SkillCategory: this.GetSkillCategoryByName("WeaponSkills"),
+      SkillCategory: this.GetSkillCategoryByName("Weapon Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -285,7 +285,7 @@ export class SystemDataService {
     const climb = {
       id: 1,
       Name: "Climb",
-      SkillCategory: this.GetSkillCategoryByName("General"),
+      SkillCategory: this.GetSkillCategoryByName("General Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -304,7 +304,7 @@ export class SystemDataService {
     const ride = {
       id: 2,
       Name: "Ride",
-      SkillCategory: this.GetSkillCategoryByName("General"),
+      SkillCategory: this.GetSkillCategoryByName("General Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -323,7 +323,7 @@ export class SystemDataService {
     const swim = {
       id: 3,
       Name: "Swim",
-      SkillCategory: this.GetSkillCategoryByName("General"),
+      SkillCategory: this.GetSkillCategoryByName("General Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -342,7 +342,7 @@ export class SystemDataService {
     const track = {
       id: 4,
       Name: "Track",
-      SkillCategory: this.GetSkillCategoryByName("General"),
+      SkillCategory: this.GetSkillCategoryByName("General Skills"),
       CanHaveRanks: true,
       HasManualRankBonus: false,
       HasStat: true,
@@ -1240,7 +1240,7 @@ export class SystemDataService {
       { SkillCategory: weapon, BonusPerLevel: 3 } as SkillCategoryProfessionalBonus
     );
     warrior.ParticularSkillProfessionalBonuses.push(
-      { Skill: perception, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
+      { Skill: bodyDevelopment, BonusPerLevel: 2 } as ParticularSkillProfessionalBonus
     );
     this.professions.push(warrior);
 
@@ -1258,7 +1258,7 @@ export class SystemDataService {
       { SkillCategory: weapon, BonusPerLevel: 1 } as SkillCategoryProfessionalBonus
     );
     scout.SkillCategoryProfessionalBonuses.push(
-      { SkillCategory: subterfuge, BonusPerLevel: 3 } as SkillCategoryProfessionalBonus
+      { SkillCategory: subterfuge, BonusPerLevel: 2 } as SkillCategoryProfessionalBonus
     );
     scout.ParticularSkillProfessionalBonuses.push(
       { Skill: perception, BonusPerLevel: 3 } as ParticularSkillProfessionalBonus
