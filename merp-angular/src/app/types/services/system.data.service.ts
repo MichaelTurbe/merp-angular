@@ -9,6 +9,7 @@ import { RaceStatBonus } from "../models/RaceStatBonus";
 import { Profession } from "../models/Profession";
 import { SkillCategoryProfessionalBonus } from "../models/SkillCategoryProfessionalBonus";
 import { ParticularSkillProfessionalBonus } from "../models/ParticularSkillProfessionalBonus";
+import { RaceResistanceRollBonus } from "../models/RaceResistanceRollBonus";
 
 @Injectable({ providedIn: 'root' })
 export class SystemDataService {
@@ -760,6 +761,11 @@ export class SystemDataService {
   }
 
   initializeRaces() {
+    let essenceRR = this.GetSkillByName("Essence RR");
+    let channelingRR = this.GetSkillByName("Channeling RR");
+    let poisonRR = this.GetSkillByName("Poison RR");
+    let diseaseRR = this.GetSkillByName("Disease RR");
+
     let Dwarves = {
       id: 1,
       Name: "Dwarves",
@@ -770,6 +776,12 @@ export class SystemDataService {
         { Stat: this.GetStatByName("Constitution"), Bonus: 15 } as RaceStatBonus,
         { Stat: this.GetStatByName("Intuition"), Bonus: -5 } as RaceStatBonus,
         { Stat: this.GetStatByName("Presence"), Bonus: -5 } as RaceStatBonus,
+      ],
+      ResistanceRollBonuses: [
+        { Skill: essenceRR, Bonus: 40 } as RaceResistanceRollBonus,
+        { Skill: channelingRR, Bonus: 0 } as RaceResistanceRollBonus,
+        { Skill: poisonRR, Bonus: 10 } as RaceResistanceRollBonus,
+        { Skill: diseaseRR, Bonus: 10 } as RaceResistanceRollBonus,
       ]
     } as Race; this.races.push(Dwarves);
 

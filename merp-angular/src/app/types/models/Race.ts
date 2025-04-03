@@ -1,3 +1,4 @@
+import { RaceResistanceRollBonus } from "./RaceResistanceRollBonus";
 import { RaceSkillRank } from "./RaceSkillRank";
 import { RaceStatBonus } from "./RaceStatBonus";
 
@@ -7,4 +8,5 @@ export interface Race {
   Human: boolean;
   StatBonuses: Array<RaceStatBonus>;
   AdolescentSkillRanks: Array<RaceSkillRank>;
+  ResistanceRollBonuses: Array<RaceResistanceRollBonus>;
 }
