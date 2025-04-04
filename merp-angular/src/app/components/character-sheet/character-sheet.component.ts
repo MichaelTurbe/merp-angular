@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { CharacterStatsComponent } from '../character-stats/character-stats.component';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterSkillsComponent } from '../character-skills/character-skills.component';
 import { CharacterEpithetComponent } from '../character-epithet/character-epithet.component';
@@ -14,8 +14,12 @@ import { CharacterEpithetComponent } from '../character-epithet/character-epithe
   styleUrl: './character-sheet.component.css'
 })
 export class CharacterSheetComponent {
+  public locked: WritableSignal<boolean> = signal(false);
+
   constructor(protected context: CharacterSheetStateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    protected characterSheetStateService: CharacterSheetStateService
   ) {
     //TODO - note that these things will have to happen in 
     // a guard for anything to work
@@ -29,5 +33,18 @@ export class CharacterSheetComponent {
       }
     }
     // console.log('the loaded character was:', this.context.character);
+  }
+  public navigateToMyCharacters() {
+    console.log('navvvvv');
+    this.router.navigate(["/"]);
+  }
+
+  public toggleLock() {
+    let currentValue = this.locked();
+    this.locked.set(!currentValue);
+  }
+
+  public SaveCharacter() {
+    this.characterSheetStateService.SaveCharacter();
   }
 }

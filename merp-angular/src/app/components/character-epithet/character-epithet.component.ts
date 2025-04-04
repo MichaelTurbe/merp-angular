@@ -145,8 +145,6 @@ export class CharacterEpithetComponent {
     this.characterSheetSignalStore.AddProfessionSignal(this.professionSignal);
   }
 
-  public SaveCharacter() {
-    this.characterSheetStateService.SaveCharacter();
-  }
+  
 
 }

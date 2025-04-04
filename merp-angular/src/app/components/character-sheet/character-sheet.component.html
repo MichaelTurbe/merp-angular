@@ -1,13 +1,88 @@
 <div class="top-row">
   <div class="top-row-column card stats-container">
+    <div style="display: flex; flex-direction: column; row-gap: 10px;">
+      <button class="dice-button" (click)="navigateToMyCharacters()">
+        <div style="display: flex; flex-direction: row; column-gap: 5px;">
+          <svg width="40px" height="40px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+            style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <g>
+              <path
+                d="M609.966,427.055C598.593,334.068 562.817,273.787 507.804,242.635L492.697,361.757C488.279,396.597 458.463,422.869 423.346,422.869L376.651,422.869C341.532,422.869 311.719,396.597 307.301,361.757L292.193,242.635C237.183,273.787 201.404,334.068 190.031,427.055C178.454,521.722 143.523,681.06 132.758,729.123C130.96,737.15 135.519,745.251 143.325,747.853L297.201,799.175C301.925,800.752 307.113,800.044 311.241,797.265C315.372,794.486 317.98,789.945 318.295,784.976L330.778,590.19C331.367,580.98 326.307,572.335 317.987,568.342L230.703,526.451C219.771,521.205 215.162,508.091 220.411,497.159L240.223,455.874C245.466,444.95 258.585,440.336 269.515,445.581L357.248,487.689C365.093,491.455 370.098,499.401 370.098,508.102L370.098,621.366C370.098,623.558 370.782,625.693 372.055,627.475L391.445,654.619C393.418,657.38 396.605,659.021 400,659.021C403.395,659.021 406.582,657.382 408.555,654.619L427.945,627.475C429.218,625.693 429.902,623.555 429.902,621.366L429.902,508.102C429.902,499.396 434.902,491.457 442.752,487.689L530.485,445.581C541.41,440.338 554.531,444.944 559.777,455.874L579.592,497.159C584.838,508.091 580.229,521.205 569.299,526.451L482.013,568.344C473.693,572.337 468.63,580.983 469.222,590.193L481.705,784.979C482.023,789.947 484.63,794.488 488.761,797.268C492.892,800.047 498.078,800.754 502.802,799.178L656.678,747.855C664.496,745.248 669.045,737.169 667.242,729.126C656.474,681.06 621.546,521.722 609.966,427.055Z"
+                style="fill:rgb(207,34,39);fill-rule:nonzero;" />
+              <path
+                d="M346.136,356.833C348.085,372.201 361.16,383.723 376.654,383.723L423.349,383.723C438.843,383.723 451.917,372.201 453.867,356.833L488.038,87.386C489.014,79.687 486.094,72.007 480.251,66.9L406.464,2.427C404.614,0.809 402.307,-0 400,-0C397.693,-0 395.386,0.809 393.536,2.427L319.752,66.9C313.908,72.007 310.988,79.687 311.964,87.386L346.136,356.833Z"
+                style="fill:rgb(207,34,39);fill-rule:nonzero;" />
+            </g>
+          </svg>
+          <span class="button-text">My<br>Characters</span>
+        </div>
+
+      </button>
+      <button class="dice-button" (click)="toggleLock()">
+        <div style="display: flex; flex-direction: row; column-gap: 5px;">
+          @if(locked()){
+          <svg width="40px" height="40px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+            style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <g>
+              <path
+                d="M106.003,364.818L164.329,364.818L164.329,241.647C164.329,175.208 191.523,114.798 235.28,71.029L235.28,70.97C279.056,27.194 339.479,0 405.964,0C472.396,0 532.806,27.194 576.582,70.97L576.647,71.029C620.404,114.798 647.598,175.208 647.598,241.647L647.598,364.818L694.056,364.818C704.408,364.818 712.884,373.294 712.884,383.639L712.884,781.178C712.884,791.523 704.408,800 694.056,800L106.003,800C95.651,800 87.174,791.523 87.174,781.178L87.174,383.639C87.174,373.294 95.651,364.818 106.003,364.818ZM258.21,364.818L553.698,364.818L553.698,240.306C553.698,199.681 537.07,162.721 510.326,135.944L510.293,135.97C483.529,109.186 446.576,92.552 405.964,92.552C365.332,92.552 328.379,109.18 301.582,135.944C274.831,162.721 258.21,199.681 258.21,240.306L258.21,364.818ZM407.155,582.344L436.979,719.967L355.228,720.313L379.219,580.84C356.882,573.678 340.69,552.747 340.69,528.034C340.69,497.428 365.495,472.624 396.113,472.624C426.699,472.624 451.523,497.428 451.523,528.034C451.523,554.857 432.461,577.233 407.155,582.344Z"
+                style="fill:rgb(205,34,39);" />
+            </g>
+          </svg>
+          } @else {
+          <svg width="40px" height="40px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+            style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <g>
+              <path
+                d="M16.829,367.715L356.576,367.715L356.576,264.668L356.634,264.668C356.647,203.678 381.556,148.275 421.667,108.145C461.797,68.021 517.233,43.099 578.249,43.099L578.249,43.034L578.359,43.034L578.359,43.092C639.349,43.105 694.753,68.014 734.883,108.125C775.013,148.255 799.928,203.691 799.928,264.707L800.007,264.707L800.007,384.284L704.837,384.284L704.837,263.47L704.915,263.47C704.902,228.757 690.625,197.135 667.663,174.18C644.694,151.191 613.053,136.934 578.314,136.914L578.314,136.973L578.21,136.973L578.21,136.914C543.483,136.927 511.862,151.172 488.887,174.134L488.919,174.167C465.944,197.135 451.667,228.776 451.667,263.503L451.725,263.503L451.725,367.721L542.786,367.721C552.044,367.721 559.616,375.299 559.616,384.551L559.616,740.104C559.616,749.362 552.044,756.921 542.786,756.921L16.829,756.921C7.559,756.921 0,749.362 0,740.104L0,384.544C0,375.293 7.559,367.715 16.829,367.715ZM286.178,562.259L312.858,685.358L239.733,685.651L261.198,560.898C241.224,554.512 226.725,535.788 226.725,513.685C226.725,486.328 248.932,464.121 276.296,464.121C303.652,464.121 325.859,486.328 325.859,513.685C325.866,537.663 308.809,557.669 286.178,562.259Z"
+                style="fill:rgb(205,34,39);" />
+            </g>
+          </svg>
+          }
+          <span class="button-text">Lock<br>Character</span>
+        </div>
+
+      </button>
+      <!-- <div style="display: flex; flex-direction: row; column-gap: 5px;">
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+        <span class="button-text">Lock<br>Character</span>
+      </div> -->
+
+      <button class="dice-button" (click)="SaveCharacter()">
+        <div style="display: flex; flex-direction: row; column-gap: 5px;">
+          <svg width="40px" height="40px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+            style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+            <path d="M750,750L50,750L50,50L559,50L750,241L750,750Z"
+              style="fill:none;fill-rule:nonzero;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+            <rect x="272.667" y="50" width="254.667" height="159"
+              style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+            <rect x="209" y="591" width="381.667" height="159"
+              style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+            <circle cx="400" cy="400" r="95.333" style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+          </svg>
+          <span class="button-text">Save<br>Character</span>
+        </div>
+
+      </button>
+
+    </div>
+  </div>
+  <div class="top-row-column card stats-container">
     <app-character-epithet />
 
-    </div>
-    <div class="top-row-column card stats-container">
-      <app-character-stats />
+  </div>
+  <div class="top-row-column card stats-container">
+    <app-character-stats />
 
-    </div>
-    <div class="top-row-column card skills-container">
-      <app-character-skills />
-    </div>
+  </div>
+  <div class="top-row-column card skills-container">
+    <app-character-skills />
+  </div>
 </div>
