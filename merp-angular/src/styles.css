@@ -52,6 +52,7 @@
   border-bottom: 1px solid darkslategray;
   text-align: center;
   background: transparent;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .text-box-name {
@@ -301,4 +302,5 @@
   font-size: larger;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: bold;
+  
 }

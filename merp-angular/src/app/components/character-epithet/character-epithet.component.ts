@@ -55,11 +55,15 @@ export class CharacterEpithetComponent {
     effect(() => {
       console.log(`in the set level effect`);
       const level = this.levelSignal();
-      console.log(`the level is ${level}`)
+      console.log(`the level is ${level}`);
       this.characterSheetStateService.SetCharacterLevel(level);
     });
 
-
+    effect(() => {
+      console.log(`in the name effect`);
+      const name = this.nameSignal();
+      this.characterSheetStateService.SetCharacterName(name);
+    });
 
   }
 
@@ -117,18 +121,18 @@ export class CharacterEpithetComponent {
       }
     });
 
-    this.characterNameSignal = computed(() => {
-      console.log('CHANGE THE NAME');
-      const name = this.nameSignal();
-      console.log(`name changed to ${name}`);
+    // this.characterNameSignal = computed(() => {
+    //   console.log('CHANGE THE NAME');
+    //   const name = this.nameSignal();
+    //   console.log(`name changed to ${name}`);
 
-      this.characterSheetStateService.SetCharacterName(name);
-      if (name) {
-        return name;
-      } else {
-        return '';
-      }
-    });
+    //   this.characterSheetStateService.SetCharacterName(name);
+    //   if (name) {
+    //     return name;
+    //   } else {
+    //     return '';
+    //   }
+    // });
 
     this.professionSignal = computed(() => {
       let professionName = this.professionNameSignal();
@@ -140,11 +144,11 @@ export class CharacterEpithetComponent {
     });
 
     this.characterSheetSignalStore.AddLevelSignal(this.levelSignal);
-    this.characterSheetSignalStore.AddNameSignal(this.characterNameSignal);
+    this.characterSheetSignalStore.AddNameSignal(this.nameSignal);
     this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
     this.characterSheetSignalStore.AddProfessionSignal(this.professionSignal);
   }
 
-  
+
 
 }
