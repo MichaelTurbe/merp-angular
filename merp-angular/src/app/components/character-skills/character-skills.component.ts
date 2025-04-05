@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { CharacterSkillComponent } from '../character-skill/character-skill.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import { SystemDataService } from '../../types/services/system.data.service';
 })
 
 export class CharacterSkillsComponent {
+  disabled = input.required<boolean>();
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService
   ) {

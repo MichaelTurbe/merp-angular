@@ -768,7 +768,7 @@ export class SystemDataService {
 
     let Dwarves = {
       id: 1,
-      Name: "Dwarves",
+      Name: "Dwarf",
       Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
@@ -817,7 +817,7 @@ export class SystemDataService {
     } as Race; this.races.push(Dunedain);
 
     let HalfElves = {
-      id: 3, Name: "Half-elves", Human: false,
+      id: 3, Name: "Half-elf", Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus,
         { Stat: this.GetStatByName("Agility"), Bonus: 5 } as RaceStatBonus,
@@ -833,7 +833,7 @@ export class SystemDataService {
     } as Race; this.races.push(HalfElves);
 
     let NoldorElves = {
-      id: 4, Name: "Noldor Elves", Human: false,
+      id: 4, Name: "Noldor Elf", Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Agility"), Bonus: 15 } as RaceStatBonus,
         { Stat: this.GetStatByName("Constitution"), Bonus: 10 } as RaceStatBonus,
@@ -850,7 +850,7 @@ export class SystemDataService {
     } as Race; this.races.push(NoldorElves);
 
     let SindarElves = {
-      id: 5, Name: "Sindar Elves", Human: false,
+      id: 5, Name: "Sindar Elf", Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Agility"), Bonus: 10 } as RaceStatBonus,
         { Stat: this.GetStatByName("Constitution"), Bonus: 5 } as RaceStatBonus,
@@ -866,7 +866,7 @@ export class SystemDataService {
     } as Race; this.races.push(SindarElves);
 
     let SilvanElves = {
-      id: 6, Name: "Silvan Elves", Human: false,
+      id: 6, Name: "Silvan Elf", Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Agility"), Bonus: 10 } as RaceStatBonus,
         { Stat: this.GetStatByName("Intuition"), Bonus: 5 } as RaceStatBonus,
@@ -881,7 +881,7 @@ export class SystemDataService {
     } as Race; this.races.push(SilvanElves);
 
     let Hobbits = {
-      id: 7, Name: "Hobbits", Human: false,
+      id: 7, Name: "Hobbit", Human: false,
       StatBonuses: [
         { Stat: this.GetStatByName("Strength"), Bonus: -20 } as RaceStatBonus,
         { Stat: this.GetStatByName("Agility"), Bonus: 15 } as RaceStatBonus,
@@ -908,21 +908,21 @@ export class SystemDataService {
     humanResistanceRollBonuses.push({ Skill: poisonRR, Bonus: 0 } as RaceResistanceRollBonus);
     humanResistanceRollBonuses.push({ Skill: diseaseRR, Bonus: 0 } as RaceResistanceRollBonus);
 
-    let Beornings = { id: 14, Name: "Beornings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Beornings);
-    let BlackNumenoreans = { id: 15, Name: "Black Numenoreans", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(BlackNumenoreans);
-    let Corsairs = { id: 16, Name: "Corsairs", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Corsairs);
+    let Beornings = { id: 14, Name: "Beorning", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Beornings);
+    let BlackNumenoreans = { id: 15, Name: "Black Numenorean", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(BlackNumenoreans);
+    let Corsairs = { id: 16, Name: "Corsair", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Corsairs);
     let Dorwinrim = { id: 17, Name: "Dorwinrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Dorwinrim);
 
-    let Dunlendings = { id: 19, Name: "Dunlendings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Dunlendings);
-    let Easterlings = { id: 20, Name: "Easterlings", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Easterlings);
+    let Dunlendings = { id: 19, Name: "Dunlending", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Dunlendings);
+    let Easterlings = { id: 20, Name: "Easterling", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Easterlings);
     let Haradrim = { id: 21, Name: "Haradrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Haradrim);
     let Lossoth = { id: 22, Name: "Lossoth", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Lossoth);
     let Rohirrim = { id: 23, Name: "Rohirrim", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Rohirrim);
-    let RuralMen = { id: 24, Name: "Rural Men", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(RuralMen);
-    let UrbanMen = { id: 25, Name: "Urban Men", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(UrbanMen);
-    let Variags = { id: 26, Name: "Variags", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Variags);
-    let Woodmen = { id: 27, Name: "Woodmen", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Woodmen);
-    let Woses = { id: 28, Name: "Woses", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Woses);
+    let RuralMen = { id: 24, Name: "Rural Man", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(RuralMen);
+    let UrbanMen = { id: 25, Name: "Urban Man", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(UrbanMen);
+    let Variags = { id: 26, Name: "Variag", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Variags);
+    let Woodmen = { id: 27, Name: "Woodman", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Woodmen);
+    let Woses = { id: 28, Name: "Wose", Human: true, StatBonuses: [{ Stat: this.GetStatByName("Strength"), Bonus: 5 } as RaceStatBonus], ResistanceRollBonuses: humanResistanceRollBonuses } as Race; this.races.push(Woses);
   }
 
   GetAllRaceTypes(): Array<KeyValue> {

@@ -17,6 +17,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './character-sheet.component.css'
 })
 export class CharacterSheetComponent {
+  disabled: WritableSignal<boolean> = signal<boolean>(false);
   public locked: WritableSignal<boolean> = signal(false);
   public toggleEpithetSignal: Signal<boolean>;
   public showEpithetSignal: Signal<boolean>;
@@ -29,6 +30,7 @@ export class CharacterSheetComponent {
     private router: Router,
     protected characterSheetStateService: CharacterSheetStateService
   ) {
+    this.disabled.set(false);
     //TODO - note that these things will have to happen in 
     // a guard for anything to work
     const characterId = this.route.snapshot.params['characterId'];
@@ -61,6 +63,8 @@ export class CharacterSheetComponent {
   public toggleLock() {
     let currentValue = this.locked();
     this.locked.set(!currentValue);
+    let currentlyDisabled = this.disabled();
+    this.disabled.set(!currentlyDisabled)
   }
 
   public SaveCharacter() {

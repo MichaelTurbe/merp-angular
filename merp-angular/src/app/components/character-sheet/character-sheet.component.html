@@ -15,7 +15,7 @@
                 style="fill:rgb(207,34,39);fill-rule:nonzero;" />
             </g>
           </svg>
-          <span class="button-text">My<br>Characters</span>
+          <span class="button-text">Go To My<br>Characters</span>
         </div>
 
       </button>
@@ -42,7 +42,13 @@
             </g>
           </svg>
           }
-          <span class="button-text">Lock<br>Character</span>
+          <span class="button-text">
+            @if(locked()){
+              Unlock<br>Character
+            } @else{
+            Lock<br>Character
+            }
+          </span>
         </div>
 
       </button>
@@ -123,15 +129,15 @@
   </div> -->
 
   <div class="top-row-column card stats-container" style="order: 2;">
-    <app-character-epithet />
+    <app-character-epithet [disabled]="disabled()" />
 
   </div>
 
   <div class="top-row-column card stats-container" style="order: 3;">
-    <app-character-stats />
+    <app-character-stats [disabled]="disabled()" />
 
   </div>
   <div class="top-row-column card skills-container" style="order: 4;">
-    <app-character-skills />
+    <app-character-skills [disabled]="disabled()" />
   </div>
 </div>

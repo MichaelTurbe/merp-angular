@@ -1,4 +1,4 @@
-import { Component, computed, effect, Signal } from '@angular/core';
+import { Component, computed, effect, input, signal, Signal, WritableSignal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { KeyValue } from '../../types/utilities/key-value';
@@ -17,6 +17,7 @@ import { Profession } from '../../types/models/Profession';
   styleUrl: './character-epithet.component.css'
 })
 export class CharacterEpithetComponent {
+  disabled = input.required<boolean>();
   nameControl = new FormControl('');
   raceTypeControl = new FormControl([]);
   raceControl = new FormControl([]);
@@ -63,6 +64,23 @@ export class CharacterEpithetComponent {
       console.log(`in the name effect`);
       const name = this.nameSignal();
       this.characterSheetStateService.SetCharacterName(name);
+    });
+
+    effect(() => {
+      let lock = this.disabled();
+      if (lock) {
+        this.nameControl.disable();
+        this.raceTypeControl.disable();
+        this.raceControl.disable();
+        this.levelControl.disable();
+        this.professionControl.disable();
+      } else {
+        this.nameControl.enable();
+        this.raceTypeControl.enable();
+        this.raceControl.enable();
+        this.levelControl.enable();
+        this.professionControl.enable();
+      }
     });
 
   }
