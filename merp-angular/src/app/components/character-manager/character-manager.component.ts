@@ -14,8 +14,8 @@ export class CharacterManagerComponent {
   characterListSignal: WritableSignal<Array<Character>>;
   allCharacters: Array<Character> = new Array<Character>();
 
-  constructor(private systemDataService: SystemDataService,
-    private characterDataService: CharacterDataService
+    constructor(private systemDataService: SystemDataService,
+      private characterDataService: CharacterDataService
   ) {
     this.characterListSignal = signal([])
   }

@@ -11,6 +11,7 @@ import { SkillFieldType } from "../models/SkillFieldType";
 import { CharacterSkill } from "../models/CharacterSkill";
 import { Race } from "../models/Race";
 import { Profession } from "../models/Profession";
+import { Item } from "../models/Item";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -195,7 +196,38 @@ export class CharacterSheetStateService {
   }
 
   SaveCharacter() {
+    // get the latest inventory:
+    let inventorySignal = this.characterSheetSignalStore.GetInventorySignal();
+    if (inventorySignal) {
+      this.character.Inventory = inventorySignal();
+    }
     this.characterDataService.setItem(this.character);
+  }
+
+  AddNewItem(): Item {
+    let newItem = {
+      id: this.getNextItemId(),
+      Name: '',
+      ItemType: null,
+      AppliesToSkill: false,
+      SkillForBonus: null,
+      Bonus: 0,
+      Weight: 0,
+      Carried: true,
+      ShowInActions: false
+    } as Item;
+    this.character.Inventory.push(newItem);
+    return newItem;
+  }
+
+  getNextItemId(): number {
+    let maxId = 1;
+    this.character.Inventory.forEach(item => {
+      if (item.id > maxId) {
+        maxId = item.id;
+      }
+    });
+    return maxId++;
   }
 
 }

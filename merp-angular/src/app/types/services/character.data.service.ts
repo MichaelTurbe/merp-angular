@@ -4,6 +4,7 @@ import { CharacterStat } from "../models/CharacterStat";
 import { LocalStorageRepository } from "./local-storage.repository";
 import { SystemDataService } from "./system.data.service";
 import { CharacterSkill } from "../models/CharacterSkill";
+import { Item } from "../models/Item";
 
 @Injectable({ providedIn: 'root' })
 export class CharacterDataService extends LocalStorageRepository<Character> {
@@ -22,7 +23,7 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     return this.getNextAvailableIdForType();
   }
 
-  public getBlankCharacter(name:string): Character {
+  public getBlankCharacter(name: string): Character {
     const character = {} as Character;
     character.id = this.getNewCharacterId();
     character.Name = name;
@@ -90,6 +91,8 @@ export class CharacterDataService extends LocalStorageRepository<Character> {
     });
 
     character.Skills = characterSkills;
+
+    character.Inventory = new Array<Item>();
 
     return character;
   }

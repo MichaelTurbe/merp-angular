@@ -3,10 +3,9 @@ import { StorageEntity } from "../utilities/storage-entity";
 import { CharacterSkill } from "./CharacterSkill";
 import { Race } from "./Race";
 import { Profession } from "./Profession";
+import { Item } from "./Item";
 
 export interface Character extends StorageEntity {
-  // id: string,
-  // storageType: 'string',
   Name: string,
   Level: number,
   Strength: CharacterStat,
@@ -18,4 +17,5 @@ export interface Character extends StorageEntity {
   Skills: Array<CharacterSkill>;
   Race: Race;
   Profession?: Profession;
+  Inventory: Array<Item>;
 }

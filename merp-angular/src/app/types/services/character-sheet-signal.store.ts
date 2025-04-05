@@ -131,4 +131,15 @@ export class CharacterSheetSignalStore extends SignalStore {
     }
   }
 
+  public AddInventorySignal(inventorySignal: Signal<any>) {
+    const key = 'inventrory';
+    this.add(key, inventorySignal);
+  }
+
+  public GetInventorySignal() {
+    const key = `inventory`;
+    const inventorySignal = this.get(key);
+    return inventorySignal;
+  }
+
 }

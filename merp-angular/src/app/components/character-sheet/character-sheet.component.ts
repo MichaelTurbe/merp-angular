@@ -7,11 +7,12 @@ import { CharacterSkillsComponent } from '../character-skills/character-skills.c
 import { CharacterEpithetComponent } from '../character-epithet/character-epithet.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CharacterInventoryComponent } from '../character-inventory/character-inventory.component';
 
 @Component({
   selector: 'app-character-sheet',
   imports: [CharacterStatsComponent, CharacterSkillsComponent,
-    CharacterEpithetComponent, ReactiveFormsModule],
+    CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent],
   providers: [CharacterSheetStateService, CharacterSheetSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
@@ -64,7 +65,7 @@ export class CharacterSheetComponent {
     let currentValue = this.locked();
     this.locked.set(!currentValue);
     let currentlyDisabled = this.disabled();
-    this.disabled.set(!currentlyDisabled)
+    this.disabled.set(!currentlyDisabled);
   }
 
   public SaveCharacter() {
