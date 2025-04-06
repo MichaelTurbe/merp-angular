@@ -10,6 +10,6 @@ export interface Item{
   SkillForBonus: Skill,
   Bonus: number,
   Weight: number,
-  Carried: boolean,
+  Worn: boolean,
   ShowInActions: boolean
 }

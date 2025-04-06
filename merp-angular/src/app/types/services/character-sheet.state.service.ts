@@ -213,7 +213,7 @@ export class CharacterSheetStateService {
       SkillForBonus: null,
       Bonus: 0,
       Weight: 0,
-      Carried: true,
+      Worn: false,
       ShowInActions: false
     } as Item;
     this.character.Inventory.push(newItem);

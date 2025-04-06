@@ -1,19 +1,35 @@
 <div class="card inventory-box" style="display: flex; flex-direction: column;">
-  <div style="display: flex; flex-direction: row;">
-    <input type="text" style="width: 100px;" placeholder="description">
+  <div style="display: flex; flex-direction: row; column-gap: 5px;">
+    <input type="text" style="width: 150px;" placeholder="description">
     <span>Item Type:</span>
     <select style="width: 75px"></select>
-    <span>Carried?</span>
+  </div>
+  <div style="display: flex; flex-direction: row;">
+    <span>Worn?</span>
     <input type="checkbox">
     <span>Weight:</span>
     <input type="text" style="width: 30px;">
-  </div>
-  <div style="display: flex; flex-direction: row;">
     <span>Applies to Skill?</span>
     <input type="checkbox">
+  </div>
+  <div style="display: flex; flex-direction: row;">
+
+
     <span>Skill:</span>
-    <select style="width: 75px"></select>
+    <select style="width: 150px"></select>
     <span>Bonus:</span>
+    <input type="number" style="width: 50px;">
+  </div>
+  <div style="display: flex; flex-direction: row;">
+    <span>Fumble Range:</span>
+    <input type="number" style="width: 50px;">
+    <span>Primary Crit</span>
     <input type="text" style="width: 30px;">
+  </div>
+  <div style="display: flex; flex-direction: row;">
+    <span>Secondary Crit</span>
+    <input type="text" style="width: 30px;">
+    <span>Base Range</span>
+    <input type="number" style="width: 50px;">
   </div>
 </div>
