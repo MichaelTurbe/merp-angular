@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ToastService {
   private toasts: HTMLElement[] = [];
   constructor() { }
-  showToast(message: string, type: 'success' | 'error' | 'warning' = 'success', duration: number = 3000, position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'bottom-right', backgroundColor: string = '#333', textColor: string = '#fff', fontSize: string = '14px') {
+  showToast(message: string, type: 'success' | 'error' | 'warning' = 'success', duration: number = 3000, position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' = 'bottom-right', backgroundColor: string = '#333', textColor: string = '#fff', fontSize: string = '16px') {
     const toast = document.createElement('div');
     toast.classList.add('toast', type);
     toast.textContent = message;

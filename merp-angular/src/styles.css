@@ -156,10 +156,10 @@
 
 .skill-row-grid {
   display: grid;
-  grid-template-columns: 1.5fr 2fr 1fr .3fr .5fr repeat(4, .3fr) .75fr;
+  grid-template-columns: 1.25fr 2fr 1fr .3fr .5fr repeat(4, .3fr) 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 5px;
-  grid-row-gap: 10px;
+  grid-row-gap: 5px;
 }
 
 .skill-row-div1 {

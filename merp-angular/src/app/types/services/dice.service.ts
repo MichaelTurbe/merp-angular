@@ -36,7 +36,7 @@ export class DiceService {
   executeRoll(characterName: string, skillType: string, rollType: string, bonus: number) {
     if (this.connected() && !this.rolling()) {
       console.log('in roll');
-      const { dice } = parseRollEquation(`1d100+${bonus}`, 'dddice-bees');
+      const { dice } = parseRollEquation(`1d100+${bonus}`, 'bloodreign-first-anniversary');
       console.log(dice);
       // const modifier: string = bonus.toString();
       const options = {
