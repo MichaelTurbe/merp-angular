@@ -70,7 +70,7 @@
                 <input class="text-box" [value]="skillTotalBonusSignal()" disabled="true" type="text"
                         style="font-weight: bold;">
 
-                <button class="dice-button">
+                <button class="dice-button" (click)="executeRoll()">
                         <div style="display: flex; flex-direction: row; column-gap: 5px;">
                                 <span class="fixed-width">{{Skill().SkillTypeAbbreviation}}</span>
                                 <svg width="auto" height="15px" viewBox="0 0 556 616" version="1.1"

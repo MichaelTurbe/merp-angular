@@ -1,4 +1,4 @@
-import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, Inject, Signal, signal, WritableSignal } from '@angular/core';
 import { CharacterStatsComponent } from '../character-stats/character-stats.component';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,11 @@ import { CharacterEpithetComponent } from '../character-epithet/character-epithe
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CharacterInventoryComponent } from '../character-inventory/character-inventory.component';
+import { DOCUMENT } from '@angular/common';
+import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent } from 'dddice-js';
+import { DiceService } from '../../types/services/dice.service';
+import { ToastService } from '../../types/services/toast.service';
+
 
 @Component({
   selector: 'app-character-sheet',
@@ -19,21 +24,20 @@ import { CharacterInventoryComponent } from '../character-inventory/character-in
 })
 export class CharacterSheetComponent {
   disabled: WritableSignal<boolean> = signal<boolean>(false);
-  public locked: WritableSignal<boolean> = signal(false);
-  public toggleEpithetSignal: Signal<boolean>;
-  public showEpithetSignal: Signal<boolean>;
-  public showStats: WritableSignal<boolean> = signal(true);
-  public showFullSkills: WritableSignal<boolean> = signal(true);
-  public showEpithetControl = new FormControl(true);
 
-  constructor(protected context: CharacterSheetStateService,
+  public locked: WritableSignal<boolean> = signal(false);
+
+
+  constructor(@Inject(DOCUMENT) private document: Document,
+    protected context: CharacterSheetStateService,
+    protected diceService: DiceService,
     private route: ActivatedRoute,
     private router: Router,
-    protected characterSheetStateService: CharacterSheetStateService
+    protected characterSheetStateService: CharacterSheetStateService,
+    protected toastService: ToastService
   ) {
     this.disabled.set(false);
-    //TODO - note that these things will have to happen in 
-    // a guard for anything to work
+
     const characterId = this.route.snapshot.params['characterId'];
     if (characterId) {
       console.log(`CharacterId: ${characterId}`);
@@ -44,18 +48,13 @@ export class CharacterSheetComponent {
       }
     }
 
-    this.toggleEpithetSignal = toSignal(
-      this.showEpithetControl.valueChanges
-    );
+
   }
 
   ngOnInit() {
-    this.showEpithetControl.setValue(true);
-    this.showEpithetSignal = computed(() => {
-      const show = this.toggleEpithetSignal();
-      return show;
-    });
+
   }
+
   public navigateToMyCharacters() {
     console.log('navvvvv');
     this.router.navigate(["/"]);
@@ -70,5 +69,6 @@ export class CharacterSheetComponent {
 
   public SaveCharacter() {
     this.characterSheetStateService.SaveCharacter();
+    this.toastService.showToast('Character Saved!', 'success', 3000, 'bottom-right');
   }
 }

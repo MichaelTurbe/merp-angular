@@ -8,6 +8,7 @@ import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { StatFieldType } from '../../types/models/StatFieldType';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { Profession } from '../../types/models/Profession';
+import { DiceService } from '../../types/services/dice.service';
 
 @Component({
   selector: 'app-character-skill',
@@ -62,7 +63,8 @@ export class CharacterSkillComponent {
 
   constructor(protected signalStore: CharacterSheetSignalStore,
     protected context: CharacterSheetStateService,
-    protected systemDataService: SystemDataService
+    protected systemDataService: SystemDataService,
+    protected diceServie: DiceService
   ) {
     this.gatherCheckBoxControls();
   
@@ -277,5 +279,9 @@ export class CharacterSkillComponent {
     }
     console.log(`Professional bonus for ${this.Skill()} is ${bonus}`);
     return bonus;
+  }
+
+  executeRoll() {
+    this.diceServie.executeRoll(this.context.GetCharacterName(), this.Skill().Name, this.Skill().SkillTypeAbbreviation, this.skillTotalBonusSignal())
   }
 }
