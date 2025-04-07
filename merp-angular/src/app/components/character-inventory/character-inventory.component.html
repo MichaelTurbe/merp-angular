@@ -100,7 +100,7 @@
   </div>
   <div class="inventory-container">
     @for (item of inventorySignal(); track item.id) {
-    <app-character-item [Item]="item"></app-character-item>
+    <app-character-item [Item]="item" [disabled]="disabled()"></app-character-item>
     }
   </div>
 </div>

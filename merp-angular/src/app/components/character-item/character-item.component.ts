@@ -1,12 +1,44 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input, Signal } from '@angular/core';
 import { Item } from '../../types/models/Item';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+import { SystemDataService } from '../../types/services/system.data.service';
+import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
+import { ItemType } from '../../types/models/ItemType';
+import { ItemTypes } from '../../types/models/ItemType';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-character-item',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './character-item.component.html',
   styleUrl: './character-item.component.css'
 })
 export class CharacterItemComponent {
   Item = input.required<Item>();
+  disabled = input.required<boolean>();
+  itemTypes: Array<ItemType>;
+
+  nameControl = new FormControl('');
+  itemTypeControl = new FormControl([]);
+  itemTypeSignal: Signal<any>;
+  isWeaponSignal: Signal<boolean>;
+
+  constructor(protected context: CharacterSheetStateService,
+      protected systemDataService: SystemDataService,
+      protected characterSheetSignalStore: CharacterSheetSignalStore) {
+    this.itemTypes = Object.values(ItemTypes);
+    this.itemTypeSignal = toSignal(this.itemTypeControl.valueChanges);
+  }
+
+  ngOnInit() {
+    this.isWeaponSignal = computed(() => {
+      let itemType = this.itemTypeSignal();
+      if (itemType == ItemTypes.Weapon) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
 }

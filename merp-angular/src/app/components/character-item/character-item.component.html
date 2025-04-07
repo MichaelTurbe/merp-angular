@@ -1,35 +1,41 @@
-<div class="card inventory-box" style="display: flex; flex-direction: column;">
-  <div style="display: flex; flex-direction: row; column-gap: 5px;">
-    <input type="text" style="width: 150px;" placeholder="description">
-    <span>Item Type:</span>
-    <select style="width: 75px"></select>
+<div class="card inventory-box" style="display: flex; flex-direction: column; row-gap: 5px;">
+  <div style="display: flex; flex-direction: row; column-gap: 5px; align-items: center;">
+    <input type="text" style="width: 150px;" placeholder="description" [formControl]="nameControl">
+    <span class="label-text">Item Type:</span>
+    <select [formControl]="itemTypeControl" class="select-in-small-cell">
+      @for (itemType of itemTypes; track itemType) {
+      <option [value]="itemType">{{ itemType }}</option>
+      }
+    </select>
   </div>
   <div style="display: flex; flex-direction: row;">
-    <span>Worn?</span>
+    <span class="label-text">Worn?</span>
     <input type="checkbox">
-    <span>Weight:</span>
+    <span class="label-text">Weight:</span>
     <input type="text" style="width: 30px;">
-    <span>Applies to Skill?</span>
+    <span class="label-text">Applies to Skill?</span>
     <input type="checkbox">
   </div>
   <div style="display: flex; flex-direction: row;">
 
 
-    <span>Skill:</span>
+    <span class="label-text">Skill:</span>
     <select style="width: 150px"></select>
-    <span>Bonus:</span>
+    <span class="label-text">Bonus:</span>
     <input type="number" style="width: 50px;">
   </div>
+  @if(isWeaponSignal()){
   <div style="display: flex; flex-direction: row;">
-    <span>Fumble Range:</span>
+    <span class="label-text">Fumble Range:</span>
     <input type="number" style="width: 50px;">
-    <span>Primary Crit</span>
+    <span class="label-text">Primary Crit</span>
     <input type="text" style="width: 30px;">
   </div>
   <div style="display: flex; flex-direction: row;">
-    <span>Secondary Crit</span>
+    <span class="label-text">Secondary Crit</span>
     <input type="text" style="width: 30px;">
-    <span>Base Range</span>
+    <span class="label-text">Base Range</span>
     <input type="number" style="width: 50px;">
   </div>
+  }
 </div>
