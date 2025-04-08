@@ -14,5 +14,9 @@ export class SignalStore {
   public get(name: string) {
     return this.signalMap.get(name);
   }
+
+  public has(name: string): boolean {
+    return this, this.signalMap.has(name);
+  }
 }
 

@@ -1,11 +1,14 @@
-import { Injectable, Signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal } from "@angular/core";
 import { SignalStore } from "./signal-store";
 import { StatFieldType } from "../models/StatFieldType";
 import { Skill } from "../models/Skill";
 import { SkillFieldType } from "../models/SkillFieldType";
+import { DiceSet } from "../models/DiceSet";
 
 @Injectable()
 export class CharacterSheetSignalStore extends SignalStore {
+  inventoryKey: string = "inventory";
+
   constructor() {
     super();
   }
@@ -98,12 +101,12 @@ export class CharacterSheetSignalStore extends SignalStore {
     const key = 'profession';
     this.add(key, professionSignal);
   }
- 
-  public GetProfessionSignal(): Signal<any>{
+
+  public GetProfessionSignal(): Signal<any> {
     const key = 'profession';
     return this.get(key);
   }
-  
+
   public GetRaceSignal(): Signal<any> {
     const key = `race`;
     const raceSignal = this.get(key);
@@ -132,14 +135,11 @@ export class CharacterSheetSignalStore extends SignalStore {
   }
 
   public AddInventorySignal(inventorySignal: Signal<any>) {
-    const key = 'inventrory';
-    this.add(key, inventorySignal);
+    this.add(this.inventoryKey, inventorySignal);
   }
 
   public GetInventorySignal() {
-    const key = `inventory`;
-    const inventorySignal = this.get(key);
+    const inventorySignal = this.get(this.inventoryKey);
     return inventorySignal;
   }
-
 }

@@ -219,8 +219,8 @@ height: 85vh; justify-content: space-between;">
     <div style="display: flex; 
           height:80%;">
       <div style="display: flex; flex-direction: column; margin-top: 5px; overflow-y: scroll; width: 100%;">
-        @for(diceSet of diceService.dice; track diceSet.id){
-        <button class="dice-button">
+        @for(diceSet of allDiceSetsSignal(); track diceSet.id){
+        <button class="dice-button" (click)="setCurrentDiceSet(diceSet)">
           <img [src]="diceSet.preview" style="width: 100%;" />
         </button>
         }

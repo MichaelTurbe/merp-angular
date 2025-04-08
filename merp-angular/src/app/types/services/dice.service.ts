@@ -2,6 +2,8 @@ import { Injectable, signal, WritableSignal } from "@angular/core";
 import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation } from 'dddice-js';
 import { ToastService } from "./toast.service";
 import { DiceSet } from "../models/DiceSet";
+import { PreferenceDataService } from "./preference.data.service";
+import { AppSignalStore } from "./app-signal.store";
 
 
 @Injectable({ providedIn: 'root' })
@@ -9,11 +11,11 @@ export class DiceService {
   private dddice!: ThreeDDice;
   rolling: WritableSignal<boolean> = signal<boolean>(false);
   connected: WritableSignal<boolean> = signal<boolean>(false);
-  public dice: Array<DiceSet> = new Array<DiceSet>();
-  public currentDiceSet: WritableSignal<DiceSet>;
+  private dice: Array<DiceSet> = new Array<DiceSet>();
 
   constructor(private toastService: ToastService,
-    
+    private appSignalStore: AppSignalStore,
+    private preferenceDataService: PreferenceDataService
   ) {
 
   }
@@ -36,17 +38,7 @@ export class DiceService {
 
       // load the dice themes
       this.dddice.api?.diceBox.list().then(result => {
-        console.log(result);
-        const allTheDice = result.data.sort((a, b) => {
-          if (a.name! > b.name!) {
-            return 1;
-          } else if (a.name! > b.name!) {
-            return -1;
-          } else {
-            return 0;
-          }
-        });
-        allTheDice.map(item => {
+        result.data.map(item => {
           const preview = item.preview.preview;
           let diceCount = Object.keys(item.sizes).length;
           if (diceCount >= 7) {
@@ -54,14 +46,32 @@ export class DiceService {
           }
 
         });
-        console.log(this.dice);
-        // if (this.currentDiceSetId !== "") {
-        //   let selectedDiceId = this.currentDiceSetId as never;
-        //   this.diceSetSelect.setValue(selectedDiceId, { onlySelf: true });
-        // } else {
-        //   let selectedDefaultDiceId = this.dice[0].id as never;
-        //   this.diceSetSelect.setValue(selectedDefaultDiceId, { onlySelf: true });
-        // }
+        this.dddice.api?.diceBox.next().then(result => {
+          console.log(result);
+          result.data.map(item => {
+            const preview = item.preview.preview;
+            let diceCount = Object.keys(item.sizes).length;
+            if (diceCount >= 7) {
+              this.dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+            }
+
+          });
+        });
+        this.appSignalStore.SetAllDiceSetsSignalValue(this.dice);
+
+        let currentDiceSet: DiceSet = null;
+        let currentDiceSetResult = this.preferenceDataService.GetCurrentDiceSet();
+        if (currentDiceSetResult.success) {
+          currentDiceSet = currentDiceSetResult.value;
+
+        } else if (this.dice.length > 0) {
+          currentDiceSet = this.dice[0];
+
+        } else {
+          currentDiceSet = null;
+        }
+        this.appSignalStore.SetCurrentDiceSetSignalValue(currentDiceSet);
+
       });
     } else {
       console.log('already connected');

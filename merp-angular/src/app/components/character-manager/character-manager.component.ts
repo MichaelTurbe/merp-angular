@@ -4,25 +4,38 @@ import { CharacterDataService } from '../../types/services/character.data.servic
 import { Character } from '../../types/models/Character';
 import { RouterModule } from '@angular/router';
 import { DiceService } from '../../types/services/dice.service';
+import { DiceSet } from '../../types/models/DiceSet';
+import { PreferenceDataService } from '../../types/services/preference.data.service';
+import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
+import { AppSignalStore } from '../../types/services/app-signal.store';
 
 @Component({
   selector: 'app-character-manager',
   imports: [RouterModule],
+  providers: [CharacterSheetStateService, AppSignalStore, DiceService],
   templateUrl: './character-manager.component.html',
   styleUrl: './character-manager.component.css'
 })
 export class CharacterManagerComponent {
   characterListSignal: WritableSignal<Array<Character>>;
+  currentDiceSetSignal: WritableSignal<DiceSet>;
   allCharacters: Array<Character> = new Array<Character>();
+  allDiceSetsSignal: Signal<Array<DiceSet>>;
 
   constructor(private systemDataService: SystemDataService,
     private characterDataService: CharacterDataService,
-    public diceService: DiceService
+    public diceService: DiceService,
+    private appSignalStore: AppSignalStore,
+    private preferenceDataService: PreferenceDataService
   ) {
     this.characterListSignal = signal([]);
+    this.allDiceSetsSignal = this.appSignalStore.GetAllDiceSetsSignal();
+    this.currentDiceSetSignal = this.appSignalStore.GetCurrentDiceSetSignal();
+    console.log('sets:', this.allDiceSetsSignal())
   }
 
   ngOnInit() {
+    console.log('sets here:', this.allDiceSetsSignal())
     this.allCharacters = this.characterDataService.getAllItems();
     this.characterListSignal.set(this.allCharacters);
   }
@@ -33,5 +46,10 @@ export class CharacterManagerComponent {
     this.allCharacters.push(newCharacter);
     this.characterListSignal.set(this.allCharacters);
 
+  }
+
+  public setCurrentDiceSet(diceSet: DiceSet) {
+    this.currentDiceSetSignal.set(diceSet);
+    this.preferenceDataService.SetCurrentDiceSet(diceSet);
   }
 }

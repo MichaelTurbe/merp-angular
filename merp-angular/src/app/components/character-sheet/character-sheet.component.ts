@@ -18,13 +18,12 @@ import { ToastService } from '../../types/services/toast.service';
   selector: 'app-character-sheet',
   imports: [CharacterStatsComponent, CharacterSkillsComponent,
     CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent],
-  providers: [CharacterSheetStateService, CharacterSheetSignalStore],
+  providers: [CharacterSheetStateService, CharacterSheetSignalStore, DiceService],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
 })
 export class CharacterSheetComponent {
   disabled: WritableSignal<boolean> = signal<boolean>(false);
-
   public locked: WritableSignal<boolean> = signal(false);
 
 
