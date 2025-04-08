@@ -3,6 +3,7 @@ import { SystemDataService } from '../../types/services/system.data.service';
 import { CharacterDataService } from '../../types/services/character.data.service';
 import { Character } from '../../types/models/Character';
 import { RouterModule } from '@angular/router';
+import { DiceService } from '../../types/services/dice.service';
 
 @Component({
   selector: 'app-character-manager',
@@ -14,10 +15,11 @@ export class CharacterManagerComponent {
   characterListSignal: WritableSignal<Array<Character>>;
   allCharacters: Array<Character> = new Array<Character>();
 
-    constructor(private systemDataService: SystemDataService,
-      private characterDataService: CharacterDataService
+  constructor(private systemDataService: SystemDataService,
+    private characterDataService: CharacterDataService,
+    public diceService: DiceService
   ) {
-    this.characterListSignal = signal([])
+    this.characterListSignal = signal([]);
   }
 
   ngOnInit() {

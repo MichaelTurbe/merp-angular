@@ -1,6 +1,7 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
 import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation } from 'dddice-js';
 import { ToastService } from "./toast.service";
+import { DiceSet } from "../models/DiceSet";
 
 
 @Injectable({ providedIn: 'root' })
@@ -8,8 +9,12 @@ export class DiceService {
   private dddice!: ThreeDDice;
   rolling: WritableSignal<boolean> = signal<boolean>(false);
   connected: WritableSignal<boolean> = signal<boolean>(false);
+  public dice: Array<DiceSet> = new Array<DiceSet>();
+  public currentDiceSet: WritableSignal<DiceSet>;
 
-  constructor(private toastService: ToastService) {
+  constructor(private toastService: ToastService,
+    
+  ) {
 
   }
 
@@ -27,6 +32,36 @@ export class DiceService {
         }
         const calculationString = this.getRollCalculation(event);
         this.toastService.showToast(`${message} ${event.total_value} ${calculationString}`);
+      });
+
+      // load the dice themes
+      this.dddice.api?.diceBox.list().then(result => {
+        console.log(result);
+        const allTheDice = result.data.sort((a, b) => {
+          if (a.name! > b.name!) {
+            return 1;
+          } else if (a.name! > b.name!) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        allTheDice.map(item => {
+          const preview = item.preview.preview;
+          let diceCount = Object.keys(item.sizes).length;
+          if (diceCount >= 7) {
+            this.dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+          }
+
+        });
+        console.log(this.dice);
+        // if (this.currentDiceSetId !== "") {
+        //   let selectedDiceId = this.currentDiceSetId as never;
+        //   this.diceSetSelect.setValue(selectedDiceId, { onlySelf: true });
+        // } else {
+        //   let selectedDefaultDiceId = this.dice[0].id as never;
+        //   this.diceSetSelect.setValue(selectedDefaultDiceId, { onlySelf: true });
+        // }
       });
     } else {
       console.log('already connected');
