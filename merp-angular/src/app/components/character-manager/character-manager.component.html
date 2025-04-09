@@ -16,7 +16,7 @@ height: 85vh; justify-content: space-between;">
       </div>
     </div>
     <div style="display: flex; 
-          height:80%; ">
+          height:80%; border: 2px; border-style: inset; border-radius: 10px;">
       <div style="display: flex; flex-direction: column; margin-top: 5px; overflow-y: scroll; width: 100%;">
         @for(character of allCharacters; track character.id){
         <a [routerLink]="['/character', character.id]">
@@ -217,7 +217,7 @@ height: 85vh; justify-content: space-between;">
       </div>
     </div>
     <div style="display: flex; 
-          height:80%;">
+          height:80%;border: 2px; border-style: inset; border-radius: 10px;">
       <div style="display: flex; flex-direction: column; margin-top: 5px; overflow-y: scroll; width: 100%;">
         @for(diceSet of allDiceSetsSignal(); track diceSet.id){
         <button class="dice-button" (click)="setCurrentDiceSet(diceSet)">

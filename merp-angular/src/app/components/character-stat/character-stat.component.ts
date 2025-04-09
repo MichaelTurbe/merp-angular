@@ -15,12 +15,9 @@ import { CharacterStat } from '../../types/models/CharacterStat';
   styleUrl: './character-stat.component.css'
 })
 export class CharacterStatComponent {
-  // this is the new way of doing things for inputs
   Stat = input.required<Stat>();
   valueControl = new FormControl('');
   bonusControl = new FormControl('');
-  // raceBonusControl = new FormControl('');
-  // this will be an actual reference to the stat on the character
   characterStat: CharacterStat;
 
   valueSignal: Signal<any>;
