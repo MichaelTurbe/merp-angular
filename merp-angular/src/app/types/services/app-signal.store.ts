@@ -27,7 +27,9 @@ export class AppSignalStore extends SignalStore {
 
   public SetCurrentDiceSetSignalValue(value: DiceSet) {
     let currentDiceSetSignal = this.get(this.currentDiceSetKey) as WritableSignal<DiceSet>;
+    console.log("Current CurrentDiceSet signal value:", currentDiceSetSignal());
     currentDiceSetSignal.set(value);
+    console.log("New CurrentDiceSet signal value:", currentDiceSetSignal());
   }
 
   public HasAllDiceSetsSignal(): boolean {
@@ -40,7 +42,9 @@ export class AppSignalStore extends SignalStore {
 
   public SetAllDiceSetsSignalValue(value: Array<DiceSet>) {
     let allDiceSetsSignal = this.get(this.allDiceKey) as WritableSignal<Array<DiceSet>>;
+    console.log("Current AllDiceSets signal value:", allDiceSetsSignal());
     allDiceSetsSignal.set(value);
+    console.log("New AllDiceSets signal value:", allDiceSetsSignal());
   }
 
 }

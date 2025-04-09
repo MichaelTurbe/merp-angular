@@ -18,7 +18,7 @@ import { ToastService } from '../../types/services/toast.service';
   selector: 'app-character-sheet',
   imports: [CharacterStatsComponent, CharacterSkillsComponent,
     CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent],
-  providers: [CharacterSheetStateService, CharacterSheetSignalStore, DiceService],
+  providers: [CharacterSheetStateService, CharacterSheetSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
 })
