@@ -1,4 +1,7 @@
-
+.firstComponent{ order: 1;}
+.secondComponent{ order: 2;}
+.thirdComponent{ order: 3;}
+.fourthComponent{ order: 4}
 
 .name-grid-container {
   display: flex;
@@ -128,7 +131,7 @@ input[type="text"]:disabled {
 
 .stats-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   max-width: 300px;
@@ -136,7 +139,7 @@ input[type="text"]:disabled {
 
 .skills-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 900px;
