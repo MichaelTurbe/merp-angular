@@ -28,9 +28,10 @@ export class CharacterSheetComponent {
   public locked: WritableSignal<boolean> = signal(false);
   public epithetCardClass: WritableSignal<string> = signal('firstComponent');
   public statsCardClass: WritableSignal<string> = signal('secondComponent');
-  public skillsCardClass: WritableSignal<string> = signal('fourthComponent');
-  public inventoryCardClass: WritableSignal<string> = signal('thirdComponent');
+  public skillsCardClass: WritableSignal<string> = signal('thirdComponent');
+  public inventoryCardClass: WritableSignal<string> = signal('fourthComponent');
   public componentOrderMap: Map<string, string> = new Map<CharacterSheetComponentType, string>();
+  public componentOrderArray: Array<[string, WritableSignal<string>, string]> = new Array<[string, WritableSignal<string>, string]>();
 
   constructor(@Inject(DOCUMENT) private document: Document,
     protected context: CharacterSheetStateService,
@@ -59,6 +60,10 @@ export class CharacterSheetComponent {
     this.componentOrderMap.set('skills', 'thirdComponent');
     this.componentOrderMap.set('inventory', 'fourthComponent');
 
+    this.componentOrderArray.push(['epithet', this.epithetCardClass, 'firstComponent']);
+    this.componentOrderArray.push(['stats', this.statsCardClass, 'secondComponent']);
+    this.componentOrderArray.push(['skills', this.skillsCardClass, 'thirdComponent']);
+    this.componentOrderArray.push(['inventory', this.inventoryCardClass, 'fourthComponent']);
 
   }
 
@@ -83,63 +88,69 @@ export class CharacterSheetComponent {
   }
 
   public moveComponentUp(componentType: string) {
-    // try to get a thing
     let order = this.getCurrentOrdinalForComponentType(componentType);
-    if (order === 1) {
+    if (order === 0) {
       //fuck it
     } else {
-      // get the item at order -1
-      let previousComponent = this.getComponentTypeAtOrdinal(order - 1);
-      let currentSignal = this.getClassSignalForComponent(componentType);
-      let upSignal = this.getClassSignalForComponent(previousComponent);
-      //swap 'em:
-      
+      let currentComponent = this.componentOrderArray[order][0];
+      let currentSignal = this.componentOrderArray[order][1];
+      let currentClass = this.componentOrderArray[order][2];
+
+      let previousComponent = this.componentOrderArray[order - 1][0];
+      let previousSignal = this.componentOrderArray[order - 1][1];
+      let previousClass = this.componentOrderArray[order - 1][2];
+
+      //previous becomes current
+      this.componentOrderArray[order - 1][0] = currentComponent;
+      this.componentOrderArray[order - 1][1] = currentSignal;
+      currentSignal.set(previousClass);
+
+      //current becomes previous
+      this.componentOrderArray[order][0] = previousComponent;
+      this.componentOrderArray[order][1] = previousSignal;
+      previousSignal.set(currentClass);
+
+      console.log(this.componentOrderArray);
     }
 
   }
 
   private getCurrentOrdinalForComponentType(componentType: string): number {
     let foundOrder = 1;
-    let order = 1;
-    for (const [id, name] of this.componentOrderMap.entries()) {
-      if (id == componentType) {
-        foundOrder = order;
+    for (let i = 0; i < this.componentOrderArray.length; i++) {
+      if (this.componentOrderArray[i][0] == componentType) {
+        foundOrder = i;
       }
-      order++;
     }
-    console.log(`${componentType} is at position ${foundOrder}`);
     return foundOrder;
   }
 
-  private getComponentTypeAtOrdinal(ordinal: number): string {
-    let foundComponent = '';
-    let order = 1;
-    for (const [id, name] of this.componentOrderMap.entries()) {
-      if (order === ordinal) {
-        foundComponent = id;
-      }
-      order++;
-    }
-    console.log(`${foundComponent} is at position ${ordinal}`);
-    return foundComponent;
-  }
-
-  private getClassSignalForComponent(component: string): WritableSignal<string> {
-    if (component == CharacterSheetComponentTypes.Epithet) {
-      return this.epithetCardClass;
-    } else if (component == CharacterSheetComponentTypes.Stats) {
-      return this.statsCardClass;
-    } else if (component == CharacterSheetComponentTypes.Skills) {
-      return this.skillsCardClass;
-    } else if (component == CharacterSheetComponentTypes.Inventory) {
-      return this.inventoryCardClass;
-    } else {
-      return null;
-    }
-  }
-
   public moveComponentDown(componentType: string) {
+    console.log(this.componentOrderArray);
     let order = this.getCurrentOrdinalForComponentType(componentType);
+    if (order === this.componentOrderArray.length) {
+      //fuck it
+    } else {
+      let currentComponent = this.componentOrderArray[order][0];
+      let currentSignal = this.componentOrderArray[order][1];
+      let currentClass = this.componentOrderArray[order][2];
+
+      let nextComponent = this.componentOrderArray[order + 1][0];
+      let nextSignal = this.componentOrderArray[order + 1][1];
+      let nextClass = this.componentOrderArray[order + 1][2];
+
+      //next becomes current
+      this.componentOrderArray[order + 1][0] = currentComponent;
+      this.componentOrderArray[order + 1][1] = currentSignal;
+      currentSignal.set(nextClass);
+
+
+      //current becomes next
+      this.componentOrderArray[order][0] = nextComponent;
+      this.componentOrderArray[order][1] = nextSignal;
+      nextSignal.set(currentClass);
+    }
+    console.log(this.componentOrderArray);
   }
 
 

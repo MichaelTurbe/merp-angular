@@ -38,7 +38,8 @@ export class DiceService {
           message = event.label!;
         }
         const calculationString = this.getRollCalculation(event);
-        this.toastService.showToast(`${message} ${event.total_value} (${calculationString})`);
+        //const actualTotal = this.getActualTotal(event);
+        this.toastService.showToast(`${message} ${calculationString})`);
       });
 
       // load the dice themes
@@ -105,13 +106,40 @@ export class DiceService {
 
   getRollCalculation(event: IRoll) {
     console.log(event);
+    let actualTotal: number = 0;
+    let onesValue: number = 0;
+    let modifier: number = 0;
+    let rollTotal: number = 0;
     let calculationString: string = '';
     if (event.values && (event.values.length === 3)) {
-      let ones: number = parseInt(event.values[0].value_to_display as string);
+      onesValue = parseInt(event.values[0].value_to_display as string);
+      if (onesValue === 10) {
+        onesValue = 0;
+      }
       let tens: number = parseInt(event.values[1].value_to_display as string);
-      let rollTotal: number = tens + ones;
-      calculationString = `${rollTotal} ${this.systemDataService.formatBonusPrefix(event.values[2].value)})`;
+      modifier = event.values[2].value;
+      rollTotal = tens + onesValue;
+      actualTotal = rollTotal + modifier;
+      calculationString = `${rollTotal} ${this.systemDataService.formatBonusPrefix(event.values[2].value)}`;
+      return `${actualTotal} (${calculationString})`;
+    } else {
+      return '';
     }
-    return calculationString;
+
+
+  }
+
+  getActualTotal(event: IRoll) {
+    let actualTotal = 0;
+    let onesValue = 0;
+    if (event.values && (event.values.length === 3)) {
+      onesValue = parseInt(event.values[0].value_to_display as string);
+      let tens: number = parseInt(event.values[1].value_to_display as string);
+      if (onesValue === 10) {
+        onesValue = 0;
+      }
+      actualTotal = tens + onesValue;
+    }
+    return actualTotal;
   }
 }

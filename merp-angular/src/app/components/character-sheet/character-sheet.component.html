@@ -112,7 +112,7 @@
           </g>
         </svg>
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="moveComponentDown('epithet')">
         <svg width="15px" height="15px" viewBox="0 0 367 367" version="1.1" xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
           style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
@@ -147,7 +147,7 @@
           </g>
         </svg>
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="moveComponentDown('stats')">
         <svg width="15px" height="15px" viewBox="0 0 367 367" version="1.1" xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
           style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
@@ -167,7 +167,7 @@
     </div>
   </div>
 
-  <div class="top-row-column card skills-container" [ngClass]="statsCardClass()">
+  <div class="top-row-column card skills-container" [ngClass]="skillsCardClass()">
     <div style="width: 100%;height: 20px; display: flex; flex-direction: row; justify-content: space-between;">
       <button class="dice-button" (click)="moveComponentUp('skills')">
         <svg width="15px" height="15px" viewBox="0 0 367 367" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +182,7 @@
           </g>
         </svg>
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="moveComponentDown('skills')">
         <svg width="15px" height="15px" viewBox="0 0 616 614" version="1.1" xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
           style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -211,7 +211,7 @@
     <app-character-skills [disabled]="disabled()" />
   </div>
 
-  <div class="top-row-column card inventory-container" [ngClass]="skillsCardClass()">
+  <div class="top-row-column card inventory-container" [ngClass]="inventoryCardClass()">
     <div style="width: 100%;height: 20px; display: flex; flex-direction: row; justify-content: space-between;">
       <button class="dice-button" (click)="moveComponentUp('inventory')">
         <svg width="15px" height="15px" viewBox="0 0 367 367" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +226,7 @@
           </g>
         </svg>
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="moveComponentDown('inventory')">
         <svg width="15px" height="15px" viewBox="0 0 367 367" version="1.1" xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
           style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
