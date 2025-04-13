@@ -1,7 +1,7 @@
 import { Component, computed, input, Signal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { SystemDataService } from '../../types/services/system.data.service';
-import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+// import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ArmorType } from '../../types/models/ArmorType';
 import { ArmorTypes } from '../../types/models/ArmorType';
@@ -9,6 +9,7 @@ import { SkillFieldType } from '../../types/models/SkillFieldType';
 import { Skill } from '../../types/models/Skill';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CharacterSkill } from '../../types/models/CharacterSkill';
+import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
 
 @Component({
   selector: 'app-character-actions',
@@ -32,7 +33,7 @@ export class CharacterActionsComponent {
 
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
-    protected characterSheetSignalStore: CharacterSheetSignalStore
+    protected characterSheetSignalStore: CharacterSheetSharedSignalStore
   ) {
     this.allArmorTypes = Object.values(ArmorTypes);
     console.log('all armor types is:', this.allArmorTypes);

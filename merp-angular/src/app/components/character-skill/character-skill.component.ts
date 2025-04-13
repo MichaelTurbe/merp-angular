@@ -1,7 +1,7 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, effect, input, Signal } from '@angular/core';
 import { Skill } from '../../types/models/Skill';
 import { FormControl, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+// import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkillFieldType } from '../../types/models/SkillFieldType';
@@ -9,6 +9,7 @@ import { StatFieldType } from '../../types/models/StatFieldType';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { Profession } from '../../types/models/Profession';
 import { DiceService } from '../../types/services/dice.service';
+import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
 
 @Component({
   selector: 'app-character-skill',
@@ -61,13 +62,13 @@ export class CharacterSkillComponent {
   rankBonusSignal: Signal<any>;
   manualRankBonusSignal: Signal<any>;
 
-  constructor(protected signalStore: CharacterSheetSignalStore,
+  constructor(protected signalStore: CharacterSheetSharedSignalStore,
     protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
     protected diceServie: DiceService
   ) {
     this.gatherCheckBoxControls();
-  
+
     this.fivePercentRankCheckboxes.controls.forEach(control => {
       let fivePercentRankCheckSignal = toSignal(
         control.valueChanges
@@ -102,6 +103,10 @@ export class CharacterSkillComponent {
     );
     this.manualRankBonusSignal = manualRankBonusSignal;
 
+    effect(() => {
+      let totalBonus = this.skillTotalBonusSignal();
+      this.signalStore.GetTotalBonusSignalForSkill(this.Skill().Name).set(totalBonus);
+    });
   }
 
   gatherCheckBoxControls() {
@@ -144,7 +149,7 @@ export class CharacterSkillComponent {
       this.twoPercentRankCheckboxes.controls[z].setValue(true);
     }
     if (this.Skill().HasStat) {
-      this.statTotalBonusSignal = this.signalStore.GetStatSignal(this.Skill().Stat.Name, StatFieldType.TotalBonus);
+      this.statTotalBonusSignal = this.signalStore.GetTotalBonusSignalForStat(this.Skill().Stat.Name);
     }
 
     this.professionSignal = this.signalStore.GetProfessionSignal();
@@ -239,7 +244,7 @@ export class CharacterSkillComponent {
       return this.systemDataService.formatBonusPrefix(totalBonus);
     });
     // other spots will care about the total bonus of skills
-    this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.TotalBonus, this.skillTotalBonusSignal);
+    // this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.TotalBonus, this.skillTotalBonusSignal);
 
     this.applySkillRankRestrictions();
   }
@@ -282,6 +287,6 @@ export class CharacterSkillComponent {
   }
 
   executeRoll() {
-    this.diceServie.executeRoll(this.context.GetCharacterName(), this.Skill().Name, this.Skill().SkillTypeAbbreviation, this.skillTotalBonusSignal())
+    this.diceServie.executeRoll(this.context.GetCharacterName(), this.Skill().Name, this.Skill().SkillTypeAbbreviation, this.skillTotalBonusSignal());
   }
 }

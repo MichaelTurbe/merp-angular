@@ -5,6 +5,7 @@ import { CharacterDataService } from '../../types/services/character.data.servic
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterItemComponent } from '../character-item/character-item.component';
+import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
 
 @Component({
   selector: 'app-character-inventory',
@@ -18,15 +19,15 @@ export class CharacterInventoryComponent {
   inventory: Array<Item> = new Array<Item>();
 
   constructor(private systemDataService: SystemDataService,
-    private signalStore: CharacterSheetSignalStore,
+    private signalStore: CharacterSheetSharedSignalStore,
     private characterDataService: CharacterDataService,
-  private characterSheetStateServie: CharacterSheetStateService) {
+    private characterSheetStateService: CharacterSheetStateService) {
     this.inventorySignal = signal([]);
 
   }
 
   addItem() {
-    let newItem = this.characterSheetStateServie.AddNewItem();
+    let newItem = this.characterSheetStateService.AddNewItem();
     this.inventory.push(newItem);
     this.inventorySignal.set(this.inventory);
   }

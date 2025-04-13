@@ -6,9 +6,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Race } from '../../types/models/Race';
 
-import { SignalStore } from '../../types/services/signal-store';
-import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
+// import { SignalStore } from '../../types/services/signal-store';
+// import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { Profession } from '../../types/models/Profession';
+import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
 
 @Component({
   selector: 'app-character-epithet',
@@ -37,8 +38,7 @@ export class CharacterEpithetComponent {
   allProfessions: Array<Profession>;
 
   constructor(protected context: CharacterSheetStateService,
-    protected systemDataService: SystemDataService,
-    protected characterSheetSignalStore: CharacterSheetSignalStore
+    protected systemDataService: SystemDataService
   ) {
 
     this.nameSignal = toSignal(this.nameControl.valueChanges);
@@ -63,6 +63,16 @@ export class CharacterEpithetComponent {
       console.log(`in the name effect`);
       const name = this.nameSignal();
       this.context.SetCharacterName(name);
+    });
+
+    effect(() => {
+      const profession = this.professionSignal();
+      this.context.SetCharacterProfession(profession);
+    });
+
+    effect(() => {
+      const race = this.raceSignal();
+      this.context.SetCharacterRace(race);
     });
 
     effect(() => {
@@ -131,7 +141,7 @@ export class CharacterEpithetComponent {
       console.log(`race name changed to ${raceName}`);
       if (raceName) {
         const race = this.systemDataService.GetRaceByName(raceName);
-        this.context.SetCharacterRace(race);
+        // this.context.SetCharacterRace(race);
         return race;
       } else {
         return null;
@@ -141,16 +151,8 @@ export class CharacterEpithetComponent {
     this.professionSignal = computed(() => {
       let professionName = this.professionNameSignal();
       let profession = this.systemDataService.GetProfessionByName(professionName);
-      if (profession) {
-        this.context.SetCharacterProfession(profession);
-      }
       return profession;
     });
-
-    this.characterSheetSignalStore.AddLevelSignal(this.levelSignal);
-    this.characterSheetSignalStore.AddNameSignal(this.nameSignal);
-    this.characterSheetSignalStore.AddRaceSignal(this.raceSignal);
-    this.characterSheetSignalStore.AddProfessionSignal(this.professionSignal);
   }
 
 

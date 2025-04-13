@@ -2,7 +2,7 @@ import { computed, effect, Injectable, Signal, WritableSignal } from "@angular/c
 import { Character } from "../models/Character";
 import { CharacterStat } from "../models/CharacterStat";
 import { CharacterDataService } from "./character.data.service";
-import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
+// import { CharacterSheetSignalStore } from "./character-sheet-signal.store";
 import { StatFieldType } from "../models/StatFieldType";
 import { Stat } from "../models/Stat";
 import { SystemDataService } from "./system.data.service";
@@ -12,17 +12,12 @@ import { CharacterSkill } from "../models/CharacterSkill";
 import { Race } from "../models/Race";
 import { Profession } from "../models/Profession";
 import { Item } from "../models/Item";
+import { CharacterSheetSharedSignalStore } from "./character-sheet-shared-signal.store";
 
 @Injectable()
 export class CharacterSheetStateService {
+  // private, no one can directly interact with it.
   private character: Character;
-
-  public StatNames = ["Strength",
-    "Agility",
-    "Constitution",
-    "Intelligence",
-    "Intuition",
-    "Presence"];
 
   public AllStats!: Array<Stat>;
   public MovingManeuverSkills: Array<Skill> = new Array<Skill>();
@@ -33,10 +28,11 @@ export class CharacterSheetStateService {
   public MiscSkills: Array<Skill> = new Array<Skill>();
 
   constructor(private characterDataService: CharacterDataService,
-    private characterSheetSignalStore: CharacterSheetSignalStore,
+    private characterSheetSignalStore: CharacterSheetSharedSignalStore,
     private systemDataService: SystemDataService
   ) {
-    console.log(`this is the ChraracterSheetStateService constructor!`);
+    this.characterSheetSignalStore.initializeAllSignals();
+    // make system data arrays available to interested components
     this.AllStats = systemDataService.GetAllStats();
     this.MovingManeuverSkills = systemDataService.GetSkillsByCategory("Movement And Maneuver");
     this.WeaponSkills = systemDataService.GetSkillsByCategory("Weapon Skills");
@@ -58,14 +54,12 @@ export class CharacterSheetStateService {
     } else {
       console.log(`couldn't find that character!`);
     }
-    this.initializeComputedSignals();
   }
 
   public createNewCharacter() {
     console.log('create new character');
     let randomCharacterName = this.systemDataService.GetRandomCharacterName();
     this.character = this.characterDataService.createNewCharacter(randomCharacterName);
-    this.initializeComputedSignals();
   }
 
   GetCharacterStatByName(statName: string): CharacterStat {
@@ -107,10 +101,6 @@ export class CharacterSheetStateService {
       }
     });
     return foundCharacterSkill;
-  }
-
-  public initializeComputedSignals() {
-    console.log('initializeComputedSignals');
   }
 
   public SetCharacterStatField(stat: Stat, value: number, fieldType: StatFieldType): void {
@@ -158,6 +148,8 @@ export class CharacterSheetStateService {
       case SkillFieldType.TwoPercentRanks:
         characterSkill.TwoPercentRanks = value;
         break;
+      case SkillFieldType.TotalBonus:
+        characterSkill.TotalBonus = value;
     }
   }
 
@@ -177,6 +169,7 @@ export class CharacterSheetStateService {
 
   SetCharacterRace(race: Race) {
     this.character.Race = race;
+    this.characterSheetSignalStore.GetRaceSignal().set(race);
   }
 
   GetCharacterProfession() {
@@ -185,6 +178,7 @@ export class CharacterSheetStateService {
 
   SetCharacterProfession(profession: Profession) {
     this.character.Profession = profession;
+    this.characterSheetSignalStore.GetProfessionSignal().set(profession);
   }
 
   GetCharacterLevel() {
@@ -193,6 +187,7 @@ export class CharacterSheetStateService {
 
   SetCharacterLevel(level: number) {
     this.character.Level = level;
+    this.characterSheetSignalStore.GetLevelSignal().set(level);
   }
 
   SaveCharacter() {
@@ -217,6 +212,7 @@ export class CharacterSheetStateService {
       ShowInActions: false
     } as Item;
     this.character.Inventory.push(newItem);
+    this.characterSheetSignalStore.GetInventorySignal().set(this.character.Inventory);
     return newItem;
   }
 
