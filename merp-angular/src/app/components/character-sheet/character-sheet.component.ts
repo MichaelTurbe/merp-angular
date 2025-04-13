@@ -13,12 +13,13 @@ import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEvent
 import { DiceService } from '../../types/services/dice.service';
 import { ToastService } from '../../types/services/toast.service';
 import { CharacterSheetComponentType, CharacterSheetComponentTypes } from '../../types/models/CharacterSheetComponentType';
+import { CharacterActionsComponent } from '../character-actions/character-actions.component';
 
 
 @Component({
   selector: 'app-character-sheet',
   imports: [CommonModule, CharacterStatsComponent, CharacterSkillsComponent,
-    CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent],
+    CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent, CharacterActionsComponent],
   providers: [CharacterSheetStateService, CharacterSheetSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
@@ -28,9 +29,10 @@ export class CharacterSheetComponent {
   public locked: WritableSignal<boolean> = signal(false);
   public epithetCardClass: WritableSignal<string> = signal('firstComponent');
   public statsCardClass: WritableSignal<string> = signal('secondComponent');
-  public skillsCardClass: WritableSignal<string> = signal('thirdComponent');
-  public inventoryCardClass: WritableSignal<string> = signal('fourthComponent');
-  public componentOrderMap: Map<string, string> = new Map<CharacterSheetComponentType, string>();
+  public actionsCardClass: WritableSignal<string> = signal('thirdComponent');
+  public skillsCardClass: WritableSignal<string> = signal('fourthComponent');
+  public inventoryCardClass: WritableSignal<string> = signal('fifthComponent');
+
   public componentOrderArray: Array<[string, WritableSignal<string>, string]> = new Array<[string, WritableSignal<string>, string]>();
 
   constructor(@Inject(DOCUMENT) private document: Document,
@@ -53,17 +55,11 @@ export class CharacterSheetComponent {
       }
     }
 
-    // this.characterSheetComponentOrder.push([CharacterSheetComponentTypes.Epithet, 'firstComponent'])
-    // this.characterSheetComponentOrder.push([CharacterSheetComponentTypes.Stats, 'secondComponent'])
-    this.componentOrderMap.set('epithet', 'firstComponent');
-    this.componentOrderMap.set('stats', 'secondComponent');
-    this.componentOrderMap.set('skills', 'thirdComponent');
-    this.componentOrderMap.set('inventory', 'fourthComponent');
-
     this.componentOrderArray.push(['epithet', this.epithetCardClass, 'firstComponent']);
     this.componentOrderArray.push(['stats', this.statsCardClass, 'secondComponent']);
-    this.componentOrderArray.push(['skills', this.skillsCardClass, 'thirdComponent']);
-    this.componentOrderArray.push(['inventory', this.inventoryCardClass, 'fourthComponent']);
+    this.componentOrderArray.push(['actions', this.actionsCardClass, 'thirdComponent']);
+    this.componentOrderArray.push(['skills', this.skillsCardClass, 'fourthComponent']);
+    this.componentOrderArray.push(['inventory', this.inventoryCardClass, 'fifthComponent']);
 
   }
 
@@ -88,7 +84,9 @@ export class CharacterSheetComponent {
   }
 
   public moveComponentUp(componentType: string) {
+    console.log(`move card up: ${componentType}`);
     let order = this.getCurrentOrdinalForComponentType(componentType);
+    console.log(`this card is currently at spot ${order}`);
     if (order === 0) {
       //fuck it
     } else {
@@ -126,8 +124,10 @@ export class CharacterSheetComponent {
   }
 
   public moveComponentDown(componentType: string) {
-    console.log(this.componentOrderArray);
+    console.log(`move card down: ${componentType}`);
+    // console.log(this.componentOrderArray);
     let order = this.getCurrentOrdinalForComponentType(componentType);
+    console.log(`this card is currently at spot ${order}`);
     if (order === this.componentOrderArray.length) {
       //fuck it
     } else {

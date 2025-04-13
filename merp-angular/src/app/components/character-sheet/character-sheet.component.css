@@ -1,7 +1,22 @@
-.firstComponent{ order: 1;}
-.secondComponent{ order: 2;}
-.thirdComponent{ order: 3;}
-.fourthComponent{ order: 4}
+.firstComponent {
+  order: 1;
+}
+
+.secondComponent {
+  order: 2;
+}
+
+.thirdComponent {
+  order: 3;
+}
+
+.fourthComponent {
+  order: 4
+}
+
+.fifthComponent {
+  order: 5
+}
 
 .name-grid-container {
   display: flex;
@@ -135,6 +150,7 @@ input[type="text"]:disabled {
   align-items: center;
   justify-content: space-evenly;
   max-width: 300px;
+  row-gap: 5px;
 }
 
 .skills-container {

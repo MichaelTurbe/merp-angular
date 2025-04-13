@@ -1,0 +1,32 @@
+.actions-flexbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.actions-title {
+  display: flex;
+  width: 40%;
+  justify-content: right;
+  align-items: center;
+  height: 27px;
+}
+
+.actions-title-text {
+  text-wrap-mode: nowrap;
+  text-align: right;
+}
+
+.actions-data {
+  display: flex;
+  width: 55%;
+  height: 27px;
+}
+
+.actions-small-data {
+  display: flex;
+  width: 20%;
+  height: 27px;
+}
