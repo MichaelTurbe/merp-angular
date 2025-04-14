@@ -31,16 +31,13 @@ export class CharacterManagerComponent {
     this.characterListSignal = signal([]);
     this.allDiceSetsSignal = this.appSignalStore.GetAllDiceSetsSignal();
     this.currentDiceSetSignal = this.appSignalStore.GetCurrentDiceSetSignal();
-    console.log('sets:', this.allDiceSetsSignal());
 
     effect(() => {
       let sets = this.allDiceSetsSignal();
-      console.log('sets there:', sets);
     });
   }
 
   ngOnInit() {
-    console.log('sets here:', this.allDiceSetsSignal());
     this.allCharacters = this.characterDataService.getAllItems();
     this.characterListSignal.set(this.allCharacters);
   }

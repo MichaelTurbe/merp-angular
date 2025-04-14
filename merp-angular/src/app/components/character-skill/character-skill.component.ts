@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, Signal } from '@angular/core';
+import { Component, computed, effect, input, signal, Signal, WritableSignal } from '@angular/core';
 import { Skill } from '../../types/models/Skill';
 import { FormControl, ReactiveFormsModule, FormArray } from '@angular/forms';
 // import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
@@ -22,11 +22,12 @@ export class CharacterSkillComponent {
   fivePercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
   twoPercentRankCheckboxes: FormArray = new FormArray<FormControl>([]);
   showTwoPercentSkillRanks = true;
-  statTotalBonusSignal: Signal<any>;
-  skillTotalBonusSignal: Signal<any>;
-  professionSignal: Signal<any>;
-  professionBonusSignal: Signal<any>;
-  levelSignal: Signal<any>;
+  statTotalBonusSignal: Signal<number>;
+  skillTotalBonusSignal: Signal<number>;
+  skillTotalBonusStringSignal: WritableSignal<string> = signal('');
+  professionSignal: Signal<Profession>;
+  professionBonusSignal: Signal<number>;
+  levelSignal: Signal<number>;
 
   itemBonusControl = new FormControl('');
   itemBonusSignal!: Signal<any>;
@@ -58,14 +59,13 @@ export class CharacterSkillComponent {
   twoPercentRankCheckbox5 = new FormControl(false);
   twoPercentRankSignals = new Array<Signal<any>>();
 
-  valueSignal: Signal<any>;
-  rankBonusSignal: Signal<any>;
-  manualRankBonusSignal: Signal<any>;
+  rankBonusSignal: Signal<number>;
+  manualRankBonusStringSignal: Signal<string>;
 
   constructor(protected signalStore: CharacterSheetSharedSignalStore,
     protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
-    protected diceServie: DiceService
+    protected diceService: DiceService
   ) {
     this.gatherCheckBoxControls();
 
@@ -98,13 +98,14 @@ export class CharacterSkillComponent {
     );
     this.specialBonusSignal2 = specialBonusSignal2;
 
-    let manualRankBonusSignal = toSignal(
+    let manualRankBonusStringSignal = toSignal(
       this.manualRankBonusControl.valueChanges
     );
-    this.manualRankBonusSignal = manualRankBonusSignal;
+    this.manualRankBonusStringSignal = manualRankBonusStringSignal;
 
     effect(() => {
       let totalBonus = this.skillTotalBonusSignal();
+      this.skillTotalBonusStringSignal.set(this.systemDataService.formatBonusPrefix(totalBonus));
       this.signalStore.GetTotalBonusSignalForSkill(this.Skill().Name).set(totalBonus);
     });
   }
@@ -171,7 +172,7 @@ export class CharacterSkillComponent {
 
     this.rankBonusSignal = computed(() => {
       // console.log(`in computed signal for rank bonus for skill ${this.Skill().Name}`);
-      let rankBonus = 0;
+      let rankBonus: number = 0;
       const fivePercentRankSignals = this.fivePercentRankSignals;
       let numberOfFivePercentRanks = 0;
       fivePercentRankSignals.forEach(rankSignal => {
@@ -196,28 +197,30 @@ export class CharacterSkillComponent {
       this.context.SetCharacterSkillField(this.Skill(), numberOfTwoPercentRanks, SkillFieldType.TwoPercentRanks);
       // console.log(`came up with a rank bonus of ${rankBonus}`);
       if (this.Skill().HasManualRankBonus) {
-        let manualRankBonus = this.manualRankBonusSignal();
-        return `+${manualRankBonus}`;
+        // let manualRankBonus = this.manualRankBonusStringSignal();
+        if (this.systemDataService.isNumber(this.manualRankBonusStringSignal())) {
+          return parseInt(this.manualRankBonusStringSignal());
+        } else { return 0; }
       } else {
-        return `+${rankBonus}`;
+        return rankBonus;
       }
     });
 
     this.skillTotalBonusSignal = computed(() => {
       // console.log(`in computed signal for total bonus for skill ${this.Skill().Name}`);
-      let rankBonus = 0;
-      if (this.systemDataService.isNumber(this.rankBonusSignal())) {
-        rankBonus = parseInt(this.rankBonusSignal());
-      }
+      let rankBonus: number = this.rankBonusSignal();
+      // if (this.systemDataService.isNumber(this.rankBonusSignal())) {
+      //   rankBonus = parseInt(this.rankBonusSignal());
+      // }
       // console.log(`Rank bonus is: ${rankBonus}`);
 
-      let itemBonus = 0;
+      let itemBonus: number = 0;
       if (this.systemDataService.isNumber(this.itemBonusSignal())) {
         itemBonus = parseInt(this.itemBonusSignal());
       }
       // console.log(`Item bonus is: ${itemBonus}`);
 
-      let specialBonus2 = 0;
+      let specialBonus2: number = 0;
       if (this.Skill().HasInherentSpecialBonus) {
         specialBonus2 = this.Skill().InherentSpecialBonus;
       } else {
@@ -226,22 +229,21 @@ export class CharacterSkillComponent {
         }
       }
 
-      let statBonus = 0;
+      let statBonus: number = 0;
       if (this.statTotalBonusSignal && this.systemDataService.isNumber(this.statTotalBonusSignal())) {
-        statBonus = parseInt(this.statTotalBonusSignal());
+        statBonus = this.statTotalBonusSignal();
       }
 
-      let professionalBonus = 0;
+      let professionalBonus: number = 0;
       if (this.professionBonusSignal && this.systemDataService.isNumber(this.professionBonusSignal())) {
-        professionalBonus = parseInt(this.professionBonusSignal());
+        professionalBonus = this.professionBonusSignal();
       }
-
-      const totalBonus = rankBonus + professionalBonus + itemBonus + statBonus + specialBonus2;
+      const totalBonus: number = rankBonus + professionalBonus + itemBonus + statBonus + specialBonus2;
       //save values in state service, sine this computed signal will be called when basically any field values change
       this.context.SetCharacterSkillField(this.Skill(), totalBonus, SkillFieldType.TotalBonus);
       this.context.SetCharacterSkillField(this.Skill(), itemBonus, SkillFieldType.ItemBonus);
       this.context.SetCharacterSkillField(this.Skill(), rankBonus, SkillFieldType.RankBonus);
-      return this.systemDataService.formatBonusPrefix(totalBonus);
+      return totalBonus;
     });
     // other spots will care about the total bonus of skills
     // this.signalStore.AddSkillSignal(this.Skill(), SkillFieldType.TotalBonus, this.skillTotalBonusSignal);
@@ -282,11 +284,10 @@ export class CharacterSkillComponent {
         });
       }
     }
-    console.log(`Professional bonus for ${this.Skill()} is ${bonus}`);
     return bonus;
   }
 
   executeRoll() {
-    this.diceServie.executeRoll(this.context.GetCharacterName(), this.Skill().Name, this.Skill().SkillTypeAbbreviation, this.skillTotalBonusSignal());
+    this.diceService.executeRoll(this.context.GetCharacterName(), this.Skill().Name, this.Skill().SkillTypeAbbreviation, this.skillTotalBonusSignal(), this.signalStore.GetUniversalRollModifierSignal()());
   }
 }

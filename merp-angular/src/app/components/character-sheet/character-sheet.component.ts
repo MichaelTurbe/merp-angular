@@ -48,7 +48,6 @@ export class CharacterSheetComponent {
 
     const characterId = this.route.snapshot.params['characterId'];
     if (characterId) {
-      console.log(`CharacterId: ${characterId}`);
       if (characterId == '0') {
         this.context.createNewCharacter();
       } else {
@@ -85,9 +84,7 @@ export class CharacterSheetComponent {
   }
 
   public moveComponentUp(componentType: string) {
-    console.log(`move card up: ${componentType}`);
     let order = this.getCurrentOrdinalForComponentType(componentType);
-    console.log(`this card is currently at spot ${order}`);
     if (order === 0) {
       //fuck it
     } else {
@@ -108,8 +105,6 @@ export class CharacterSheetComponent {
       this.componentOrderArray[order][0] = previousComponent;
       this.componentOrderArray[order][1] = previousSignal;
       previousSignal.set(currentClass);
-
-      console.log(this.componentOrderArray);
     }
 
   }
@@ -125,10 +120,7 @@ export class CharacterSheetComponent {
   }
 
   public moveComponentDown(componentType: string) {
-    console.log(`move card down: ${componentType}`);
-    // console.log(this.componentOrderArray);
     let order = this.getCurrentOrdinalForComponentType(componentType);
-    console.log(`this card is currently at spot ${order}`);
     if (order === this.componentOrderArray.length) {
       //fuck it
     } else {
@@ -151,7 +143,6 @@ export class CharacterSheetComponent {
       this.componentOrderArray[order][1] = nextSignal;
       nextSignal.set(currentClass);
     }
-    console.log(this.componentOrderArray);
   }
 
 

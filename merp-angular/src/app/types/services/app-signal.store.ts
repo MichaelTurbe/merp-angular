@@ -10,11 +10,22 @@ export class AppSignalStore extends SignalStore {
   constructor() {
     super();
     // initialize the signals
-    let currentDiceSetSignal: WritableSignal<DiceSet> = signal<DiceSet>(null);
+    let currentDiceSetSignal: WritableSignal<DiceSet> = signal<DiceSet>(this.GetDefaultDiceSet());
     this.add(this.currentDiceSetKey, currentDiceSetSignal);
 
     let allDiceSetsSignal: WritableSignal<Array<DiceSet>> = signal<Array<DiceSet>>([]);
     this.add(this.allDiceKey, allDiceSetsSignal);
+  }
+
+  private GetDefaultDiceSet(): DiceSet {
+    const bees: DiceSet = {
+      id:	"dddice-bees",
+      name: "Bees",
+      d10:	"https://cdn.dddice.com/themes/dddice-bees/preview/d10-b759cee28523cfb12595a9e243f3c2a0.png",
+      d10x: "https://cdn.dddice.com/themes/dddice-bees/preview/d10x-90611a973c245f68ab702c7320982391.png",
+      preview:	"https://cdn.dddice.com/themes/dddice-bees/preview/preview-53a362c1fb2cc88727d15ce750105808.webp"
+    }
+    return bees;
   }
 
   public HasCurrentDiceSetSignal(): boolean {
@@ -27,9 +38,7 @@ export class AppSignalStore extends SignalStore {
 
   public SetCurrentDiceSetSignalValue(value: DiceSet) {
     let currentDiceSetSignal = this.get(this.currentDiceSetKey) as WritableSignal<DiceSet>;
-    console.log("Current CurrentDiceSet signal value:", currentDiceSetSignal());
     currentDiceSetSignal.set(value);
-    console.log("New CurrentDiceSet signal value:", currentDiceSetSignal());
   }
 
   public HasAllDiceSetsSignal(): boolean {
@@ -42,9 +51,7 @@ export class AppSignalStore extends SignalStore {
 
   public SetAllDiceSetsSignalValue(value: Array<DiceSet>) {
     let allDiceSetsSignal = this.get(this.allDiceKey) as WritableSignal<Array<DiceSet>>;
-    console.log("Current AllDiceSets signal value:", allDiceSetsSignal());
     allDiceSetsSignal.set(value);
-    console.log("New AllDiceSets signal value:", allDiceSetsSignal());
   }
 
 }

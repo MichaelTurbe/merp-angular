@@ -1,18 +1,22 @@
 <div class="actions-flexbox" style="width: 300px;">
-  <div class="actions-title"><span class="actions-title-text">Armor Type Worn:</span></div>
-  <div class="actions-data">
-    <select [formControl]="armorTypeControl" class="select-in-long-cell">
-      @for (armorType of allArmorTypes; track armorType) {
-      <option [value]="armorType">{{ armorType }}</option>
-      }
-    </select>
+  <div class="row-flexbox">
+    <div class="actions-title">
+      <span class="actions-title-text">Armor Type Worn:</span>
+    </div>
+    <div class="actions-data">
+      <select [formControl]="armorTypeControl" class="select-in-long-cell">
+        @for (armorType of allArmorTypes; track armorType) {
+        <option [value]="armorType">{{ armorType }}</option>
+        }
+      </select>
+    </div>
   </div>
-  <div class="actions-title"><span class="actions-title-text" style="text-wrap-mode:wrap;">Moving Maneuver Roll:</span>
-  </div>
-  <div class="actions-data">
+  <div class="row-flexbox">
+    <span class="actions-title-text">Moving Maneuver
+      Roll:</span>
     <div class="grid-cell">
-      <input class="text-box" disabled="true" type="text" style="font-weight: bold;">
-      <!-- [value]="mmSkillTotalBonusSignal()" -->
+      <input class="text-box" disabled="true" type="text" style="font-weight: bold;"
+        [value]="mmSkillTotalBonusSignal()">
       <button class="dice-button">
         <!-- (click)="executeRoll()" -->
         <div style="display: flex; flex-direction: row; column-gap: 5px;">
@@ -70,8 +74,30 @@
           </div>
         </div>
       </button>
-
-
     </div>
   </div>
+  <div class="row-flexbox" style="height: 54px; column-gap: 5px;">
+    <button class="dice-button" (click)="executeRoll()">
+      <div class="row-flexbox" style="height: 54px">
+        <span class="text" style="text-wrap-mode: wrap;">Roll a d100</span>
+        <img style="height: 100%; width: auto;" [src]="currentDiceSetSignal().d10">
+        <img style="height: 100%; width: auto;" [src]="currentDiceSetSignal().d10x">
+      </div>
+    </button>
+    <span class="text" style="text-wrap-mode: wrap;">Modifier to Next Roll</span>
+    <input type="text" class="fixed-width" [formControl]="universalRollModifierControl"
+      style="height: 35px; width: 35px; text-align: center; vertical-align: center; font-size: larger;">
+    <button class="dice-button" (click)="clearBonus()">
+      <svg width="20px" height="20px" viewBox="0 0 270 384" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+        <g transform="matrix(1,0,0,1,-121,-103)">
+          <path
+            d="M199,103L199,153L121,153L121,183L391,183L391,153L313,153L313,103L199,103ZM217,121L295,121L295,153L217,153L217,121ZM137.998,201L168.104,487L343.898,487L374.002,201L137.998,201ZM200.336,214.38L200.976,223.36L216.976,447.36L217.619,456.336L199.663,457.619L199.023,448.639L183.023,224.639L182.38,215.663L200.336,214.38ZM311.664,214.38L329.619,215.664L328.976,224.641L312.976,448.641L312.336,457.621L294.38,456.337L295.023,447.36L311.023,223.36L311.663,214.38L311.664,214.38ZM247,215L265,215L265,457L247,457L247,215Z"
+            style="fill:rgb(205,34,39);fill-rule:nonzero;" />
+        </g>
+      </svg>
+    </button>
+  </div>
+
 </div>

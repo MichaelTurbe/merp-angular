@@ -1,4 +1,4 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, effect, input, Signal, WritableSignal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { SystemDataService } from '../../types/services/system.data.service';
 // import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
@@ -10,6 +10,9 @@ import { Skill } from '../../types/models/Skill';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CharacterSkill } from '../../types/models/CharacterSkill';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
+import { AppSignalStore } from '../../types/services/app-signal.store';
+import { DiceSet } from '../../types/models/DiceSet';
+import { DiceService } from '../../types/services/dice.service';
 
 @Component({
   selector: 'app-character-actions',
@@ -22,10 +25,12 @@ export class CharacterActionsComponent {
   mmSkills: Array<Skill>;
   mmSkillTotalBonusSignal: Signal<any>;
   mmSkillSignal: Signal<Skill>;
-  armorTypeSignal: Signal<any>;
+  armorTypeSignal: Signal<string>;
   movingManeuverSkillSignals: Array<Signal<any>> = new Array<Signal<any>>();
-
-  armorTypeControl = new FormControl([]);
+  currentDiceSetSignal: Signal<DiceSet>;
+  universalRollModifierSignal: Signal<string>;
+  armorTypeControl = new FormControl('');
+  universalRollModifierControl = new FormControl('');
 
 
 
@@ -33,49 +38,51 @@ export class CharacterActionsComponent {
 
   constructor(protected context: CharacterSheetStateService,
     protected systemDataService: SystemDataService,
+    protected appSignalStore: AppSignalStore,
+    protected diceService: DiceService,
     protected characterSheetSignalStore: CharacterSheetSharedSignalStore
   ) {
     this.allArmorTypes = Object.values(ArmorTypes);
-    console.log('all armor types is:', this.allArmorTypes);
     this.mmSkills = this.systemDataService.GetSkillsByCategory("Movement And Maneuver");
-    console.log('mmSkills is:', this.mmSkills);
     this.armorTypeSignal = toSignal(this.armorTypeControl.valueChanges);
+    this.universalRollModifierSignal = toSignal(this.universalRollModifierControl.valueChanges);
+    this.currentDiceSetSignal = this.appSignalStore.GetCurrentDiceSetSignal();
 
-
+    effect(() => {
+      console.log('in effect to set the roll modifier');
+      const bonusString = this.universalRollModifierSignal();
+      if (this.systemDataService.isNumber(bonusString)) {
+        let bonus = parseInt(bonusString);
+        this.characterSheetSignalStore.GetUniversalRollModifierSignal().set(bonus);
+      } else {
+        this.characterSheetSignalStore.GetUniversalRollModifierSignal().set(0);
+      }
+    });
   }
 
   ngOnInit() {
-    // this.mmSkillTotalBonusSignal = computed(() => {
-    //   let foundSkillSignal: Signal<CharacterSkill>;
-    //   let armorType = this.armorTypeSignal() as Array<string>;
-    //   if (armorType.length > 0) {
-    //     console.log(`selected armor type is:`, armorType[0]);
-    //     this.mmSkills.forEach(skill => {
-    //       if (this.armorTypeSignal() === skill.Name) {
-    //         console.log('Skill is:', skill);
-    //         foundSkillSignal = this.characterSheetSignalStore.GetSkillSignal(skill, SkillFieldType.TotalBonus);
-    //       }
-    //     });
-    //   }
-    //   return foundSkillSignal().TotalBonus;
-    // });
+    this.mmSkillTotalBonusSignal = computed(() => {
+      let foundSkillSignal: WritableSignal<number>;
+      let armorType = this.armorTypeSignal();
+      this.mmSkills.forEach(skill => {
+        if (this.armorTypeSignal() === skill.Name) {
+          foundSkillSignal = this.characterSheetSignalStore.GetTotalBonusSignalForSkill(skill.Name);
+        }
+      });
+      //  } else { return 0; }
+      return this.systemDataService.formatBonusPrefix(foundSkillSignal());
+    });
 
-    // this.mmSkillSignal = computed(() => {
-    //   let foundSkill: Skill = null;
-    //   this.mmSkills.forEach(skill => {
-    //     console.log('Skill is:', skill);
-    //     let armorType = this.armorTypeSignal();
-    //     console.log('armor type is:', armorType);
-    //     if (armorType === skill.Name) {
-    //       foundSkill = skill;
-    //     }
-    //   });
-    //   return foundSkill;
-    // });
+    this.armorTypeControl.setValue(ArmorTypes.NoArmor);
+  }
 
-    this.armorTypeControl.setValue([ArmorTypes.NoArmor]);
+  executeRoll() {
+    console.log('do the fucking thing');
+    this.diceService.executeRoll(this.context.GetCharacterName(), 'unmodified', 'd100', 0, this.characterSheetSignalStore.GetUniversalRollModifierSignal()());
+  }
 
-
+  clearBonus() {
+    this.universalRollModifierControl.setValue('');
   }
 
 }

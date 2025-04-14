@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, Input, Signal } from '@angular/core';
+import { Component, computed, effect, input, Input, signal, Signal, WritableSignal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 // import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
@@ -24,7 +24,8 @@ export class CharacterStatComponent {
   valueSignal: Signal<any>;
   raceBonusSignal: Signal<any>;
   normalBonusSignal: Signal<any>;
-  totalBonusSignal: Signal<any>;
+  totalBonusSignal: Signal<number>;
+  totalBonusStringSignal: WritableSignal<string> = signal('');
 
   constructor(protected context: CharacterSheetStateService,
     protected signalStore: CharacterSheetSharedSignalStore,
@@ -45,6 +46,7 @@ export class CharacterStatComponent {
     effect(() => {
       const totalBonus = this.totalBonusSignal();
       this.signalStore.GetTotalBonusSignalForStat(this.Stat().Name).set(totalBonus);
+      this.totalBonusStringSignal.set(this.systemDataService.formatBonusPrefix(totalBonus));
     });
   }
 
@@ -104,7 +106,7 @@ export class CharacterStatComponent {
       // this.context.SetCharacterStatField(this.Stat(), raceBonus, StatFieldType.RaceBonus);
       this.context.SetCharacterStatField(this.Stat(), totalBonus, StatFieldType.TotalBonus);
       this.characterStat.TotalBonus = totalBonus;
-      return this.systemDataService.formatBonusPrefix(totalBonus);
+      return totalBonus;
     });
 
     // this.signalStore.AddStatSignal(this.Stat().Name, StatFieldType.TotalBonus, this.totalBonusSignal);
@@ -112,7 +114,6 @@ export class CharacterStatComponent {
 
   getRaceBonusForThisStat(race: Race) {
     let bonus = 0;
-    console.log('found race:', race);
     if (race) {
       let statBonuses = race.StatBonuses;
       statBonuses.forEach(statBonus => {

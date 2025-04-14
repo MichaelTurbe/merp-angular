@@ -49,12 +49,13 @@ export class DiceService {
           const preview = item.preview.preview;
           let diceCount = Object.keys(item.sizes).length;
           if (diceCount >= 7) {
-            dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+            const d10 = item.preview.d10;
+            const d10x = item.preview.d10x;
+            dice.push({ id: item.id, name: item.name, preview: preview, d10: d10, d10x: d10x } as DiceSet);
           }
         });
 
         this.dddice.api?.diceBox.next().then(result => {
-          console.log(result);
           result.data.map(item => {
             const preview = item.preview.preview;
             let diceCount = Object.keys(item.sizes).length;
@@ -86,14 +87,14 @@ export class DiceService {
     }
   }
 
-  executeRoll(characterName: string, skillType: string, rollType: string, bonus: number) {
+  executeRoll(characterName: string, skillType: string, rollType: string, bonus: number, universalModifier: number) {
     console.log('Connected?', this.connected());
     console.log('Rolling?', this.rolling());
     if (this.connected() && !this.rolling()) {
       this.rolling.set(true);
-      console.log('in roll');
-      const { dice } = parseRollEquation(`1d100+${bonus}`, this.currentDiceSetSignal().id);
-      console.log(dice);
+      console.log(`in roll, bonus is ${bonus} and universalModifier is ${universalModifier}`);
+      const newBonus: number = bonus + universalModifier;
+      const { dice } = parseRollEquation(`1d100+${newBonus}`, this.currentDiceSetSignal().id);
       // const modifier: string = bonus.toString();
       const options = {
         label: `${characterName} made a ${skillType} (${rollType}) roll:`
@@ -105,7 +106,6 @@ export class DiceService {
   }
 
   getRollCalculation(event: IRoll) {
-    console.log(event);
     let actualTotal: number = 0;
     let onesValue: number = 0;
     let modifier: number = 0;

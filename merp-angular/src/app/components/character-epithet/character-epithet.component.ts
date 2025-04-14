@@ -29,7 +29,7 @@ export class CharacterEpithetComponent {
   raceNameSignal: Signal<any>;
   raceSignal: Signal<any>;
   availableRacesSignal: Signal<any>;
-  levelSignal: Signal<number>;
+  levelStringSignal: Signal<any>;
   professionNameSignal: Signal<any>;
   professionSignal: Signal<any>;
   professionControl = new FormControl([]);
@@ -44,7 +44,7 @@ export class CharacterEpithetComponent {
     this.nameSignal = toSignal(this.nameControl.valueChanges);
     this.raceTypeSignal = toSignal(this.raceTypeControl.valueChanges);
     this.raceNameSignal = toSignal(this.raceControl.valueChanges);
-    this.levelSignal = toSignal(this.levelControl.valueChanges);
+    this.levelStringSignal = toSignal(this.levelControl.valueChanges);
     this.professionNameSignal = toSignal(this.professionControl.valueChanges);
 
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
@@ -53,14 +53,15 @@ export class CharacterEpithetComponent {
 
 
     effect(() => {
-      console.log(`in the set level effect`);
-      const level = this.levelSignal();
-      console.log(`the level is ${level}`);
-      this.context.SetCharacterLevel(level);
+      const levelString = this.levelStringSignal();
+      if (this.systemDataService.isNumber(levelString)) {
+        let levelNumber = parseInt(levelString);
+        this.context.SetCharacterLevel(levelNumber);
+      }
+
     });
 
     effect(() => {
-      console.log(`in the name effect`);
       const name = this.nameSignal();
       this.context.SetCharacterName(name);
     });
@@ -104,7 +105,6 @@ export class CharacterEpithetComponent {
     // get the character's race and set it on the sheet if 
     // it exists:
     const race: Race = this.context.GetCharacterRace();
-    console.log('trying to load race:', race);
     if (race) {
       if (race.Human) {
         this.raceTypeControl.setValue(["Human"]);
@@ -127,10 +127,8 @@ export class CharacterEpithetComponent {
 
     this.availableRacesSignal = computed(() => {
       let raceType = this.raceTypeSignal();
-      console.log(`looking for ${raceType}`);
       let someRaces = new Array<Race>();
       someRaces = this.systemDataService.GetRacesByType(raceType);
-      console.log('someRaces', someRaces);
       return someRaces;
     });
 
@@ -138,7 +136,6 @@ export class CharacterEpithetComponent {
 
     this.raceSignal = computed(() => {
       const raceName = this.raceNameSignal();
-      console.log(`race name changed to ${raceName}`);
       if (raceName) {
         const race = this.systemDataService.GetRaceByName(raceName);
         // this.context.SetCharacterRace(race);

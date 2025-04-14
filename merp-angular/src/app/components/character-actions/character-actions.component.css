@@ -1,14 +1,41 @@
+.text {
+  vertical-align: middle;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.row-flexbox{
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+}
+
 .actions-flexbox {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 5px;
+}
+
+.actions-short-title {
+  display: flex;
+  width: 20%;
+  justify-content: right;
+  align-items: center;
+  height: 27px;
 }
 
 .actions-title {
   display: flex;
   width: 40%;
+  justify-content: right;
+  align-items: center;
+  height: 27px;
+}
+
+.actions-long-title {
+  display: flex;
+  width: 60%;
   justify-content: right;
   align-items: center;
   height: 27px;
@@ -28,5 +55,11 @@
 .actions-small-data {
   display: flex;
   width: 20%;
+  height: 27px;
+}
+
+.actions-medium-data {
+  display: flex;
+  width: 35%;
   height: 27px;
 }

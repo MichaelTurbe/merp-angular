@@ -13,11 +13,16 @@ export class CharacterSheetSharedSignalStore implements SharedCharacterSheetStat
   levelSignal: WritableSignal<number>;
   inventorySignal: WritableSignal<Item[]>;
   professionSignal: WritableSignal<Profession>;
+  universalRollModifier: WritableSignal<number>;
   systemDataService: SystemDataService;
 
   constructor(systemDataService: SystemDataService) {
     this.systemDataService = systemDataService;
   }
+  GetUniversalRollModifierSignal(): WritableSignal<number> {
+    return this.universalRollModifier;
+  }
+
 
 
   GetProfessionSignal(): WritableSignal<Profession> {
@@ -43,6 +48,7 @@ export class CharacterSheetSharedSignalStore implements SharedCharacterSheetStat
     this.inventorySignal = signal(new Array<Item>);
     let allProfessions = this.systemDataService.GetAllProfessions();
     this.professionSignal = signal(allProfessions[0]);
+    this.universalRollModifier = signal(0);
   }
   GetTotalBonusSignalForStat(statName: string): WritableSignal<number> {
     return this.statTotalBonusSignals.get(statName);

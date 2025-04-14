@@ -12,6 +12,7 @@ export interface SharedCharacterSheetState{
   levelSignal: WritableSignal<number>;
   inventorySignal: WritableSignal<Array<Item>>;
   professionSignal: WritableSignal<Profession>;
+  universalRollModifier: WritableSignal<number>;
   // all must be initialized
   initializeAllSignals(): void;
 
@@ -21,4 +22,5 @@ export interface SharedCharacterSheetState{
   GetLevelSignal(): WritableSignal<number>;
   GetInventorySignal(): WritableSignal<Array<Item>>;
   GetProfessionSignal(): WritableSignal<Profession>;
+  GetUniversalRollModifierSignal(): WritableSignal<number>;
 }

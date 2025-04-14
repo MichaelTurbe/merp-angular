@@ -20,7 +20,6 @@ export class AppComponent {
   }
 
   public navigateToMyCharacters() {
-    console.log('navvvvv');
     this.router.navigate(["/"]);
   }
 
