@@ -342,8 +342,6 @@
 .dice-button {
   border: none;
   background-color: transparent;
-  justify-self: center;
-  align-self: center;
   border-radius: 10px;
   padding: 5px;
 }

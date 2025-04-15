@@ -71,6 +71,10 @@ export class CharacterSheetComponent {
     this.router.navigate(["/"]);
   }
 
+  public navigateToRollHistory() {
+    this.router.navigate(["/rollHistory"])
+  }
+
   public toggleLock() {
     let currentValue = this.locked();
     this.locked.set(!currentValue);
