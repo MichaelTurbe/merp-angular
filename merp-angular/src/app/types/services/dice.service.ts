@@ -1,10 +1,12 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
-import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation } from 'dddice-js';
+import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation, IEngineConfig } from 'dddice-js';
 import { ToastService } from "./toast.service";
 import { DiceSet } from "../models/DiceSet";
 import { PreferenceDataService } from "./preference.data.service";
 import { AppSignalStore } from "./app-signal.store";
 import { SystemDataService } from "./system.data.service";
+import { DiceRollDataService } from "./dice-roll.data.service";
+import { DiceRoll } from "../models/DiceRoll";
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,73 +19,91 @@ export class DiceService {
   constructor(private toastService: ToastService,
     private appSignalStore: AppSignalStore,
     private preferenceDataService: PreferenceDataService,
-    private systemDataService: SystemDataService
+    private systemDataService: SystemDataService,
+    private diceRollDataService: DiceRollDataService
   ) {
     this.currentDiceSetSignal = appSignalStore.GetCurrentDiceSetSignal();
   }
 
   initialize(diceCanvas: HTMLCanvasElement) {
-    console.log('initialize dice');
-    if (!this.connected()) {
-      console.log("connect!");
-      this.dddice = new ThreeDDice(diceCanvas, "deQXuEpEDtNq3LX7V9dv4UCWJw9d63l83BUqjV4B");
-      this.dddice.start();
-      this.dddice.connect("VYlOjZK");
-      console.log('connectedddddd');
-      this.connected.set(true);
+    try {
+      if (!this.connected()) {
+        console.log("connect!");
+        this.dddice = new ThreeDDice(diceCanvas, "deQXuEpEDtNq3LX7V9dv4UCWJw9d63l83BUqjV4B");
+        this.dddice.setConfig({ audio: false } as Partial<IEngineConfig>);
+        this.dddice.start();
+        this.dddice.connect("VYlOjZK");
+        console.log('connectedddddd');
+        this.connected.set(true);
 
-      this.dddice.on(ThreeDDiceRollEvent.RollFinished, (event: IRoll) => {
-        let message = 'GM rolled: ';
-        if (event.label) {
-          message = event.label!;
-        }
-        const calculationString = this.getRollCalculation(event);
-        //const actualTotal = this.getActualTotal(event);
-        this.toastService.showToast(`${message} ${calculationString})`);
-      });
+        this.dddice.on(ThreeDDiceRollEvent.RollFinished, (event: IRoll) => {
+          console.log(event);
 
-      // load the dice themes
-      this.dddice.api?.diceBox.list().then(result => {
-        let dice: Array<DiceSet> = new Array<DiceSet>();
-        result.data.map(item => {
-          const preview = item.preview.preview;
-          let diceCount = Object.keys(item.sizes).length;
-          if (diceCount >= 7) {
-            const d10 = item.preview.d10;
-            const d10x = item.preview.d10x;
-            dice.push({ id: item.id, name: item.name, preview: preview, d10: d10, d10x: d10x } as DiceSet);
+          let message = 'GM rolled: ';
+          if (event.label) {
+            message = event.label!;
           }
+          const rollResult: RollResult = this.getRollCalculation(event);
+          let calculationString = `${rollResult.actualTotal} (${rollResult.calculationString})`;
+          let diceRoll: DiceRoll = {
+            uuid: event.uuid,
+            label: message,
+            time: event.updated_at,
+            equation: rollResult.calculationString,
+            result: rollResult.actualTotal,
+            onesNumber: rollResult.ones,
+            tensNumber: rollResult.tens
+          } as DiceRoll;
+          this.diceRollDataService.addDiceRoll(diceRoll);
+          //const actualTotal = this.getActualTotal(event);
+          this.toastService.showToast(`${message} ${calculationString})`);
         });
 
-        this.dddice.api?.diceBox.next().then(result => {
+        // load the dice themes
+        this.dddice.api?.diceBox.list().then(result => {
+          let dice: Array<DiceSet> = new Array<DiceSet>();
           result.data.map(item => {
             const preview = item.preview.preview;
             let diceCount = Object.keys(item.sizes).length;
             if (diceCount >= 7) {
-              dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+              const d10 = item.preview.d10;
+              const d10x = item.preview.d10x;
+              dice.push({ id: item.id, name: item.name, preview: preview, d10: d10, d10x: d10x } as DiceSet);
             }
-
           });
-          this.appSignalStore.SetAllDiceSetsSignalValue(dice);
+
+          this.dddice.api?.diceBox.next().then(result => {
+            result.data.map(item => {
+              const preview = item.preview.preview;
+              let diceCount = Object.keys(item.sizes).length;
+              if (diceCount >= 7) {
+                dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+              }
+
+            });
+            this.appSignalStore.SetAllDiceSetsSignalValue(dice);
+          });
+
+
+          let currentDiceSet: DiceSet = null;
+          let currentDiceSetResult = this.preferenceDataService.GetCurrentDiceSet();
+          if (currentDiceSetResult.success) {
+            currentDiceSet = currentDiceSetResult.value;
+
+          } else if (dice.length > 0) {
+            currentDiceSet = dice[0];
+
+          } else {
+            currentDiceSet = null;
+          }
+          this.appSignalStore.SetCurrentDiceSetSignalValue(currentDiceSet);
+
         });
-
-
-        let currentDiceSet: DiceSet = null;
-        let currentDiceSetResult = this.preferenceDataService.GetCurrentDiceSet();
-        if (currentDiceSetResult.success) {
-          currentDiceSet = currentDiceSetResult.value;
-
-        } else if (dice.length > 0) {
-          currentDiceSet = dice[0];
-
-        } else {
-          currentDiceSet = null;
-        }
-        this.appSignalStore.SetCurrentDiceSetSignalValue(currentDiceSet);
-
-      });
-    } else {
-      console.log('already connected');
+      } else {
+        console.log('already connected');
+      }
+    } catch (e) {
+      console.log('caught error:', e);
     }
   }
 
@@ -99,34 +119,47 @@ export class DiceService {
       const options = {
         label: `${characterName} made a ${skillType} (${rollType}) roll:`
       } as IDiceRollOptions;
-      this.dddice.roll(dice, options);
+      this.dddice.roll(dice, options).then(result => {
+        console.log(result);
+      }).catch(e => {
+        console.log('FUCK YOU', e);
+        this.toastService.showToast(e, "error", 10000, "bottom-right");
+      }).finally(() => {
+        console.log('roll is done?');
+        this.rolling.set(false);
+      });
       //?
-      this.rolling.set(false);
+
     } else { console.log('chill your fuckin cheese'); }
   }
 
-  getRollCalculation(event: IRoll) {
-    let actualTotal: number = 0;
+  getRollCalculation(event: IRoll): RollResult {
     let onesValue: number = 0;
-    let modifier: number = 0;
-    let rollTotal: number = 0;
-    let calculationString: string = '';
+    let rollResult: RollResult = {
+      message: '',
+      actualTotal: 0,
+      modifier: 0,
+      rollTotal: 0,
+      calculationString: '',
+      tens: 0,
+      ones: 0
+    };
     if (event.values && (event.values.length === 3)) {
       onesValue = parseInt(event.values[0].value_to_display as string);
       if (onesValue === 10) {
         onesValue = 0;
       }
+      rollResult.ones = onesValue;
       let tens: number = parseInt(event.values[1].value_to_display as string);
-      modifier = event.values[2].value;
-      rollTotal = tens + onesValue;
-      actualTotal = rollTotal + modifier;
-      calculationString = `${rollTotal} ${this.systemDataService.formatBonusPrefix(event.values[2].value)}`;
-      return `${actualTotal} (${calculationString})`;
+      rollResult.tens = tens;
+      rollResult.modifier = event.values[2].value;
+      rollResult.rollTotal = tens + onesValue;
+      rollResult.actualTotal = rollResult.rollTotal + rollResult.modifier;
+      rollResult.calculationString = `${rollResult.rollTotal} ${this.systemDataService.formatBonusPrefix(event.values[2].value)}`;
     } else {
-      return '';
+
     }
-
-
+    return rollResult;
   }
 
   getActualTotal(event: IRoll) {
@@ -142,4 +175,21 @@ export class DiceService {
     }
     return actualTotal;
   }
+
+  secureRandom(min: number, max: number): number {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    return min + (array[0] % (max - min + 1));
+  }
+
+}
+
+export interface RollResult {
+  message: string;
+  modifier: number;
+  rollTotal: number;
+  actualTotal: number;
+  calculationString: string;
+  tens: number;
+  ones: number;
 }

@@ -3,13 +3,13 @@ import { Item } from '../../types/models/Item';
 import { SystemDataService } from '../../types/services/system.data.service';
 import { CharacterDataService } from '../../types/services/character.data.service';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
-import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { CharacterItemComponent } from '../character-item/character-item.component';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
 
 @Component({
   selector: 'app-character-inventory',
   imports: [CharacterItemComponent],
+  providers: [],
   templateUrl: './character-inventory.component.html',
   styleUrl: './character-inventory.component.css'
 })

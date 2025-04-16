@@ -10,9 +10,7 @@ export class LocalStorageRepository<T extends StorageEntity> {
   }
 
   setItem(item: T): void {
-    console.log('trying to save the current character, which is:', item);
     const storageKey = this.generateStorageKeyForItem(item);
-    console.log(`trying to save this character, the key being used is: ${storageKey}`);
     localStorage.setItem(storageKey, JSON.stringify(item));
   }
 
