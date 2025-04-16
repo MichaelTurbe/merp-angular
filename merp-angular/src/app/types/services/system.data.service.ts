@@ -509,7 +509,7 @@ export class SystemDataService {
     miscSkills.push(baseSpells);
 
     const leadershipAndInfluence = {
-      id: 3,
+      id: 4,
       Name: "Leadership & Influence",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -528,7 +528,7 @@ export class SystemDataService {
     miscSkills.push(leadershipAndInfluence);
 
     const defensiveBonus = {
-      id: 4,
+      id: 5,
       Name: "Defensive Bonus",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -547,7 +547,7 @@ export class SystemDataService {
     miscSkills.push(defensiveBonus);
 
     const essenceRR = {
-      id: 5,
+      id: 6,
       Name: "Essence RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -566,7 +566,7 @@ export class SystemDataService {
     miscSkills.push(essenceRR);
 
     const channelingRR = {
-      id: 6,
+      id: 7,
       Name: "Channeling RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -585,7 +585,7 @@ export class SystemDataService {
     miscSkills.push(channelingRR);
 
     const poisonRR = {
-      id: 7,
+      id: 8,
       Name: "Poison RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,
@@ -604,7 +604,7 @@ export class SystemDataService {
     miscSkills.push(poisonRR);
 
     const diseaseRR = {
-      id: 8,
+      id: 9,
       Name: "Disease RR",
       SkillCategory: this.GetSkillCategoryByName("Misc Skills And Bonuses"),
       CanHaveRanks: false,

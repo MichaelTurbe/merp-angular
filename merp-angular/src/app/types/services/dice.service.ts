@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
-import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation, IEngineConfig } from 'dddice-js';
+import { ThreeDDice, IApiResponse, ITheme, IRoll, ThreeDDiceRollEvent, DiceEventCallback, RollEventCallback, IDiceRollOptions, IDiceRoll, DiceEvent, parseRollEquation, IEngineConfig, ThreeDDiceAPI } from 'dddice-js';
 import { ToastService } from "./toast.service";
 import { DiceSet } from "../models/DiceSet";
 import { PreferenceDataService } from "./preference.data.service";
@@ -12,6 +12,7 @@ import { DiceRoll } from "../models/DiceRoll";
 @Injectable({ providedIn: 'root' })
 export class DiceService {
   private dddice!: ThreeDDice;
+  private dddiceApi!: ThreeDDiceAPI;
   rolling: WritableSignal<boolean> = signal<boolean>(false);
   connected: WritableSignal<boolean> = signal<boolean>(false);
   currentDiceSetSignal: WritableSignal<DiceSet>;
@@ -28,13 +29,22 @@ export class DiceService {
   initialize(diceCanvas: HTMLCanvasElement) {
     try {
       if (!this.connected()) {
-        console.log("connect!");
         this.dddice = new ThreeDDice(diceCanvas, "deQXuEpEDtNq3LX7V9dv4UCWJw9d63l83BUqjV4B");
         this.dddice.setConfig({ audio: false } as Partial<IEngineConfig>);
         this.dddice.start();
         this.dddice.connect("VYlOjZK");
-        console.log('connectedddddd');
-        this.connected.set(true);
+
+        this.dddice.api.onConnect((event => {
+          console.log('onConnect', event);
+        }));
+
+        this.dddice.api.onParticipantConnect((event => {
+          console.log('onParticipantConnect', event);
+        }));
+
+        this.dddice.api.onParticipantDisconnect((event => {
+          console.log('onParticipantDisconnect', event);
+        }));
 
         this.dddice.on(ThreeDDiceRollEvent.RollFinished, (event: IRoll) => {
           console.log(event);
@@ -59,6 +69,21 @@ export class DiceService {
           this.toastService.showToast(`${message} ${calculationString})`);
         });
 
+        this.dddice.api.onConnectionError((event => {
+          console.log('onConnectionError', event);
+        }));
+
+        this.dddice.api.onConnectionStateChange((event => {
+          console.log('onConnectionStateChange', event);
+          if (event == 'connected') {
+            this.toastService.showToast("Dice Service Connected", "success", 3000, "bottom-right", "green", "white");
+            this.connected.set(true);
+          } else {
+            this.toastService.showToast(`Dice Service Failed: ${event}`, "error", 3000, "bottom-right", "red", "white");
+            this.connected.set(false);
+          }
+        }));
+
         // load the dice themes
         this.dddice.api?.diceBox.list().then(result => {
           let dice: Array<DiceSet> = new Array<DiceSet>();
@@ -77,7 +102,9 @@ export class DiceService {
               const preview = item.preview.preview;
               let diceCount = Object.keys(item.sizes).length;
               if (diceCount >= 7) {
-                dice.push({ id: item.id, name: item.name, preview: preview } as DiceSet);
+                const d10 = item.preview.d10;
+                const d10x = item.preview.d10x;
+                dice.push({ id: item.id, name: item.name, preview: preview, d10: d10, d10x: d10x } as DiceSet);
               }
 
             });
@@ -108,8 +135,6 @@ export class DiceService {
   }
 
   executeRoll(characterName: string, skillType: string, rollType: string, bonus: number, universalModifier: number) {
-    console.log('Connected?', this.connected());
-    console.log('Rolling?', this.rolling());
     if (this.connected() && !this.rolling()) {
       this.rolling.set(true);
       console.log(`in roll, bonus is ${bonus} and universalModifier is ${universalModifier}`);
@@ -130,7 +155,9 @@ export class DiceService {
       });
       //?
 
-    } else { console.log('chill your fuckin cheese'); }
+    } else {
+      this.toastService.showToast(`Dice service sisconnected, could not roll`, "error", 3000, "bottom-right", "red", "white");
+    }
   }
 
   getRollCalculation(event: IRoll): RollResult {
