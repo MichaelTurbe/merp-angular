@@ -16,6 +16,7 @@ export class DiceService {
   rolling: WritableSignal<boolean> = signal<boolean>(false);
   connected: WritableSignal<boolean> = signal<boolean>(false);
   currentDiceSetSignal: WritableSignal<DiceSet>;
+  private currentCharacterName: string = '';
 
   constructor(private toastService: ToastService,
     private appSignalStore: AppSignalStore,
@@ -65,7 +66,11 @@ export class DiceService {
             tensNumber: rollResult.tens
           } as DiceRoll;
           this.diceRollDataService.addDiceRoll(diceRoll);
-          //const actualTotal = this.getActualTotal(event);
+
+          //it was my roll
+          if (event.external_id == this.currentCharacterName) {
+            this.rolling.set(false);
+          }
           this.toastService.showToast(`${message} ${calculationString})`);
         });
 
@@ -135,6 +140,7 @@ export class DiceService {
   }
 
   executeRoll(characterName: string, skillType: string, rollType: string, bonus: number, universalModifier: number) {
+    this.currentCharacterName = characterName;
     if (this.connected() && !this.rolling()) {
       this.rolling.set(true);
       console.log(`in roll, bonus is ${bonus} and universalModifier is ${universalModifier}`);
@@ -142,18 +148,15 @@ export class DiceService {
       const { dice } = parseRollEquation(`1d100+${newBonus}`, this.currentDiceSetSignal().id);
       // const modifier: string = bonus.toString();
       const options = {
-        label: `${characterName} made a ${skillType} (${rollType}) roll:`
+        label: `${characterName} made a ${skillType} (${rollType}) roll:`,
+        external_id: characterName
       } as IDiceRollOptions;
       this.dddice.roll(dice, options).then(result => {
         console.log(result);
       }).catch(e => {
         console.log('FUCK YOU', e);
         this.toastService.showToast(e, "error", 10000, "bottom-right");
-      }).finally(() => {
-        console.log('roll is done?');
-        this.rolling.set(false);
       });
-      //?
 
     } else {
       let label = `${characterName} made a ${skillType} (${rollType}) roll:`;

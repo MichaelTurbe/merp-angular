@@ -1,5 +1,5 @@
 <div class="card inventory-box" style="display: flex; flex-direction: column; row-gap: 5px;">
-  <div style="display: flex; flex-direction: row; column-gap: 5px; align-items: center;">
+  <div class="item-item">
     <input type="text" style="width: 150px;" placeholder="description" [formControl]="nameControl">
     <span class="label-text">Item Type:</span>
     <select [formControl]="itemTypeControl" class="select-in-small-cell">
@@ -8,30 +8,35 @@
       }
     </select>
   </div>
-  <div style="display: flex; flex-direction: row;">
+  <div class="item-item">
     <span class="label-text">Worn?</span>
     <input type="checkbox">
     <span class="label-text">Weight:</span>
     <input type="text" style="width: 30px;">
     <span class="label-text">Applies to Skill?</span>
-    <input type="checkbox">
+    <input type="checkbox" [formControl]="appliesToSkillControl">
   </div>
-  <div style="display: flex; flex-direction: row;">
-
-
+  @if(appliesToSkillSignal()){
+  <div class="item-item">
     <span class="label-text">Skill:</span>
-    <select style="width: 150px"></select>
+    <!-- <select style="width: 150px"></select> -->
+    <select [formControl]="skillsControl" class="select-in-small-cell">
+      @for (skill of skills; track skill.id) {
+      <option [value]="skill.Name">{{ skill.Name }}</option>
+      }
+    </select>
     <span class="label-text">Bonus:</span>
     <input type="number" style="width: 50px;">
   </div>
+  }
   @if(isWeaponSignal()){
-  <div style="display: flex; flex-direction: row;">
+  <div class="item-item">
     <span class="label-text">Fumble Range:</span>
     <input type="number" style="width: 50px;">
     <span class="label-text">Primary Crit</span>
     <input type="text" style="width: 30px;">
   </div>
-  <div style="display: flex; flex-direction: row;">
+  <div class="item-item">
     <span class="label-text">Secondary Crit</span>
     <input type="text" style="width: 30px;">
     <span class="label-text">Base Range</span>

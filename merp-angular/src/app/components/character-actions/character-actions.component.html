@@ -95,7 +95,8 @@
 
   </div>
   <div class="row-flexbox" style="height: 54px; column-gap: 5px;">
-    <button class="dice-button" (click)="executeRoll()">
+    <button class="dice-button" [disabled]="diceService.rolling()" 
+    (click)="executeRoll()">
       <div class="row-flexbox" style="height: 54px">
         <span class="text" style="text-wrap-mode: wrap;">Roll a d100</span>
         <img style="height: 100%; width: auto;" [src]="currentDiceSetSignal().d10">

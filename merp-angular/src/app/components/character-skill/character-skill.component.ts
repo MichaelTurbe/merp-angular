@@ -10,10 +10,11 @@ import { SystemDataService } from '../../types/services/system.data.service';
 import { Profession } from '../../types/models/Profession';
 import { DiceService } from '../../types/services/dice.service';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-character-skill',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './character-skill.component.html',
   styleUrl: './character-skill.component.css'
 })

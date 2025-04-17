@@ -5,6 +5,7 @@ import { CharacterDataService } from '../../types/services/character.data.servic
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { CharacterItemComponent } from '../character-item/character-item.component';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
+import { ItemTypes } from '../../types/models/ItemType';
 
 @Component({
   selector: 'app-character-inventory',
@@ -26,8 +27,23 @@ export class CharacterInventoryComponent {
 
   }
 
-  addItem() {
-    let newItem = this.characterSheetStateService.AddNewItem();
+  addAccessory() {
+    let newItem = this.characterSheetStateService.AddNewItem(ItemTypes.Accessory);
+    console.log(newItem);
+    this.inventory.push(newItem);
+    this.inventorySignal.set(this.inventory);
+  }
+
+  addWeapon() {
+    let newItem = this.characterSheetStateService.AddNewItem(ItemTypes.Weapon);
+    console.log(newItem);
+    this.inventory.push(newItem);
+    this.inventorySignal.set(this.inventory);
+  }
+
+  addArmor() {
+    let newItem = this.characterSheetStateService.AddNewItem(ItemTypes.ProtectiveEquipment);
+    console.log(newItem);
     this.inventory.push(newItem);
     this.inventorySignal.set(this.inventory);
   }

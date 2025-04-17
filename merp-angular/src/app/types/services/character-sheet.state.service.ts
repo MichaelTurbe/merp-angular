@@ -13,6 +13,7 @@ import { Race } from "../models/Race";
 import { Profession } from "../models/Profession";
 import { Item } from "../models/Item";
 import { CharacterSheetSharedSignalStore } from "./character-sheet-shared-signal.store";
+import { ItemType, ItemTypes } from "../models/ItemType";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -199,11 +200,11 @@ export class CharacterSheetStateService {
     this.characterDataService.setItem(this.character);
   }
 
-  AddNewItem(): Item {
+  AddNewItem(itemType: ItemType): Item {
     let newItem = {
       id: this.getNextItemId(),
       Name: '',
-      ItemType: null,
+      ItemType: itemType,
       AppliesToSkill: false,
       SkillForBonus: null,
       Bonus: 0,

@@ -354,6 +354,10 @@
   background-color: salmon;
 }
 
+.dice-button:disabled {
+  background-color: transparent;
+}
+
 .dice-button-image {
   height: auto;
   width: 20px;
@@ -410,4 +414,40 @@
 
 .toast.warning {
   background-color: #ffc107;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  transition: background 0.3s ease;
+}
+
+dialog[open] {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: fixed !important;
+  inset: 0;
+  margin: auto;
+  transform: none !important;
+  /* override centering logic */
+  z-index: 6970;
+  border-radius: 10PX;
+  border: transparent;
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+  transform-origin: center;
+  /* important for proper rotation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

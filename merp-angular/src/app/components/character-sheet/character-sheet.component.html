@@ -107,7 +107,7 @@
         </div>
 
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="myDialog.showModal()">
         <div style="display: flex; flex-direction: row; column-gap: 15px;">
           <svg width="25px" height="25px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
@@ -341,3 +341,12 @@
     </div>
   </div>
 </div>
+
+<dialog #myDialog>
+  <div>
+    wassup
+  </div>
+  <div>
+    <button (click)="myDialog.close()">OK</button>
+  </div>
+</dialog>
