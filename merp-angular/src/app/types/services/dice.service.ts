@@ -156,7 +156,12 @@ export class DiceService {
       //?
 
     } else {
-      this.toastService.showToast(`Dice service sisconnected, could not roll`, "error", 3000, "bottom-right", "red", "white");
+      let label = `${characterName} made a ${skillType} (${rollType}) roll:`;
+      this.toastService.showToast(`Dice service disconnected, could not roll 3d dice. Rolling manually.`, "error", 3000, "bottom-right", "red", "white");
+      let diceRoll = this.rollManually(characterName, skillType, rollType, bonus, universalModifier);
+      this.diceRollDataService.addDiceRoll(diceRoll);
+      let calculationString = `${diceRoll.result} (${diceRoll.equation})`;
+      this.toastService.showToast(`${label} ${calculationString})`);
     }
   }
 
@@ -207,6 +212,40 @@ export class DiceService {
     const array = new Uint32Array(1);
     window.crypto.getRandomValues(array);
     return min + (array[0] % (max - min + 1));
+  }
+
+  private rollManually(characterName: string, skillType: string, rollType: string, bonus: number, universalModifier: number): DiceRoll {
+    let label = `${characterName} made a ${skillType} (${rollType}) roll:`;
+    let rollResult: RollResult = {
+      message: '',
+      actualTotal: 0,
+      modifier: 0,
+      rollTotal: 0,
+      calculationString: '',
+      tens: 0,
+      ones: 0
+    };
+    const newBonus: number = bonus + universalModifier;
+    let d100 = this.secureRandom(1, 100);
+    let rollTotal: number = d100 + newBonus;
+    let calculationString = `${d100} + ${newBonus}`;
+
+    rollResult.message = label;
+    rollResult.actualTotal = rollTotal;
+    rollResult.modifier = newBonus;
+    rollResult.rollTotal = d100;
+    rollResult.calculationString = calculationString;
+
+    let diceRoll: DiceRoll = {
+      uuid: "69",
+      label: rollResult.message,
+      time: new Date().toISOString(),
+      equation: rollResult.calculationString,
+      result: rollResult.actualTotal,
+      onesNumber: rollResult.ones,
+      tensNumber: rollResult.tens
+    } as DiceRoll;
+    return diceRoll;
   }
 
 }
