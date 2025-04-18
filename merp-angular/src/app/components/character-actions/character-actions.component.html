@@ -78,7 +78,7 @@
   </div>
   <div class="row-flexbox" style="height: 54px; column-gap: 5px;">
     <span class="text" style="text-wrap-mode: wrap;">Max HP</span>
-    <input type="text" class="fixed-width"
+    <input type="text" class="fixed-width" [value]="bodyDevelopmentSignal()"
       style="height: 35px; width: 35px; text-align: center; vertical-align: center; font-size: larger;">
     <span class="text" style="text-wrap-mode: wrap;">Current HP</span>
     <input type="text" class="fixed-width"
@@ -86,7 +86,7 @@
 
   </div>
   <div class="row-flexbox" style="height: 54px; column-gap: 5px;">
-    <span class="text" style="text-wrap-mode: wrap;">-Hits per Round</span>
+    <span class="text" style="text-wrap-mode: wrap;">Hits taken per Round</span>
     <input type="text" class="fixed-width"
       style="height: 35px; width: 35px; text-align: center; vertical-align: center; font-size: larger;">
     <span class="text" style="text-wrap-mode: wrap;">Injury Modifier per Round</span>
@@ -95,8 +95,7 @@
 
   </div>
   <div class="row-flexbox" style="height: 54px; column-gap: 5px;">
-    <button class="dice-button" [disabled]="diceService.rolling()" 
-    (click)="executeRoll()">
+    <button class="dice-button" [disabled]="diceService.rolling()" (click)="executeRoll()">
       <div class="row-flexbox" style="height: 54px">
         <span class="text" style="text-wrap-mode: wrap;">Roll a d100</span>
         <img style="height: 100%; width: auto;" [src]="currentDiceSetSignal().d10">

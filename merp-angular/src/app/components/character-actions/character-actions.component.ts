@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, input, signal, Signal, WritableSignal } from '@angular/core';
 import { CharacterSheetStateService } from '../../types/services/character-sheet.state.service';
 import { SystemDataService } from '../../types/services/system.data.service';
 // import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
@@ -22,6 +22,7 @@ import { DiceService } from '../../types/services/dice.service';
 })
 export class CharacterActionsComponent {
   disabled = input.required<boolean>();
+  bodyDevelopmentSignal: Signal<number>;
   mmSkills: Array<Skill>;
   mmSkillTotalBonusSignal: Signal<any>;
   mmSkillSignal: Signal<Skill>;
@@ -29,6 +30,7 @@ export class CharacterActionsComponent {
   movingManeuverSkillSignals: Array<Signal<any>> = new Array<Signal<any>>();
   currentDiceSetSignal: Signal<DiceSet>;
   universalRollModifierSignal: Signal<string>;
+
   armorTypeControl = new FormControl('');
   universalRollModifierControl = new FormControl('');
 
@@ -47,6 +49,8 @@ export class CharacterActionsComponent {
     this.armorTypeSignal = toSignal(this.armorTypeControl.valueChanges);
     this.universalRollModifierSignal = toSignal(this.universalRollModifierControl.valueChanges);
     this.currentDiceSetSignal = this.appSignalStore.GetCurrentDiceSetSignal();
+    this.bodyDevelopmentSignal = this.characterSheetSignalStore.GetTotalBonusSignalForSkill('Body Development');
+
 
     effect(() => {
       console.log('in effect to set the roll modifier');
