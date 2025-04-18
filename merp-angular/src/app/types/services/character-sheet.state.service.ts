@@ -14,6 +14,7 @@ import { Profession } from "../models/Profession";
 import { Item } from "../models/Item";
 import { CharacterSheetSharedSignalStore } from "./character-sheet-shared-signal.store";
 import { ItemType, ItemTypes } from "../models/ItemType";
+import { CharacterEpithetData } from "../models/CharacterEpithetData";
 
 @Injectable()
 export class CharacterSheetStateService {
@@ -189,6 +190,26 @@ export class CharacterSheetStateService {
   SetCharacterLevel(level: number) {
     this.character.Level = level;
     this.characterSheetSignalStore.GetLevelSignal().set(level);
+  }
+
+  SetCharacterEpithetData(characterEpithetData: CharacterEpithetData) {
+    this.character.Xp = characterEpithetData.Xp;
+    this.character.Weight = characterEpithetData.Weight;
+    this.character.Height = characterEpithetData.Height;
+    this.character.Hair = characterEpithetData.Hair;
+    this.character.Eyes = characterEpithetData.Eyes;
+    this.character.Demeanor = characterEpithetData.Demeanor;
+  }
+
+  GetCharacterEpithetData(): CharacterEpithetData {
+    return {
+      Xp: this.character.Xp,
+      Weight: this.character.Weight,
+      Height: this.character.Height,
+      Hair: this.character.Hair,
+      Eyes: this.character.Eyes,
+      Demeanor: this.character.Demeanor,
+    } as CharacterEpithetData
   }
 
   SaveCharacter() {

@@ -18,4 +18,14 @@ export interface Character extends StorageEntity {
   Race: Race;
   Profession?: Profession;
   Inventory: Array<Item>;
+  CurrentHp: number;
+  HitsTakenPerRound: number;
+  InjuryModifierPerRound: number;
+  Xp: number;
+  Weight?: number;
+  Height?: string;
+  Hair?: string;
+  Eyes?: string;
+  Demeanor?: string;
+  BackgroundOptionsTaken?: string;
 }

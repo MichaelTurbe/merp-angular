@@ -10,6 +10,7 @@ import { Race } from '../../types/models/Race';
 // import { CharacterSheetSignalStore } from '../../types/services/character-sheet-signal.store';
 import { Profession } from '../../types/models/Profession';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
+import { CharacterEpithetData } from '../../types/models/CharacterEpithetData';
 
 @Component({
   selector: 'app-character-epithet',
@@ -23,6 +24,14 @@ export class CharacterEpithetComponent {
   raceTypeControl = new FormControl([]);
   raceControl = new FormControl([]);
   levelControl = new FormControl(0);
+  professionControl = new FormControl([]);
+  xpControl = new FormControl(0);
+  weightControl = new FormControl('');
+  heightControl = new FormControl('');
+  hairControl = new FormControl('');
+  eyesControl = new FormControl('');
+  demeanorControl = new FormControl('');
+
   nameSignal: Signal<any>;
   characterNameSignal: Signal<any>;
   raceTypeSignal: Signal<any>;
@@ -32,7 +41,12 @@ export class CharacterEpithetComponent {
   levelStringSignal: Signal<any>;
   professionNameSignal: Signal<any>;
   professionSignal: Signal<any>;
-  professionControl = new FormControl([]);
+  xpSignal: Signal<any>;
+  weightSignal: Signal<any>;
+  heightSignal: Signal<any>;
+  hairSignal: Signal<any>;
+  eyesSignal: Signal<any>;
+  demeanorSignal: Signal<any>;
 
   allRaceTypes: Array<KeyValue>;
   allProfessions: Array<Profession>;
@@ -46,11 +60,34 @@ export class CharacterEpithetComponent {
     this.raceNameSignal = toSignal(this.raceControl.valueChanges);
     this.levelStringSignal = toSignal(this.levelControl.valueChanges);
     this.professionNameSignal = toSignal(this.professionControl.valueChanges);
+    this.xpSignal = toSignal(this.xpControl.valueChanges);
+    this.weightSignal = toSignal(this.weightControl.valueChanges);
+    this.heightSignal = toSignal(this.heightControl.valueChanges);
+    this.hairSignal = toSignal(this.hairControl.valueChanges);
+    this.eyesSignal = toSignal(this.eyesControl.valueChanges);
+    this.demeanorSignal = toSignal(this.demeanorControl.valueChanges);
+
 
     this.allRaceTypes = this.systemDataService.GetAllRaceTypes();
     this.allProfessions = this.systemDataService.GetAllProfessions();
 
-
+    effect(() => {
+      let xpString = this.xpSignal();
+      let Xp: number = 0;
+      if (this.systemDataService.isNumber(xpString)) {
+        Xp = parseInt(xpString);
+      }
+      let weightString = this.weightSignal();
+      let Weight = 0;
+      if (this.systemDataService.isNumber(weightString)) {
+        Weight = parseInt(weightString);
+      }
+      let Height = this.heightSignal();
+      let Hair = this.hairSignal();
+      let Eyes = this.eyesSignal();
+      let Demeanor = this.demeanorSignal();
+      this.context.SetCharacterEpithetData({ Xp, Weight, Height, Hair, Eyes, Demeanor } as CharacterEpithetData);
+    });
 
     effect(() => {
       const levelString = this.levelStringSignal();
@@ -96,43 +133,13 @@ export class CharacterEpithetComponent {
   }
 
   ngOnInit() {
-    const characterName = this.context.GetCharacterName();
-    if (characterName) {
-      this.nameControl.setValue(characterName);
-    }
-
-
-    // get the character's race and set it on the sheet if 
-    // it exists:
-    const race: Race = this.context.GetCharacterRace();
-    if (race) {
-      if (race.Human) {
-        this.raceTypeControl.setValue(["Human"]);
-      } else {
-        this.raceTypeControl.setValue(["Nonhuman"]);
-      }
-
-      this.raceControl.setValue([race.Name]);
-    }
-
-    const profession: Profession = this.context.GetCharacterProfession();
-    if (profession) {
-      this.professionControl.setValue([profession.Name]);
-    }
-
-    const level = this.context.GetCharacterLevel();
-    if (level) {
-      this.levelControl.setValue(level);
-    }
-
+    this.setControlValues();
     this.availableRacesSignal = computed(() => {
       let raceType = this.raceTypeSignal();
       let someRaces = new Array<Race>();
       someRaces = this.systemDataService.GetRacesByType(raceType);
       return someRaces;
     });
-
-    //console.log(this.availableRacesSignal());
 
     this.raceSignal = computed(() => {
       const raceName = this.raceNameSignal();
@@ -150,6 +157,42 @@ export class CharacterEpithetComponent {
       let profession = this.systemDataService.GetProfessionByName(professionName);
       return profession;
     });
+  }
+
+  private setControlValues() {
+    const characterName = this.context.GetCharacterName();
+    if (characterName) {
+      this.nameControl.setValue(characterName);
+    }
+
+    const race: Race = this.context.GetCharacterRace();
+    if (race) {
+      if (race.Human) {
+        this.raceTypeControl.setValue(["Human"]);
+      } else {
+        this.raceTypeControl.setValue(["Nonhuman"]);
+      }
+      this.raceControl.setValue([race.Name]);
+    }
+
+    const profession: Profession = this.context.GetCharacterProfession();
+    if (profession) {
+      this.professionControl.setValue([profession.Name]);
+    }
+
+    const level = this.context.GetCharacterLevel();
+    if (level) {
+      this.levelControl.setValue(level);
+    }
+
+    const characterEpithetData = this.context.GetCharacterEpithetData();
+    this.xpControl.setValue(characterEpithetData.Xp);
+    this.weightControl.setValue(characterEpithetData.Weight.toString());
+    this.heightControl.setValue(characterEpithetData.Height);
+    this.hairControl.setValue(characterEpithetData.Hair);
+    this.eyesControl.setValue(characterEpithetData.Eyes);
+    this.demeanorControl.setValue(characterEpithetData.Demeanor);
+
   }
 
 
