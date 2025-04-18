@@ -121,16 +121,19 @@
         </div>
 
       </button>
-      <button class="dice-button">
+      <button class="dice-button" (click)="myDialog.showModal()">
         <div style="display: flex; flex-direction: row; column-gap: 15px;">
-          <svg width="25px" height="25px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          <svg width="25px" height="25px" viewBox="0 0 480 480" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
             style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-            <path
-              d="M612.84,17.204L232.258,17.204L232.258,374.194L0,374.194L0,425.806L232.258,425.806L232.258,782.796L800,782.796L800,204.365L612.84,17.204ZM627.957,105.313L711.892,189.247L627.957,189.247L627.957,105.313ZM283.871,731.183L283.871,425.806L453.827,425.806L394.656,484.979L431.152,521.474L552.626,400.002L431.152,278.529L394.656,315.025L453.827,374.197L283.871,374.197L283.871,68.817L576.344,68.817L576.344,240.86L748.387,240.86L748.387,731.183L283.871,731.183Z"
-              style="fill:rgb(205,34,39);fill-rule:nonzero;" />
+            <g transform="matrix(1,0,0,1,-16,-16)">
+              <path
+                d="M256,16L224,128L256,160L288,128L256,16ZM64,96L96,176L160,192L64,96ZM448,96L352,192L416,176L448,96ZM256,176L192,224L64,256C144,272 192,352 256,384C320,352 368.476,273.787 448,256L320,227.69L256,176ZM216.488,228.682L244.83,237.545L237.38,258.5L256,310.895L274.62,258.5L267.17,237.545L295.512,228.682C310.435,239.652 320,256.712 320,275.965C320,309.237 291.47,336 256,336C220.53,336 192,309.237 192,275.965C192,256.711 201.565,239.651 216.488,228.682ZM96,336L32,384L16,448L48,416L112,368C112,368 96,340.39 96,336ZM416,336L400,368L464,416L496,448L480,384L416,336ZM144,400L128,464L176,416L144,400ZM256,400L208,416L256,496L304,416L256,400ZM368,400L336,416L384,464L368,400Z"
+                style="fill:rgb(205,34,39);fill-rule:nonzero;" />
+            </g>
           </svg>
-          <span class="button-text">Import<br>Character</span>
+
+          <span class="button-text" style="width: 100%; text-align: center;">Settings</span>
         </div>
 
       </button>
@@ -343,10 +346,24 @@
 </div>
 
 <dialog #myDialog>
-  <div>
-    wassup
+  <div style="display: flex; flex-direction: column;">
+    <app-character-sheet-settings></app-character-sheet-settings>
+    <button class="dice-button" (click)="myDialog.close()">
+      <div style="display: flex; flex-direction: row; column-gap: 15px;">
+        <svg width="25px" height="25px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"
+          style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+          <path d="M750,750L50,750L50,50L559,50L750,241L750,750Z"
+            style="fill:none;fill-rule:nonzero;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+          <rect x="272.667" y="50" width="254.667" height="159"
+            style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+          <rect x="209" y="591" width="381.667" height="159"
+            style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+          <circle cx="400" cy="400" r="95.333" style="fill:none;stroke:rgb(205,34,39);stroke-width:63.67px;" />
+        </svg>
+        <span class="button-text">Save Settings</span>
+      </div>
+    </button>
   </div>
-  <div>
-    <button (click)="myDialog.close()">OK</button>
-  </div>
+
 </dialog>

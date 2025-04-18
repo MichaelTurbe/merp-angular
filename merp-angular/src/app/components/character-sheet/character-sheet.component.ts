@@ -14,12 +14,14 @@ import { ToastService } from '../../types/services/toast.service';
 import { CharacterSheetComponentType, CharacterSheetComponentTypes } from '../../types/models/CharacterSheetComponentType';
 import { CharacterActionsComponent } from '../character-actions/character-actions.component';
 import { CharacterSheetSharedSignalStore } from '../../types/services/character-sheet-shared-signal.store';
+import { CharacterSheetSettingsComponent } from '../character-sheet-settings/character-sheet-settings.component';
 
 
 @Component({
   selector: 'app-character-sheet',
   imports: [CommonModule, CharacterStatsComponent, CharacterSkillsComponent,
-    CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent, CharacterActionsComponent],
+    CharacterEpithetComponent, ReactiveFormsModule, CharacterInventoryComponent,
+    CharacterActionsComponent, CharacterSheetSettingsComponent],
   providers: [CharacterSheetStateService, CharacterSheetSharedSignalStore],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'

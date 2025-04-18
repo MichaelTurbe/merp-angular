@@ -141,7 +141,8 @@ export class DiceService {
 
   executeRoll(characterName: string, skillType: string, rollType: string, bonus: number, universalModifier: number) {
     this.currentCharacterName = characterName;
-    if (this.connected() && !this.rolling()) {
+    let shouldRoll3dDice = this.appSignalStore.Get3dDiceSignal()();
+    if (shouldRoll3dDice && this.connected() && !this.rolling()) {
       this.rolling.set(true);
       console.log(`in roll, bonus is ${bonus} and universalModifier is ${universalModifier}`);
       const newBonus: number = bonus + universalModifier;
@@ -159,12 +160,16 @@ export class DiceService {
       });
 
     } else {
-      let label = `${characterName} made a ${skillType} (${rollType}) roll:`;
-      this.toastService.showToast(`Dice service disconnected, could not roll 3d dice. Rolling manually.`, "error", 3000, "bottom-right", "red", "white");
-      let diceRoll = this.rollManually(characterName, skillType, rollType, bonus, universalModifier);
-      this.diceRollDataService.addDiceRoll(diceRoll);
-      let calculationString = `${diceRoll.result} (${diceRoll.equation})`;
-      this.toastService.showToast(`${label} ${calculationString})`);
+      if (!this.rolling()) {
+        let label = `${characterName} made a ${skillType} (${rollType}) roll:`;
+        if (shouldRoll3dDice && !this.connected()) {
+          this.toastService.showToast(`Dice service disconnected, could not roll 3d dice. Rolling manually.`, "error", 3000, "bottom-right", "red", "white");
+        }
+        let diceRoll = this.rollManually(characterName, skillType, rollType, bonus, universalModifier);
+        this.diceRollDataService.addDiceRoll(diceRoll);
+        let calculationString = `${diceRoll.result} (${diceRoll.equation})`;
+        this.toastService.showToast(`${label} ${calculationString})`);
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import { DiceSet } from "../models/DiceSet";
 export class AppSignalStore extends SignalStore {
   currentDiceSetKey: string = "currentDiceSet";
   allDiceKey: string = "allDiceSets";
+  roll3dDiceKey: string = "roll3dDice";
 
   constructor() {
     super();
@@ -15,6 +16,9 @@ export class AppSignalStore extends SignalStore {
 
     let allDiceSetsSignal: WritableSignal<Array<DiceSet>> = signal<Array<DiceSet>>([]);
     this.add(this.allDiceKey, allDiceSetsSignal);
+
+    let roll3dDiceSignal: WritableSignal<boolean> = signal(true);
+    this.add(this.roll3dDiceKey, roll3dDiceSignal);
   }
 
   private GetDefaultDiceSet(): DiceSet {
@@ -52,6 +56,19 @@ export class AppSignalStore extends SignalStore {
   public SetAllDiceSetsSignalValue(value: Array<DiceSet>) {
     let allDiceSetsSignal = this.get(this.allDiceKey) as WritableSignal<Array<DiceSet>>;
     allDiceSetsSignal.set(value);
+  }
+
+  public Has3dDiceSignal(): boolean {
+    return this.has(this.roll3dDiceKey);
+  }
+
+  public Get3dDiceSignal(): WritableSignal<boolean> {
+    return this.get(this.roll3dDiceKey) as WritableSignal<boolean>;
+  }
+
+  public Set3dDiceSignalValue(value: boolean) {
+    let roll3dDiceSignal = this.get(this.roll3dDiceKey) as WritableSignal<boolean>;
+    roll3dDiceSignal.set(value);
   }
 
 }
